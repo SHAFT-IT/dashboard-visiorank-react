@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, DrawerActions } from 'react-navigation';
 import { ScrollView, Text, View } from 'react-native';
 import styles from './Sidebar.style';
 import PropTypes from 'prop-types';
