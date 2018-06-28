@@ -1,0 +1,1 @@
+export const TABLEAU_BORD = 'Tableau de bord';
