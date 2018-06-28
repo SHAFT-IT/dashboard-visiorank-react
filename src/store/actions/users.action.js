@@ -1,0 +1,40 @@
+import { FETCHING_USER, FETCHING_USER_SUCCESS, FETCHING_USER_FAILURE } from "../types/users.type";
+
+
+export const fetchUsersBegin = () => ({
+    type: FETCHING_USER
+  });
+  
+export const fetchUsersSuccess = users => ({
+    type: FETCHING_USER_SUCCESS,
+    payload: { users }
+});
+  
+export const fetchUsersFailure = error => ({
+    type: FETCHING_USER_FAILURE,
+    payload: { error }
+});
+
+export function fetchUsers() {
+    return dispatch => {
+      dispatch(fetchUsersBegin());
+      return fetch("https://jsonplaceholder.typicode.com/posts")
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(json => {
+            console.log('IN ACTION');
+            console.log(json);
+            dispatch(fetchUsersSuccess(json));
+            return json;
+        })
+        .catch(error => dispatch(fetchUsersFailure(error)));
+    };
+}
+  
+// Handle HTTP errors since fetch won't.
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}

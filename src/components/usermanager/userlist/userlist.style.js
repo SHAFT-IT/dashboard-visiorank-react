@@ -1,7 +1,7 @@
 export default  {
 
     container: {
-        backgroundColor: 'red',
+        backgroundColor: 'grey',
     },
 
     item: {

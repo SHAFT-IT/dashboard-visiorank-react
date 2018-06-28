@@ -5,8 +5,10 @@
  */
 
 import React, { Component } from 'react';
-import {StyleSheet, View } from 'react-native';
+import {StyleSheet, View, Text } from 'react-native';
 import Drawer from "./src/components/appdrawer/config/navigation";
+import store from './src/store'
+import { Provider } from 'react-redux'
 
 //components after login
 import DashboardContainer from './src/components/dashboard/dashboard.container';
@@ -18,20 +20,23 @@ export default class App extends Component {
   render() {
     return (
       
-          <Drawer/>
+      <Provider store={store}>
+          <UserListContainer/>
+      </Provider>
       
     );
   }
 }
 
 /*
+<Drawer/>
 <AppHeader/>
 <UserListContainer/>
 <DashboardContainer/> 
 
 <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-      </View>
+  <Text style={styles.welcome}>
+    Welcome to React Native!
+  </Text>
+</View>
 */
