@@ -4,21 +4,25 @@ import { DrawerActions } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import DrawerContent from "../sidebar/Sidebar";
-import { TouchableOpacity, Image, StyleSheet} from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, View, Text} from 'react-native';
+import { AppHeader } from '../../appheader/appheader.component';
 
 
 const DrawerNavigator = createDrawerNavigator({
-    Home:{
-        screen: DashboardContainer
+        Home:{
+            screen: DashboardContainer
+        },
+        User:{
+            screen: UserListContainer
+        }
     },
-    User:{
-        screen: UserListContainer
+    {
+        initialRouteName: 'Home',
+        contentComponent: DrawerContent,
+        drawerWidth: 300,
+        drawerPosition: 'right',
     }
-},{
-    initialRouteName: 'Home',
-    contentComponent: DrawerContent,
-    drawerWidth: 300
-});
+);
 
 const MenuImage = ({navigation}) => {
     if(!navigation.state.isDrawerOpen){
@@ -37,7 +41,13 @@ const StackNavigator = createStackNavigator({
     }
 },{
     navigationOptions: ({ navigation }) => ({
-        title: 'ReactNavigation',  // Title to appear in status bar
+
+        //custo header try
+        header: ( /* Your custom header */
+            <AppHeader navigation={navigation}/>
+        ),
+
+        /*title: 'ReactNavigation',  // Title to appear in status bar
         headerLeft: 
         <TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
             <MenuImage style="styles.bar" navigation={navigation}/>
@@ -48,7 +58,7 @@ const StackNavigator = createStackNavigator({
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
-        },
+        },*/
 
     })
 });

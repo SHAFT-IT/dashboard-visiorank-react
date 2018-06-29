@@ -7,8 +7,6 @@ export const Dashboard = () => (
     
     <View style={styles.parent}>
 
-        <AppheaderContainer/>
-
         <ScrollView style={styles.childtwo}>
 
             <Text style={styles.bigtitle}>Detail</Text>
@@ -42,3 +40,5 @@ export const Dashboard = () => (
     </View>
 
 )
+
+//<AppheaderContainer/>

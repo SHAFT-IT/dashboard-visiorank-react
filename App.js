@@ -21,15 +21,18 @@ export default class App extends Component {
     return (
       
       <Provider store={store}>
-          <UserListContainer/>
+          <Drawer/>
       </Provider>
-      
+
     );
   }
 }
 
 /*
-<Drawer/>
+<Provider store={store}>
+    <UserListContainer/>
+</Provider>
+      
 <AppHeader/>
 <UserListContainer/>
 <DashboardContainer/> 

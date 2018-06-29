@@ -1,5 +1,5 @@
 import { FETCHING_USER, FETCHING_USER_SUCCESS, FETCHING_USER_FAILURE } from "../types/users.type";
-
+import { URL_USER_LIST } from "../../commons/urls";
 
 export const fetchUsersBegin = () => ({
     type: FETCHING_USER
@@ -18,12 +18,12 @@ export const fetchUsersFailure = error => ({
 export function fetchUsers() {
     return dispatch => {
       dispatch(fetchUsersBegin());
-      return fetch("https://jsonplaceholder.typicode.com/posts")
+      return fetch(URL_USER_LIST)
         .then(handleErrors)
         .then(res => res.json())
         .then(json => {
-            console.log('IN ACTION');
-            console.log(json);
+            //console.log('IN ACTION');
+            //console.log(json);
             dispatch(fetchUsersSuccess(json));
             return json;
         })

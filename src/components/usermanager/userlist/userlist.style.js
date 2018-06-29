@@ -1,7 +1,9 @@
 export default  {
 
     container: {
-        backgroundColor: 'grey',
+        backgroundColor: 'white',
+        flex: 1,
+        flexDirection: 'column'
     },
 
     item: {
@@ -9,7 +11,7 @@ export default  {
         marginRight: 0,
         marginTop: 1,
         height: 50,
-        backgroundColor: 'grey',
+        backgroundColor: '#DCDCDC',
         justifyContent: 'center',
     },
 
@@ -19,6 +21,14 @@ export default  {
         fontSize: 16,
         textAlign: 'left',
         color: 'black'
+    },
+
+    errortext: {
+        flex: 1,
+        color: 'black',
+        textAlign: "center",
+        textAlignVertical: "center",
+        fontSize: 15,
     },
 
 };

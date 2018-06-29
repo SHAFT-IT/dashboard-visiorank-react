@@ -1,0 +1,1 @@
+export const URL_USER_LIST = 'http://minceurdunaturel.fr/public/api/get_all_user';

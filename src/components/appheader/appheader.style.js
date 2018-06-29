@@ -10,19 +10,19 @@ export default  {
     },
 
     headercontainerone: {
-        height: 55,
+        height: 40,
         justifyContent: 'center',
     },
 
     headercontainertwo: {
-        height: 40,
+        height: 20,
         flexDirection: 'row',
     },
 
     headertextwhite: {
-        marginLeft: 30,
+        marginLeft: 35,
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         textAlign: "left",
         textAlignVertical: "center"
     },
@@ -32,7 +32,7 @@ export default  {
         color: 'orange',
         textAlign: "left",
         textAlignVertical: "center",
-        fontSize: 16,
+        fontSize: 14,
     },
 
     touchableright: {    
@@ -47,8 +47,7 @@ export default  {
     },
 
     iconright: {
-        width: 27,
-        height: 16,
+        
     }
     
 };

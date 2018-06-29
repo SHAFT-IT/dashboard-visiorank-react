@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native';
+import React from 'react'
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './appheader.style';
-import { NavigationActions } from 'react-navigation';
-import PropTypes from 'prop-types';
+import { DrawerActions } from 'react-navigation';
 
-export const AppHeader = () => (
+export const AppHeader = ({navigation}) => (
     
     <View style={styles.parent}>
         <View style={styles.headercontainerone}>
@@ -14,12 +13,18 @@ export const AppHeader = () => (
                 source={require('../../assets/images/logo_visiorank.png')}
                 resizeMode='cover'/>
 
-            <Image
-                style={styles.iconright}
-                source={require('../../assets/images/menu_visio.png')}
-                resizeMode='cover'
-                />
+            <TouchableOpacity
+                style={styles.touchableright}
+                activeOpacity = { .5 } 
+                onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
+            
+                <Image
+                    style={styles.iconright}
+                    source={require('../../assets/images/menu-button.png')}
+                    resizeMode='cover'
+                    />
                 
+            </TouchableOpacity>
 
         </View>
         <View style={styles.headercontainertwo}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './appheader.style';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import DrawerContent from "../appdrawer/sidebar/Sidebar";
 
@@ -21,7 +21,7 @@ class AppheaderContainer extends Component{
                     <TouchableOpacity
                         style={styles.touchableright}
                         activeOpacity = { .5 } 
-                        onPress={() => navigation.navigate('DrawerOpen')}>
+                        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
                     
                         <Image
                             style={styles.iconright}
@@ -45,9 +45,5 @@ class AppheaderContainer extends Component{
     }
 
 }
-
-/*AppheaderContainer.propTypes = {
-    navigation: PropTypes.object
-};*/
   
 export default AppheaderContainer;

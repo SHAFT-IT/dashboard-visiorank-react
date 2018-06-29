@@ -3,12 +3,14 @@ export default  {
     parent: {
         flexDirection: 'column',
         backgroundColor: 'white',
+        flex: 1
     },
 
     childtwo: {
         marginLeft: 30,
         marginRight: 30,
         marginTop: 0,
+        flex: 1,
     },
       
     containervisiteone: {

@@ -3,6 +3,7 @@ import { Text, View, FlatList } from 'react-native';
 import styles from './userlist.style';
 import { fetchUsers } from '../../../store/actions/users.action';
 import { connect } from "react-redux";
+import Loader from '../../loader/Loader';
 
 class UserListContainer extends Component{
 
@@ -15,23 +16,32 @@ class UserListContainer extends Component{
         
         if (error) {
             console.log("This is ERROR");
-            return <Text>Error! {error.message}</Text>;
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.errortext}>Error calling ws! {error.message}</Text>
+                </View>
+            );
         }
     
-        if (loading) {
-            console.log("This is LOADING");
-            return <Text>Loading...</Text>;
-        }
-    
-        console.log('IN CONTAINER');
-        console.log(users);
+        //console.log('IN CONTAINER');
+        //console.log(users);
 
         return (
             
             <View style={styles.container}>
-                {users.map(user =>
-                    <Text style={styles.itemtext}>{user.id}</Text>
-                )}
+                <Loader loading={loading} />
+                
+                <FlatList
+                    data={users}
+                    renderItem = 
+                    {({item}) => 
+
+                        <View style={styles.item}>
+                            <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
+                        </View>
+
+                    }
+                />
             </View>
             
           
