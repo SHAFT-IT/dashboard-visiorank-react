@@ -25,12 +25,12 @@ export const Dashboard = () => (
                     />
 
                     <Text style={styles.topRightText}>5</Text>
-                    <Text style={styles.bottomRightText}>visites</Text>
+                    <Text style={styles.bottomRightText}>Visites</Text>
 
                 </View>
                 
                 <View style={styles.containervisitetwo}>
-                    
+                    <Text style={styles.insideStatText}>Voir les détails</Text>
                 </View> 
 
             </View>
@@ -45,10 +45,13 @@ export const Dashboard = () => (
                         width={50}
                     />
 
+                    <Text style={styles.topRightText}>18</Text>
+                    <Text style={styles.bottomRightText}>Appels</Text>
+
                 </View>
                 
                 <View style={styles.containerappeltwo}>
-                    
+                    <Text style={styles.insideAppelText}>Voir les détails</Text>
                 </View> 
 
             </View>

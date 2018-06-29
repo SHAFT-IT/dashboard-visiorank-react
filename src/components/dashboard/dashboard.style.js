@@ -31,6 +31,7 @@ export default  {
         borderBottomRightRadius: 7,
         borderColor: '#337ab7',
         borderWidth: 1,
+        justifyContent: 'center',
     },
 
     containerappeltwo: {
@@ -39,6 +40,7 @@ export default  {
         borderBottomRightRadius: 7,
         borderColor: '#5cb85c',
         borderWidth: 1,
+        justifyContent: 'center',
     },
     
       
@@ -70,19 +72,38 @@ export default  {
     bottomRightText: {
         position: 'absolute',
         right: 15,
-        top: 12,
-        color: 'black',
-        fontSize: 17,
-        
+        bottom: 15,
+        color: 'white',
+        fontSize: 14,
+        fontFamily: 'Helvetica',
     },
 
     topRightText: {
         position: 'absolute',
         right: 15,
-        bottom: 15,
-        color: 'black',
-        fontSize: 14,
-        
-    }
+        top: 8,
+        color: 'white',
+        fontSize: 26,
+        fontFamily: 'Helvetica',
+        fontWeight: 'bold',
+    },
       
+    insideStatText: {
+        color: '#337ab7',
+        fontSize: 14,
+        fontFamily: 'Helvetica',
+        marginLeft: 15,
+        textAlign: "left",
+        textAlignVertical: "center",
+    },
+
+    insideAppelText: {
+        color: '#5cb85c',
+        fontSize: 14,
+        fontFamily: 'Helvetica',
+        marginLeft: 15,
+        textAlign: "left",
+        textAlignVertical: "center",
+    }
+
 };
