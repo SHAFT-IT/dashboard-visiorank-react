@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Image } from 'react-native';
 import styles from './dashboard.style';
+import AutoHeightImage from 'react-native-auto-height-image';
 import AppheaderContainer from '../appheader/appheader.container';
+import imagestat from '../../assets/images/stats.png';
+import imagecall from '../../assets/images/calls.png';
 
 export const Dashboard = () => (
     
@@ -15,6 +18,15 @@ export const Dashboard = () => (
                     
                 <View style={styles.containervisiteone}>
                     
+                    <AutoHeightImage
+                        style={styles.iconleft}
+                        source={imagestat}
+                        width={60}
+                    />
+
+                    <Text style={styles.topRightText}>5</Text>
+                    <Text style={styles.bottomRightText}>visites</Text>
+
                 </View>
                 
                 <View style={styles.containervisitetwo}>
@@ -27,6 +39,12 @@ export const Dashboard = () => (
                     
                 <View style={styles.containerappelone}>
                     
+                    <AutoHeightImage
+                        style={styles.iconleft}
+                        source={imagecall}
+                        width={50}
+                    />
+
                 </View>
                 
                 <View style={styles.containerappeltwo}>

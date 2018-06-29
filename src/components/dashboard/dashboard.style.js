@@ -3,26 +3,24 @@ export default  {
     parent: {
         flexDirection: 'column',
         backgroundColor: 'white',
-        flex: 1
     },
 
     childtwo: {
         marginLeft: 30,
         marginRight: 30,
         marginTop: 0,
-        flex: 1,
     },
       
     containervisiteone: {
         height: 75,
-        backgroundColor: 'blue',
+        backgroundColor: '#337ab7',
         borderTopLeftRadius: 7,
         borderTopRightRadius: 7,
     },
 
     containerappelone: {
         height: 75,
-        backgroundColor: 'green',
+        backgroundColor: '#5cb85c',
         borderTopLeftRadius: 7,
         borderTopRightRadius: 7,
     },
@@ -31,7 +29,7 @@ export default  {
         height: 40,
         borderBottomLeftRadius: 7,
         borderBottomRightRadius: 7,
-        borderColor: 'blue',
+        borderColor: '#337ab7',
         borderWidth: 1,
     },
 
@@ -39,7 +37,7 @@ export default  {
         height: 40,
         borderBottomLeftRadius: 7,
         borderBottomRightRadius: 7,
-        borderColor: 'green',
+        borderColor: '#5cb85c',
         borderWidth: 1,
     },
     
@@ -62,5 +60,29 @@ export default  {
       
     },
 
+    iconleft: {
+        position: 'absolute',
+        left: 15,
+        top: 12,
+        
+    },
+
+    bottomRightText: {
+        position: 'absolute',
+        right: 15,
+        top: 12,
+        color: 'black',
+        fontSize: 17,
+        
+    },
+
+    topRightText: {
+        position: 'absolute',
+        right: 15,
+        bottom: 15,
+        color: 'black',
+        fontSize: 14,
+        
+    }
       
 };
