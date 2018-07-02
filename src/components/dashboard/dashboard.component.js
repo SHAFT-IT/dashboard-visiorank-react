@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Image } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import styles from './dashboard.style';
 import AutoHeightImage from 'react-native-auto-height-image';
 import AppheaderContainer from '../appheader/appheader.container';
 import imagestat from '../../assets/images/stats.png';
 import imagecall from '../../assets/images/calls.png';
+import imagemessage from '../../assets/images/messages.png';
 
 export const Dashboard = () => (
     
@@ -52,6 +53,27 @@ export const Dashboard = () => (
                 
                 <View style={styles.containerappeltwo}>
                     <Text style={styles.insideAppelText}>Voir les détails</Text>
+                </View> 
+
+            </View>
+
+            <View style={styles.submit}>
+                    
+                <View style={styles.containermessageone}>
+                    
+                    <AutoHeightImage
+                        style={styles.iconleft}
+                        source={imagemessage}
+                        width={50}
+                    />
+
+                    <Text style={styles.topRightText}>3</Text>
+                    <Text style={styles.bottomRightText}>Messages</Text>
+
+                </View>
+                
+                <View style={styles.containermessagetwo}>
+                    <Text style={styles.insideMessageText}>Voir les détails</Text>
                 </View> 
 
             </View>

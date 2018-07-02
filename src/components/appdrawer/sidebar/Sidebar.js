@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { NavigationActions, DrawerActions } from 'react-navigation';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import AutoHeightImage from 'react-native-auto-height-image';
 import styles from './Sidebar.style';
 import PropTypes from 'prop-types';
-
+import imagestat from '../../../assets/images/stats.png';
+import imagecall from '../../../assets/images/calls.png';
+import imagemessage from '../../../assets/images/messages.png';
 
 class DrawerContent extends Component {
 
@@ -19,14 +22,43 @@ class DrawerContent extends Component {
     return (
       <View style={styles.container}>
           <ScrollView>
-            <View style={styles.navSectionStyle}>
-                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Home')}>
-                    Tableau de bord
-                </Text>
-                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('User')}>
-                    Utilisateurs
-                </Text>
-            </View>
+            
+            <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+                    
+                <AutoHeightImage
+                    style={styles.iconItemLeft}
+                    source={imagestat}
+                    width={16}
+                />
+
+                <Text style={styles.textItemInside}>Statistiques de campagne</Text>
+                    
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
+                    
+                <AutoHeightImage
+                    style={styles.iconItemLeft}
+                    source={imagecall}
+                    width={16}
+                />
+
+                <Text style={styles.textItemInside}>Liste des appels</Text>
+                    
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.containerItem}>
+                    
+                <AutoHeightImage
+                    style={styles.iconItemLeft}
+                    source={imagemessage}
+                    width={16}
+                />
+
+                <Text style={styles.textItemInside}>Liste des messages</Text>
+                    
+            </TouchableOpacity>
+
           </ScrollView>
       </View>
     );
@@ -40,26 +72,12 @@ DrawerContent.propTypes = {
 export default DrawerContent;
 
 /*
-<ScrollView>
-
-          <Text style={styles.separatorTop}>
-          </Text>
-
-          <Button
-            title='Tableau de bord'
-            style={styles.button}
-            onPress={this.navigateToScreen('TableauBord')}/>
-
-            <Text style={styles.sectionHeadingStyle}>
-            </Text>
-
-          <Button
-            title='Utilisateurs'
-            style={styles.button}
-            onPress={this.navigateToScreen('Utilisateur')}/>
-
-            <Text style={styles.sectionHeadingStyle}>
-           </Text>
-
-          
-        </ScrollView>*/
+<View style={styles.navSectionStyle}>
+                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Home')}>
+                    Tableau de bord
+                </Text>
+                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('User')}>
+                    Utilisateurs
+                </Text>
+            </View>
+*/

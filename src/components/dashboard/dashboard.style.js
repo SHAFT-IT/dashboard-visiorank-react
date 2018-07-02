@@ -2,7 +2,7 @@ export default  {
 
     parent: {
         flexDirection: 'column',
-        backgroundColor: 'white',
+        
     },
 
     childtwo: {
@@ -21,6 +21,13 @@ export default  {
     containerappelone: {
         height: 75,
         backgroundColor: '#5cb85c',
+        borderTopLeftRadius: 7,
+        borderTopRightRadius: 7,
+    },
+
+    containermessageone: {
+        height: 75,
+        backgroundColor: 'orange',
         borderTopLeftRadius: 7,
         borderTopRightRadius: 7,
     },
@@ -43,6 +50,14 @@ export default  {
         justifyContent: 'center',
     },
     
+    containermessagetwo: {
+        height: 40,
+        borderBottomLeftRadius: 7,
+        borderBottomRightRadius: 7,
+        borderColor: 'orange',
+        borderWidth: 1,
+        justifyContent: 'center',
+    },
       
     bigtitle: {
         textAlign: 'left',
@@ -52,7 +67,6 @@ export default  {
       
     submit: {
         height: 115,
-        backgroundColor: 'white',
         flexDirection: 'column',
         marginTop: 30,
     },
@@ -99,6 +113,15 @@ export default  {
 
     insideAppelText: {
         color: '#5cb85c',
+        fontSize: 14,
+        fontFamily: 'Helvetica',
+        marginLeft: 15,
+        textAlign: "left",
+        textAlignVertical: "center",
+    },
+
+    insideMessageText: {
+        color: 'orange',
         fontSize: 14,
         fontFamily: 'Helvetica',
         marginLeft: 15,
