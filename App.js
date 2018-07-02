@@ -10,6 +10,9 @@ import Drawer from "./src/components/appdrawer/config/navigation";
 import store from './src/store'
 import { Provider } from 'react-redux'
 
+//component for login
+import LoginContainer from './src/components/login/login.container';
+
 //components after login
 import DashboardContainer from './src/components/dashboard/dashboard.container';
 import UserListContainer from './src/components/usermanager/userlist/userlist.container';
@@ -21,7 +24,7 @@ export default class App extends Component {
     return (
       
       <Provider store={store}>
-          <Drawer/>
+          <LoginContainer/>
       </Provider>
 
     );
@@ -34,6 +37,7 @@ export default class App extends Component {
 </Provider>
       
 <AppHeader/>
+<Drawer/>
 <UserListContainer/>
 <DashboardContainer/> 
 
