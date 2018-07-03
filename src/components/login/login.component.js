@@ -5,10 +5,14 @@ import {
   Image,
   Dimensions,
   TextInput,
-  KeyboardAvoidingView
+  ScrollView,
+  TouchableHighlight,
+  Text,
 } from 'react-native';
 import { LockIcon, LogoIcon, PersonIcon } from '../../commons/images';
 import { VisioButton } from '../button/visio.button.component';
+import AutoHeightImage from 'react-native-auto-height-image';
+import imageLogo from '../../assets/images/logo_login.png';
 
 const { width, height } = Dimensions.get("window");
 export default class Login extends React.Component {
@@ -38,43 +42,49 @@ export default class Login extends React.Component {
 
   render ()  {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-          <View style={styles.container}>
-              <View style={styles.markWrap}>
-              <Image source={LogoIcon} style={styles.mark} resizeMode="contain" />
-          </View>
-          <View style={styles.wrapper}>
-              <View style={styles.inputWrap}>
-                  <View style={styles.iconWrap}>
-                      <Image source={PersonIcon} style={styles.icon} resizeMode="contain" />
-                  </View>
-                  <TextInput 
-                      autoCapitalize='none'
-                      keyboardType='email-address'
-                      placeholder="Email" 
-                      placeholderTextColor="#FFF"
-                      underlineColorAndroid="transparent"
-                      style={styles.input} 
-                      onChangeText={(email) => this.onChangeText('email', email)}/>
-          </View>
+      <View style={styles.container}>
           
-          <View style={styles.inputWrap}>
-              <View style={styles.iconWrap}>
-                  <Image source={LockIcon} style={styles.icon} resizeMode="contain" />
+            
+          <ScrollView style={styles.wrapper}>
+             
+              <View style={styles.iconTop}>
+                    
+                  <AutoHeightImage
+                      source={imageLogo}
+                      width={200}
+                  />
+
               </View>
+              
+              <TextInput 
+                  autoCapitalize='none'
+                  keyboardType='email-address'
+                  placeholder="Email" 
+                  placeholderTextColor="#9d9d9d"
+                  underlineColorAndroid="transparent"
+                  style={styles.input} 
+                  onChangeText={(email) => this.onChangeText('email', email)}/>
+          
               <TextInput 
                   underlineColorAndroid="transparent"
-                  placeholderTextColor="#FFF"
+                  placeholderTextColor="#9d9d9d"
                   placeholder="Mot de passe" 
                   style={styles.input} 
                   secureTextEntry 
                   onChangeText={(password) =>  this.onChangeText('password', password)}
-            />
-          </View>
-            <VisioButton onPress={this.onPress}/>
-          </View>  
-          </View>
-        </KeyboardAvoidingView>
+              />
+              
+              <TouchableHighlight
+                  style={styles.buttonSubmit}
+                  onPress={this.onPress}>
+
+                  <Text style={styles.buttonText}>Se connecter</Text>
+
+              </TouchableHighlight>
+              
+          </ScrollView>
+
+      </View>
     )
   }
 }
@@ -82,10 +92,9 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor:'black'
+      backgroundColor:'#f1f1f1'
     },
     markWrap: {
-      flex: 1,
       paddingVertical: 50,
     },
     mark: {
@@ -98,7 +107,7 @@ const styles = StyleSheet.create({
       height,
     },
     wrapper: {
-      paddingVertical: 0,
+      marginTop: 60,
     },
     inputWrap: {
       flexDirection: "row",
@@ -117,9 +126,19 @@ const styles = StyleSheet.create({
       width: 20,
     },
     input: {
-      flex: 1,
-      paddingHorizontal: 10,
-      color : "white"
+      marginLeft: 30,
+      marginRight: 30,
+      marginTop: 20,
+      fontSize: 14,
+      fontWeight: 'bold',
+      textAlign: 'left',
+      height: 45,
+      borderRadius: 6,
+      borderWidth: 1,
+      paddingLeft: 15,
+      borderColor: '#939393',
+      backgroundColor: 'white',
+      color: 'black'
     },
    
     signupWrap: {
@@ -135,6 +154,30 @@ const styles = StyleSheet.create({
       marginVertical: 30,
       color: "#f97f05",
     }, 
+    iconTop: {
+      alignItems: "center",
+      justifyContent: "center",
+      height: 100
+    },
+    buttonSubmit: {
+      marginLeft: 30,
+      marginRight: 30,
+      marginTop: 20,
+      height: 50,
+      borderRadius: 6,
+      paddingLeft: 15,
+      backgroundColor: 'green',
+      alignItems: "center",
+      justifyContent: "center",
+      
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    }
+
   });
 
 
