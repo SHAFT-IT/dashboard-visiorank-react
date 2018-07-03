@@ -11,44 +11,73 @@ import { LockIcon, LogoIcon, PersonIcon } from '../../commons/images';
 import { VisioButton } from '../button/visio.button.component';
 
 const { width, height } = Dimensions.get("window");
+export default class Login extends React.Component {
 
-export const Login = () => (
-    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <View style={styles.container}>
-            <View style={styles.markWrap}>
-            <Image source={LogoIcon} style={styles.mark} resizeMode="contain" />
-        </View>
-        <View style={styles.wrapper}>
-            <View style={styles.inputWrap}>
-                <View style={styles.iconWrap}>
-                    <Image source={PersonIcon} style={styles.icon} resizeMode="contain" />
-                </View>
-                <TextInput 
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    placeholder="Email" 
-                    placeholderTextColor="#FFF"
-                    underlineColorAndroid="transparent"
-                    style={styles.input} />
-        </View>
-        
-        <View style={styles.inputWrap}>
-            <View style={styles.iconWrap}>
-                <Image source={LockIcon} style={styles.icon} resizeMode="contain" />
-            </View>
-            <TextInput 
-                underlineColorAndroid="transparent"
-                placeholderTextColor="#FFF"
-                placeholder="Mot de passe" 
-                style={styles.input} 
-                secureTextEntry 
-          />
-        </View>
-        <VisioButton />
-      </View>  
-    </View>
-  </KeyboardAvoidingView>
-)
+  constructor(props) {
+    super(props);
+    this.state = {
+        email: '',
+        password: ''
+    };
+  }
+
+  onPress = () => {
+    const { login, loading, user } = this.props;
+    //alert(`${this.state.email} ${this.state.password}`);
+
+    console.log(this.state.password);
+    //this.state.email, this.state.password
+    login("admin@visiorank.fr","aUxSxWny");//"admin@visiorank.fr","aUxSxWny";
+
+  }
+
+  onChangeText = (name, value) => {
+    console.log(name, value)
+    this.setState({[name]: value})
+  }
+
+  render ()  {
+    return (
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+          <View style={styles.container}>
+              <View style={styles.markWrap}>
+              <Image source={LogoIcon} style={styles.mark} resizeMode="contain" />
+          </View>
+          <View style={styles.wrapper}>
+              <View style={styles.inputWrap}>
+                  <View style={styles.iconWrap}>
+                      <Image source={PersonIcon} style={styles.icon} resizeMode="contain" />
+                  </View>
+                  <TextInput 
+                      autoCapitalize='none'
+                      keyboardType='email-address'
+                      placeholder="Email" 
+                      placeholderTextColor="#FFF"
+                      underlineColorAndroid="transparent"
+                      style={styles.input} 
+                      onChangeText={(email) => this.onChangeText('email', email)}/>
+          </View>
+          
+          <View style={styles.inputWrap}>
+              <View style={styles.iconWrap}>
+                  <Image source={LockIcon} style={styles.icon} resizeMode="contain" />
+              </View>
+              <TextInput 
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="#FFF"
+                  placeholder="Mot de passe" 
+                  style={styles.input} 
+                  secureTextEntry 
+                  onChangeText={(password) =>  this.onChangeText('password', password)}
+            />
+          </View>
+            <VisioButton onPress={this.onPress}/>
+          </View>  
+          </View>
+        </KeyboardAvoidingView>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -57,7 +86,7 @@ const styles = StyleSheet.create({
     },
     markWrap: {
       flex: 1,
-      paddingVertical: 100,
+      paddingVertical: 50,
     },
     mark: {
       width: null,

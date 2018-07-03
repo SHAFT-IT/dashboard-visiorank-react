@@ -29,19 +29,21 @@ class UserListContainer extends Component{
         return (
             
             <View style={styles.container}>
-                <Loader loading={loading} />
-                
-                <FlatList
-                    data={users}
-                    renderItem = 
-                    {({item}) => 
 
-                        <View style={styles.item}>
-                            <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
-                        </View>
-
-                    }
-                />
+                {loading ? 
+                    <Loader loading={loading} /> : 
+                    <FlatList
+                        data={users}
+                        renderItem = 
+                        {({item}) => 
+    
+                            <View style={styles.item}>
+                                <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
+                            </View>
+    
+                        }
+                    />
+                }
             </View>
             
           

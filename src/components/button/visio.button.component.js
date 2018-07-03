@@ -2,8 +2,8 @@
 import React  from 'react'
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native'
 
-export const VisioButton = () => (
-    <TouchableOpacity activeOpacity={.5}>
+export const VisioButton = ({onPress}) => (
+    <TouchableOpacity activeOpacity={.5} onPress={onPress}>
         <View style={styles.button}>
             <Text style={styles.buttonText}>CONNEXION</Text>
         </View>
