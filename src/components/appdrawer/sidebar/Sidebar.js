@@ -4,9 +4,9 @@ import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import styles from './Sidebar.style';
 import PropTypes from 'prop-types';
-import imagestat from '../../../assets/images/stats.png';
-import imagecall from '../../../assets/images/calls.png';
-import imagemessage from '../../../assets/images/messages.png';
+import imagestat from '../../../assets/images/menu_stat.png';
+import imagecall from '../../../assets/images/menu_call.png';
+import imagemessage from '../../../assets/images/menu_message.png';
 
 class DrawerContent extends Component {
 
@@ -28,7 +28,7 @@ class DrawerContent extends Component {
                 <AutoHeightImage
                     style={styles.iconItemLeft}
                     source={imagestat}
-                    width={16}
+                    width={19}
                 />
 
                 <Text style={styles.textItemInside}>Statistiques de campagne</Text>
@@ -52,7 +52,7 @@ class DrawerContent extends Component {
                 <AutoHeightImage
                     style={styles.iconItemLeft}
                     source={imagemessage}
-                    width={16}
+                    width={18}
                 />
 
                 <Text style={styles.textItemInside}>Liste des messages</Text>

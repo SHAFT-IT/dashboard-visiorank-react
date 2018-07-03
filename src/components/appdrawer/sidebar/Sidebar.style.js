@@ -2,26 +2,27 @@ export default {
     container: {
       paddingTop: 35,
       flex: 1,
-      backgroundColor: 'black',
+      backgroundColor: '#222',
     },
     navItemStyle: {
       padding: 10,
       color: 'white'
     },
     navSectionStyle: {
-      backgroundColor: 'lightgrey'
+      backgroundColor: '#222'
     },
     iconItemLeft: {
       marginLeft: 25,
     },
     textItemInside: {
       marginLeft: 15,
-      color: 'white'
+      color: '#9d9d9d',
+      textAlignVertical: "center",
     },
     containerItem: {
       height: 40,
-      justifyContent: 'center',
       flexDirection: 'row',
+      alignItems: 'center'
     },
 
 

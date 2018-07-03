@@ -17,6 +17,7 @@ import LoginContainer from './src/components/login/login.container';
 import DashboardContainer from './src/components/dashboard/dashboard.container';
 import UserListContainer from './src/components/usermanager/userlist/userlist.container';
 import { AppHeader } from './src/components/appheader/appheader.component';
+import Splash from './src/components/splash/splash';
 
 
 export default class App extends Component {
@@ -24,7 +25,7 @@ export default class App extends Component {
     return (
       
       <Provider store={store}>
-          <LoginContainer/>
+        <Splash />
       </Provider>
 
     );
@@ -32,6 +33,8 @@ export default class App extends Component {
 }
 
 /*
+
+          <LoginContainer/>
 <Provider store={store}>
     <UserListContainer/>
 </Provider>

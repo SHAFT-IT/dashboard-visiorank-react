@@ -2,7 +2,7 @@ export default  {
 
     parent: {
         flexDirection: 'column',
-        backgroundColor: 'black',
+        backgroundColor: '#222',
     },
 
     logo: {

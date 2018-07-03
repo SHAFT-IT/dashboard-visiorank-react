@@ -6,6 +6,7 @@ import Loader from '../loader/Loader';
 import { NavigationActions, DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import Drawer from "../appdrawer/config/navigation";
+import { setData } from '../../commons/preferences';
 
 class LoginContainer extends Component {
 
@@ -17,7 +18,7 @@ class LoginContainer extends Component {
     render() {  
         const { login, loading, user } = this.props;
 
-        if(user && user.mobile_token) {
+        if (user && user.mobile_token) {
             return <Drawer/>
         }
 
