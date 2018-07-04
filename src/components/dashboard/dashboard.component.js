@@ -6,26 +6,20 @@ import AppheaderContainer from '../appheader/appheader.container';
 import imagestat from '../../assets/images/stats.png';
 import imagecall from '../../assets/images/calls.png';
 import imagemessage from '../../assets/images/messages.png';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export const Dashboard = () => (
+export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCount}) => (
     
     <View style={styles.parent}>
 
         <ScrollView style={styles.childtwo}>
 
-            <Text style={styles.bigtitle}>Detail</Text>
-
             <View style={styles.submit}>
                     
                 <View style={styles.containervisiteone}>
                     
-                    <AutoHeightImage
-                        style={styles.iconleft}
-                        source={imagestat}
-                        width={60}
-                    />
-
-                    <Text style={styles.topRightText}>5</Text>
+                    <Icon name="bar-chart" style={styles.iconleft}/>
+                    <Text style={styles.topRightText}>{visitesCount}</Text>
                     <Text style={styles.bottomRightText}>Visites</Text>
 
                 </View>
@@ -40,13 +34,8 @@ export const Dashboard = () => (
                     
                 <View style={styles.containerappelone}>
                     
-                    <AutoHeightImage
-                        style={styles.iconleft}
-                        source={imagecall}
-                        width={50}
-                    />
-
-                    <Text style={styles.topRightText}>18</Text>
+                    <Icon name="phone" style={styles.iconleft}/>
+                    <Text style={styles.topRightText}>{callCount}</Text>
                     <Text style={styles.bottomRightText}>Appels</Text>
 
                 </View>
@@ -60,20 +49,31 @@ export const Dashboard = () => (
             <View style={styles.submit}>
                     
                 <View style={styles.containermessageone}>
-                    
-                    <AutoHeightImage
-                        style={styles.iconleft}
-                        source={imagemessage}
-                        width={50}
-                    />
-
-                    <Text style={styles.topRightText}>3</Text>
+                
+                    <Icon name="envelope" style={styles.iconleft}/>
+                    <Text style={styles.topRightText}>{messagesCount}</Text>
                     <Text style={styles.bottomRightText}>Messages</Text>
 
                 </View>
                 
                 <View style={styles.containermessagetwo}>
                     <Text style={styles.insideMessageText}>Voir les détails</Text>
+                </View> 
+
+            </View>
+
+            <View style={styles.submit}>
+                    
+                <View style={styles.containerdemandeone}>
+    
+                    <Icon name="ticket" style={styles.iconleft}/>
+                    <Text style={styles.topRightText}>{demandesCount}</Text>
+                    <Text style={styles.bottomRightText}>Demandes</Text>
+
+                </View>
+                
+                <View style={styles.containerdemandetwo}>
+                    <Text style={styles.insideDemandeText}>Voir les détails</Text>
                 </View> 
 
             </View>

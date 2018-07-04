@@ -41,6 +41,22 @@ export default  {
         justifyContent: 'center',
     },
 
+    containerdemandeone: {
+        height: 75,
+        backgroundColor: '#d9534f',
+        borderTopLeftRadius: 7,
+        borderTopRightRadius: 7,
+    },
+      
+    containerdemandetwo: {
+        height: 40,
+        borderBottomLeftRadius: 7,
+        borderBottomRightRadius: 7,
+        borderColor: '#d9534f',
+        borderWidth: 1,
+        justifyContent: 'center',
+    },
+
     containerappeltwo: {
         height: 40,
         borderBottomLeftRadius: 7,
@@ -68,7 +84,7 @@ export default  {
     submit: {
         height: 115,
         flexDirection: 'column',
-        marginTop: 30,
+        marginTop: 10,
     },
       
     submitText: {
@@ -80,7 +96,8 @@ export default  {
         position: 'absolute',
         left: 15,
         top: 12,
-        
+        fontSize: 50,
+        color: '#ffffff'
     },
 
     bottomRightText: {
@@ -122,6 +139,15 @@ export default  {
 
     insideMessageText: {
         color: 'orange',
+        fontSize: 14,
+        fontFamily: 'Helvetica',
+        marginLeft: 15,
+        textAlign: "left",
+        textAlignVertical: "center",
+    },
+
+    insideDemandeText: {
+        color: '#d9534f',
         fontSize: 14,
         fontFamily: 'Helvetica',
         marginLeft: 15,

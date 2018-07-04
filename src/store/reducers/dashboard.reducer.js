@@ -1,7 +1,7 @@
 import { FETCHING_DASHBOARD, FETCHING_DASHBOARD_SUCCESS, FETCHING_DASHBOARD_FAILURE } from '../types/dashboard.type'
 
 const initialState = {
-    item: [],
+    items: [],
     loading: false,
     error: null
 };
@@ -13,7 +13,7 @@ export default function dashboardReducers(state = initialState, action) {
     case FETCHING_DASHBOARD_FAILURE: 
         return {... state, loading: false, error: action.payload}
     case FETCHING_DASHBOARD_SUCCESS: 
-        return {... state, loading: false, error: null, item: action.payload}
+        return {... state, loading: false, error: null, items: action.payload}
     }
     return state;
 }

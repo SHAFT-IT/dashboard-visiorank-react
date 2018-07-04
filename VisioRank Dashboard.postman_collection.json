@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "43a30496-4cbe-450c-aea3-f192385addee",
+		"name": "VisioRank Dashboard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ws_login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"contact@antony-serrurerie.fr\", \n\t\"password\":\"3cd0f4f253\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://minceurdunaturel.fr/public/api/ws_login",
+					"protocol": "http",
+					"host": [
+						"minceurdunaturel",
+						"fr"
+					],
+					"path": [
+						"public",
+						"api",
+						"ws_login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ws_get_data_dashboard",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"contact@ners-57.fr\", \n\t\"password\":\"3cd0f4f253\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://minceurdunaturel.fr/public/api/ws_get_data_dashboard/ed745ef1f2428d3871d463438993eff7",
+					"protocol": "http",
+					"host": [
+						"minceurdunaturel",
+						"fr"
+					],
+					"path": [
+						"public",
+						"api",
+						"ws_get_data_dashboard",
+						"ed745ef1f2428d3871d463438993eff7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ws_get_calls",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"contact@ners-57.fr\", \n\t\"password\":\"3cd0f4f253\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://minceurdunaturel.fr/public/api/ws_get_calls/6810c6629fd5bbcdb017e95246c1b106",
+					"protocol": "http",
+					"host": [
+						"minceurdunaturel",
+						"fr"
+					],
+					"path": [
+						"public",
+						"api",
+						"ws_get_calls",
+						"6810c6629fd5bbcdb017e95246c1b106"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ws_get_messages",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"contact@ners-57.fr\", \n\t\"password\":\"3cd0f4f253\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://minceurdunaturel.fr/public/api/ws_get_messages/6fb1123750bc8cad91a2b7311240c926",
+					"protocol": "http",
+					"host": [
+						"minceurdunaturel",
+						"fr"
+					],
+					"path": [
+						"public",
+						"api",
+						"ws_get_messages",
+						"6fb1123750bc8cad91a2b7311240c926"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ws_get_stats",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"contact@ners-57.fr\", \n\t\"password\":\"3cd0f4f253\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://minceurdunaturel.fr/public/api/ws_get_stats/95f6fcb82c0d246d55e5f6574a13e324",
+					"protocol": "http",
+					"host": [
+						"minceurdunaturel",
+						"fr"
+					],
+					"path": [
+						"public",
+						"api",
+						"ws_get_stats",
+						"95f6fcb82c0d246d55e5f6574a13e324"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

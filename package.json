@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "android-visiorank": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android",
-    "android-log": "react-native log-android"
+    "android-log": "react-native log-android",
+    "android-install": "adb install android/app/build/outputs/apk/app-debug.apk"
   },
   "dependencies": {
     "expo": "^28.0.0",
@@ -31,6 +32,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts"]
-   }
+    "assets": [
+      "./src/assets/fonts"
+    ]
+  }
 }
