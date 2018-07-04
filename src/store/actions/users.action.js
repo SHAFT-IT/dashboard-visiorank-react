@@ -1,6 +1,6 @@
 import { FETCHING_USER, FETCHING_USER_SUCCESS, FETCHING_USER_FAILURE } from "../types/users.type";
 import { URL_USER_LIST } from "../../commons/urls";
-import { setData } from "../../commons/preferences";
+
 
 export const fetchUsersBegin = () => ({
     type: FETCHING_USER

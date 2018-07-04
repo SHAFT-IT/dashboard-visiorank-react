@@ -6,7 +6,6 @@ import Loader from '../loader/Loader';
 import { NavigationActions, DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import Drawer from "../appdrawer/config/navigation";
-import { setData } from '../../commons/preferences';
 
 class LoginContainer extends Component {
 
@@ -16,13 +15,17 @@ class LoginContainer extends Component {
     }
 
     render() {  
-        const { login, loading, user } = this.props;
+        const { login, logoutSuccess, loadingLogout, loading, user } = this.props;
+
+        if (loading || loadingLogout) {
+            return <Loader loading={true} />
+        }
 
         if (user && user.mobile_token) {
             return <Drawer/>
         }
 
-        return loading ? <Loader loading={loading} /> : <Login login={login} loading={loading} user={user}/>
+        return <Login login={login} loading={loading} user={user}/>
     }
 
     navigateToScreen = (route) => () => {
@@ -40,7 +43,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
     loading: state.login.loading,
-    user: state.login.item
+    user: state.login.item,
+    loadingLogout: state.logout.loading,
+    logoutSuccess: state.logout.logoutSuccess
 })
 
 LoginContainer.propTypes = {

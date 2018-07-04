@@ -8,7 +8,8 @@ import Loader from '../loader/Loader';
  class DashboardContainer extends Component{
 
     componentDidMount() {
-        this.props.dispatch(fetchDashboard());
+        const { token } = this.props
+        this.props.dispatch(fetchDashboard(token));
     }
 
     render() {
@@ -26,7 +27,8 @@ import Loader from '../loader/Loader';
 
 const mapStateToProps = state => ({
     items: state.dashboard.items,
-    loading: state.dashboard.loading
+    loading: state.dashboard.loading,
+    token: state.login.item.mobile_token
 })
 
 export default connect(mapStateToProps)(DashboardContainer)

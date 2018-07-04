@@ -38,7 +38,6 @@ export default function usersReducer(state = initialState, action) {
           error: action.payload.error,
           items: []
         };
-  
       default:
         // ALWAYS have a default case in a reducer
         return state;

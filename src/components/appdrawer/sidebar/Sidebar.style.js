@@ -17,6 +17,11 @@ export default {
       color: '#ffffff',
       width: 19
     },
+    containerItemDevider:{
+      margin : 25,
+      height: 2,
+      backgroundColor: "grey"
+    },
     textItemInside: {
       marginLeft: 15,
       color: '#9d9d9d',

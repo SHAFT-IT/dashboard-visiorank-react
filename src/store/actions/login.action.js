@@ -1,4 +1,4 @@
-import { FETCHING_LOGIN, FETCHING_LOGIN_SUCCESS, FETCHING_LOGIN_FAILURE } from "../types/login.type";
+import { FETCHING_LOGIN, FETCHING_LOGIN_SUCCESS, FETCHING_LOGIN_FAILURE, DELETE_USER } from "../types/login.type";
 import { URL_LOGIN } from "../../commons/urls";
 
 export const fetchLoginBegin = () => ({
@@ -13,6 +13,10 @@ export const fetchLoginSuccess = login => ({
 export const fetchLoginFailure = error => ({
     type: FETCHING_LOGIN_FAILURE,
     payload: error
+});
+
+export const deleteUser = () => ({
+    type: DELETE_USER
 });
 
 export function authenticate(email, password) {

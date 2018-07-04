@@ -1,4 +1,4 @@
-import { FETCHING_LOGIN, FETCHING_LOGIN_SUCCESS, FETCHING_LOGIN_FAILURE } from '../types/login.type'
+import { FETCHING_LOGIN, FETCHING_LOGIN_SUCCESS, FETCHING_LOGIN_FAILURE, DELETE_USER } from '../types/login.type'
 
 const initialState = {
     item: {},
@@ -14,6 +14,8 @@ export default function loginReducers(state = initialState, action) {
         return {... state, loading: false, error: action.payload}
     case FETCHING_LOGIN_SUCCESS: 
         return {... state, loading: false, error: null, item: action.payload}
+    case DELETE_USER :
+        return initialState
     }
     return state;
 }

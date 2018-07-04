@@ -1,13 +1,10 @@
 import React from "react";
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
-import { DrawerActions } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import DrawerContent from "../sidebar/Sidebar";
-import { TouchableOpacity, Image, StyleSheet, View, Text} from 'react-native';
+import { Image} from 'react-native';
 import { AppHeader } from '../../appheader/appheader.component';
-import LoginContainer from "../../login/login.container";
-
 
 const DrawerNavigator = createDrawerNavigator({
         Home:{
@@ -39,9 +36,6 @@ const StackNavigator = createStackNavigator({
     
     DrawerNavigator:{
         screen: DrawerNavigator
-    },
-    Login:{
-        screen: LoginContainer
     },
 },{
     navigationOptions: ({ navigation }) => ({

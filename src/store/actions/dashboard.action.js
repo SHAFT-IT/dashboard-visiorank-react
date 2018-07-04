@@ -15,10 +15,10 @@ export const fetchDashboardFailure = error => ({
     payload: error
 });
 
-export function fetchDashboard() {
+export function fetchDashboard(token) {
     return dispatch => {
       dispatch(fetchDashboardBegin());
-      return fetch(`${URL_DASHBOARD}4dd4cad86b26fd32682dc5a197800f4c`)
+      return fetch(`${URL_DASHBOARD}${token}`)
         .then(handleErrors)
         .then(res => res.json())
         .then(json => {

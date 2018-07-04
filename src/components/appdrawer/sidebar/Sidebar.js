@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { NavigationActions, DrawerActions } from 'react-navigation';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import AutoHeightImage from 'react-native-auto-height-image';
 import styles from './Sidebar.style';
 import PropTypes from 'prop-types';
-import imagestat from '../../../assets/images/menu_stat.png';
-import imagecall from '../../../assets/images/menu_call.png';
-import imagemessage from '../../../assets/images/menu_message.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { logout } from '../../../store/actions/logout.action';
+import { connect } from 'react-redux';
 
 class DrawerContent extends Component {
 
@@ -20,57 +18,62 @@ class DrawerContent extends Component {
   }
 
   render () {
-    return (
-        <View style={styles.container}>
-            <ScrollView>
-                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
-                    <Icon name="dashboard" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Tableau de bord</Text>
-                </TouchableOpacity>
+      const { token } = this.props
+        return (
+            <View style={styles.container}>
+                <ScrollView>
+                    <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+                        <Icon name="dashboard" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Tableau de bord</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
-                    <Icon name="bar-chart" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Statistiques de campagne</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+                        <Icon name="bar-chart" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Statistiques de campagne</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.containerItem}>
-                    <Icon name="phone" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Liste des appels</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.containerItem}>
+                        <Icon name="phone" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Liste des appels</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.containerItem}>
-                    <Icon name="envelope" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Liste des messages</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.containerItem}>
+                        <Icon name="envelope" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Liste des messages</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
-                    <Icon name="users" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Gestion des utilisateurs</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
+                        <Icon name="users" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Gestion des utilisateurs</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.containerItem}>
-                    <Icon name="ticket" style={styles.iconItemLeft}/>
-                    <Text style={styles.textItemInside}>Gestion des demandes</Text>
-                </TouchableOpacity>
-            </ScrollView>
-        </View>
-    );
-  }
+                    <TouchableOpacity style={styles.containerItem}>
+                        <Icon name="ticket" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Gestion des demandes</Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.containerItemDevider}/>
+
+                    <TouchableOpacity style={styles.containerItem} onPress={() => this.props.logout(token)}>
+                        <Icon name="power-off" style={styles.iconItemLeft}/>
+                        <Text style={styles.textItemInside}>Deconnexion</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </View>
+        );
+    }
 }
 
 DrawerContent.propTypes = {
   navigation: PropTypes.object
 };
 
-export default DrawerContent;
+const mapDispatchToProps = dispatch => ({
+    logout: (token) => dispatch(logout(token))
+})
 
-/*
-<View style={styles.navSectionStyle}>
-                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Home')}>
-                    Tableau de bord
-                </Text>
-                <Text style={styles.navItemStyle} onPress={this.navigateToScreen('User')}>
-                    Utilisateurs
-                </Text>
-            </View>
-*/
+const mapStateToProps = state => ({
+    token: state.login.item.mobile_token
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent)

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './appheader.style';
-import { NavigationActions, DrawerActions } from 'react-navigation';
-import PropTypes from 'prop-types';
-import DrawerContent from "../appdrawer/sidebar/Sidebar";
+import { DrawerActions } from 'react-navigation';
 
 class AppheaderContainer extends Component{
 

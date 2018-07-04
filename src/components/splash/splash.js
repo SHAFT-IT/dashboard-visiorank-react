@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, Text, StyleSheet } from 'react-native'
 import { getData } from '../../commons/preferences';
-import LoginContainer from '../login/login.container';
+import LoginContainer from '../login/app.container';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../assets/images/logo_login.png';
 

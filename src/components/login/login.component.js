@@ -20,8 +20,8 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: '',
-        password: ''
+        email: "admin@visiorank.fr",
+        password: "aUxSxWny"
     };
   }
 
@@ -51,7 +51,7 @@ export default class Login extends React.Component {
                     
                   <AutoHeightImage
                       source={imageLogo}
-                      width={200}
+                     width={200}
                   />
 
               </View>
@@ -63,6 +63,7 @@ export default class Login extends React.Component {
                   placeholderTextColor="#9d9d9d"
                   underlineColorAndroid="transparent"
                   style={styles.input} 
+                  value="admin@visiorank.fr"
                   onChangeText={(email) => this.onChangeText('email', email)}/>
           
               <TextInput 
@@ -71,6 +72,7 @@ export default class Login extends React.Component {
                   placeholder="Mot de passe" 
                   style={styles.input} 
                   secureTextEntry 
+                  value="aUxSxWny"
                   onChangeText={(password) =>  this.onChangeText('password', password)}
               />
               
