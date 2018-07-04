@@ -1,12 +1,12 @@
 import { FETCHING_DASHBOARD, FETCHING_DASHBOARD_SUCCESS, FETCHING_DASHBOARD_FAILURE } from '../types/dashboard.type'
 
 const initialState = {
-    item: {},
+    item: [],
     loading: false,
     error: null
 };
 
-export default function loginReducers(state = initialState, action) {
+export default function dashboardReducers(state = initialState, action) {
     switch(action.type) {
       case FETCHING_DASHBOARD: 
         return {... state, loading: true, error: null}

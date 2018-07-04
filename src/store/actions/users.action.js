@@ -23,9 +23,9 @@ export function fetchUsers() {
         .then(handleErrors)
         .then(res => res.json())
         .then(json => {
-            setData('email', json)
-                .then(() => dispatch(fetchUsersSuccess(json)))
-                .catch(() => dispatch(fetchUsersSuccess(json)))
+            
+            dispatch(fetchUsersSuccess(json));
+                
         })
         .catch(error => dispatch(fetchUsersFailure(error)));
     };
