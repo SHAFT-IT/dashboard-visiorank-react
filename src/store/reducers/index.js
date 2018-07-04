@@ -5,8 +5,8 @@ import dashboard from './dashboard.reducer';
 import logout from './logout.reducer';
 
 export default combineReducers({
-    users,
-    login,
-    dashboard,
-    logout
+  users,
+  login,
+  dashboard,
+  logout
 });
