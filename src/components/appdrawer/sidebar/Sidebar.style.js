@@ -13,6 +13,9 @@ export default {
     },
     iconItemLeft: {
       marginLeft: 25,
+      fontSize: 15,
+      color: '#ffffff',
+      width: 19
     },
     textItemInside: {
       marginLeft: 15,
@@ -24,6 +27,4 @@ export default {
       flexDirection: 'row',
       alignItems: 'center'
     },
-
-
   };

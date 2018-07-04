@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import imagestat from '../../../assets/images/menu_stat.png';
 import imagecall from '../../../assets/images/menu_call.png';
 import imagemessage from '../../../assets/images/menu_message.png';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class DrawerContent extends Component {
 
@@ -20,47 +21,39 @@ class DrawerContent extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-          <ScrollView>
-            
-            <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
-                    
-                <AutoHeightImage
-                    style={styles.iconItemLeft}
-                    source={imagestat}
-                    width={19}
-                />
+        <View style={styles.container}>
+            <ScrollView>
+                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+                    <Icon name="dashboard" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Tableau de bord</Text>
+                </TouchableOpacity>
 
-                <Text style={styles.textItemInside}>Statistiques de campagne</Text>
-                    
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+                    <Icon name="bar-chart" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Statistiques de campagne</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
-                    
-                <AutoHeightImage
-                    style={styles.iconItemLeft}
-                    source={imagecall}
-                    width={16}
-                />
+                <TouchableOpacity style={styles.containerItem}>
+                    <Icon name="phone" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Liste des appels</Text>
+                </TouchableOpacity>
 
-                <Text style={styles.textItemInside}>Liste des appels</Text>
-                    
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.containerItem}>
+                    <Icon name="envelope" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Liste des messages</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.containerItem}>
-                    
-                <AutoHeightImage
-                    style={styles.iconItemLeft}
-                    source={imagemessage}
-                    width={18}
-                />
+                <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
+                    <Icon name="users" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Gestion des utilisateurs</Text>
+                </TouchableOpacity>
 
-                <Text style={styles.textItemInside}>Liste des messages</Text>
-                    
-            </TouchableOpacity>
-
-          </ScrollView>
-      </View>
+                <TouchableOpacity style={styles.containerItem}>
+                    <Icon name="ticket" style={styles.iconItemLeft}/>
+                    <Text style={styles.textItemInside}>Gestion des demandes</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </View>
     );
   }
 }
