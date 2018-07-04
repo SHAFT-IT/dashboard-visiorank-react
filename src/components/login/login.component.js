@@ -30,8 +30,8 @@ export default class Login extends React.Component {
     //alert(`${this.state.email} ${this.state.password}`);
 
     console.log(this.state.password);
-    //this.state.email, this.state.password
-    login("admin@visiorank.fr","aUxSxWny");//"admin@visiorank.fr","aUxSxWny";
+    
+    login(this.state.email, this.state.password);//"admin@visiorank.fr","aUxSxWny";
 
   }
 
