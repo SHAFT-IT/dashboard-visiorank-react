@@ -19,7 +19,7 @@ export default function messageReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload.message
+        items: action.payload.messages
       };
 
     case FETCHING_MESSAGE_FAILURE :

@@ -10,7 +10,9 @@
     "android-install": "adb install android/app/build/outputs/apk/app-debug.apk"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "react": "^16.3.1",
+    "react-moment": "^0.7.7",
     "react-native": "0.55.4",
     "react-native-auto-height-image": "^1.0.0",
     "react-native-default-preference": "^1.3.1",
@@ -20,6 +22,7 @@
     "react-navigation": "^2.4.1",
     "react-redux": "^5.0.7",
     "react-thunk": "^1.0.0",
+    "react-timestamp": "^4.4.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
   },

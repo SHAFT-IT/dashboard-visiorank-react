@@ -10,7 +10,7 @@ export default  {
         marginLeft: 0,
         marginRight: 0,
         marginTop: 1,
-        height: 50,
+        paddingVertical : 20,
         backgroundColor: '#DCDCDC',
         justifyContent: 'center',
     },
@@ -21,6 +21,14 @@ export default  {
         fontSize: 16,
         textAlign: 'left',
         color: 'black'
+    },
+    itemtextunseen: {
+        marginLeft: 20,
+        marginRight: 20,
+        fontSize: 16,
+        textAlign: 'left',
+        color: 'black',
+        fontWeight: 'bold'
     },
 
     errortext: {

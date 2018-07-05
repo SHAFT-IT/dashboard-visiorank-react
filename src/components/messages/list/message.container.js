@@ -10,7 +10,6 @@ class MessagesListContainer extends Component{
 
     componentDidMount() {
         const { token } = this.props
-        alert(token)
         this.props.dispatch(fetchMessages(token));
     }
 
@@ -23,15 +22,19 @@ class MessagesListContainer extends Component{
         if (error) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.errortext}>Error calling ws! {error.message}</Text>
+                    <Text style={styles.errortext}>Error calling ws! {JSON.stringify(error)}</Text>
                 </View>
             );
         }
-
+        if (!messages || messages.length<1) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.errortext}>Liste vide</Text>
+                </View>
+            );
+        }
         return (
-            <View >
                 <Messages messages={ messages }/>  
-            </View>   
         );
     }
 }
