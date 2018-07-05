@@ -2,7 +2,7 @@ const KEY = '@shaft:visiorank'
 
 export const setData = async (key, value) => {
     try {
-        await AsyncStorage.setItem(`${KEY}:${key}`, JSON.stringify(value));
+        await AsyncStorage.setItem(`${KEY}:${key}`, value);//JSON.stringify(value)
         console.log('setData success', key, value)
     } catch (error) {
         // Error saving data

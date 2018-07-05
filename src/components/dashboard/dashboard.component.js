@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import styles from './dashboard.style';
 import AutoHeightImage from 'react-native-auto-height-image';
 import AppheaderContainer from '../appheader/appheader.container';
@@ -7,30 +7,35 @@ import imagestat from '../../assets/images/stats.png';
 import imagecall from '../../assets/images/calls.png';
 import imagemessage from '../../assets/images/messages.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { CLICK_DASHBOARD_VISITE, CLICK_DASHBOARD_MESSAGE, CLICK_DASHBOARD_APPEL, CLICK_DASHBOARD_DEMANDE } from '../../commons/constant';
 
-export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCount}) => (
+export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCount, onClickItem}) => (
     
     <View style={styles.parent}>
 
         <ScrollView style={styles.childtwo}>
 
-            <View style={styles.submit}>
+            <TouchableHighlight onPress={() => onClickItem(CLICK_DASHBOARD_VISITE)}>
                     
-                <View style={styles.containervisiteone}>
+                <View style={styles.submit}>
+
+                    <View style={styles.containervisiteone}>
+                        
+                        <Icon name="bar-chart" style={styles.iconleft}/>
+                        <Text style={styles.topRightText}>{visitesCount}</Text>
+                        <Text style={styles.bottomRightText}>Visites</Text>
+
+                    </View>
                     
-                    <Icon name="bar-chart" style={styles.iconleft}/>
-                    <Text style={styles.topRightText}>{visitesCount}</Text>
-                    <Text style={styles.bottomRightText}>Visites</Text>
+                    <View style={styles.containervisitetwo}>
+                        <Text style={styles.insideStatText}>Voir les détails</Text>
+                    </View> 
 
                 </View>
-                
-                <View style={styles.containervisitetwo}>
-                    <Text style={styles.insideStatText}>Voir les détails</Text>
-                </View> 
 
-            </View>
+            </TouchableHighlight>
 
-            <View style={styles.submit}>
+            <View style={styles.submit} >
                     
                 <View style={styles.containerappelone}>
                     
