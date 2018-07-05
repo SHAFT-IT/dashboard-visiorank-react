@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import styles from './dashboard.style';
-import AutoHeightImage from 'react-native-auto-height-image';
-import AppheaderContainer from '../appheader/appheader.container';
-import imagestat from '../../assets/images/stats.png';
-import imagecall from '../../assets/images/calls.png';
-import imagemessage from '../../assets/images/messages.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CLICK_DASHBOARD_VISITE, CLICK_DASHBOARD_MESSAGE, CLICK_DASHBOARD_APPEL, CLICK_DASHBOARD_DEMANDE } from '../../commons/constant';
 

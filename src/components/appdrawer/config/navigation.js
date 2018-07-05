@@ -2,6 +2,7 @@ import React from "react";
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
+import MessagesListContainer from '../../messages/list/message.container';
 import DrawerContent from "../sidebar/Sidebar";
 import { Image} from 'react-native';
 import { AppHeader } from '../../appheader/appheader.component';
@@ -12,7 +13,11 @@ const DrawerNavigator = createDrawerNavigator({
         },
         User:{
             screen: UserListContainer
+        },
+        Message:{
+            screen: MessagesListContainer
         }
+
     },
     {
         initialRouteName: 'Home',

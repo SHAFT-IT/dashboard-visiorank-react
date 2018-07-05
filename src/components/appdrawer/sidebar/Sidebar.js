@@ -37,7 +37,7 @@ class DrawerContent extends Component {
                         <Text style={styles.textItemInside}>Liste des appels</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.containerItem}>
+                    <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Message')}>
                         <Icon name="envelope" style={styles.iconItemLeft}/>
                         <Text style={styles.textItemInside}>Liste des messages</Text>
                     </TouchableOpacity>
