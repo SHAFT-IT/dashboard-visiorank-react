@@ -75,14 +75,17 @@ export default class App extends Component {
     //setTimeout(() =>{
   
       console.log("SQL executed 1");
-      this.db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM Preference WHERE key = ?', ['user'], (tx, results) => {
+      db.transaction((tx) => {
+
+        console.log("BEGIN executeSql");
+        tx.executeSql('SELECT * FROM Preference', [], (results) => {
       
+          console.log(`results ${results}`);
           var row = results.rows.item(0);
           this.setState({prefuser: row.value});
           console.log(`my pref ${row.value}`);
 
-          var len = results.row.length;
+          var len = results.rows.length;
           if(len > 0){
             console.log("LENGTH SUP");
             var row = results.rows.item(0);

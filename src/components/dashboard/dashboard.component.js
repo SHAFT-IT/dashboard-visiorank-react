@@ -10,8 +10,7 @@ export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCoun
 
         <ScrollView style={styles.childtwo}>
 
-            <TouchableHighlight onPress={() => onClickItem(CLICK_DASHBOARD_VISITE)}>
-                    
+            <TouchableHighlight underlayColor='transparent' onPress={() => onClickItem(CLICK_DASHBOARD_VISITE)}>
                 <View style={styles.submit}>
 
                     <View style={styles.containervisiteone}>
@@ -27,56 +26,61 @@ export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCoun
                     </View> 
 
                 </View>
-
             </TouchableHighlight>
 
-            <View style={styles.submit} >
+            <TouchableHighlight underlayColor='transparent' onPress={() => onClickItem(CLICK_DASHBOARD_APPEL)}>
+                <View style={styles.submit} >
+                        
+                    <View style={styles.containerappelone}>
+                        
+                        <Icon name="phone" style={styles.iconleft}/>
+                        <Text style={styles.topRightText}>{callCount}</Text>
+                        <Text style={styles.bottomRightText}>Appels</Text>
+
+                    </View>
                     
-                <View style={styles.containerappelone}>
-                    
-                    <Icon name="phone" style={styles.iconleft}/>
-                    <Text style={styles.topRightText}>{callCount}</Text>
-                    <Text style={styles.bottomRightText}>Appels</Text>
+                    <View style={styles.containerappeltwo}>
+                        <Text style={styles.insideAppelText}>Voir les détails</Text>
+                    </View> 
 
                 </View>
-                
-                <View style={styles.containerappeltwo}>
-                    <Text style={styles.insideAppelText}>Voir les détails</Text>
-                </View> 
+            </TouchableHighlight>
 
-            </View>
-
-            <View style={styles.submit}>
+            <TouchableHighlight underlayColor='transparent' onPress={() => onClickItem(CLICK_DASHBOARD_MESSAGE)}>
+                <View style={styles.submit}>
+                        
+                    <View style={styles.containermessageone}>
                     
-                <View style={styles.containermessageone}>
-                
-                    <Icon name="envelope" style={styles.iconleft}/>
-                    <Text style={styles.topRightText}>{messagesCount}</Text>
-                    <Text style={styles.bottomRightText}>Messages</Text>
+                        <Icon name="envelope" style={styles.iconleft}/>
+                        <Text style={styles.topRightText}>{messagesCount}</Text>
+                        <Text style={styles.bottomRightText}>Messages</Text>
+
+                    </View>
+                    
+                    <View style={styles.containermessagetwo}>
+                        <Text style={styles.insideMessageText}>Voir les détails</Text>
+                    </View> 
 
                 </View>
-                
-                <View style={styles.containermessagetwo}>
-                    <Text style={styles.insideMessageText}>Voir les détails</Text>
-                </View> 
+            </TouchableHighlight>
 
-            </View>
+            <TouchableHighlight underlayColor='transparent' onPress={() => onClickItem(CLICK_DASHBOARD_DEMANDE)}>
+                <View style={styles.submit}>
+                        
+                    <View style={styles.containerdemandeone}>
+        
+                        <Icon name="ticket" style={styles.iconleft}/>
+                        <Text style={styles.topRightText}>{demandesCount}</Text>
+                        <Text style={styles.bottomRightText}>Demandes</Text>
 
-            <View style={styles.submit}>
+                    </View>
                     
-                <View style={styles.containerdemandeone}>
-    
-                    <Icon name="ticket" style={styles.iconleft}/>
-                    <Text style={styles.topRightText}>{demandesCount}</Text>
-                    <Text style={styles.bottomRightText}>Demandes</Text>
+                    <View style={styles.containerdemandetwo}>
+                        <Text style={styles.insideDemandeText}>Voir les détails</Text>
+                    </View> 
 
                 </View>
-                
-                <View style={styles.containerdemandetwo}>
-                    <Text style={styles.insideDemandeText}>Voir les détails</Text>
-                </View> 
-
-            </View>
+            </TouchableHighlight>
 
         </ScrollView>
 
