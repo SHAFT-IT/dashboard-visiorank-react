@@ -16,15 +16,12 @@ export default class Splash extends React.Component{
     }
 
     componentDidMount() {
-      // this code will be always called when component is mounted in browser DOM ('after render')
       getData('user').then((value) => {
-          console.log(`Preference : ${value}`)
-          this.showAlertWithDelay();
-        }
-      ).catch(error=>{}
-        //this.showAlertWithDelay();
-      );
-
+        console.log(`Preference in splash: ${value}`);   
+        this.showAlertWithDelay();
+      });
+      // this code will be always called when component is mounted in browser DOM ('after render') 
+      
     }
 
     showAlertWithDelay = () => {

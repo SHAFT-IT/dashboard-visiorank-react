@@ -3,6 +3,7 @@ package com.visiorank;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNDefaultPreferencePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.pgsqlite.SQLitePluginPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new SQLitePluginPackage(),   // register SQLite Plugin here
         new MainReactPackage(),
+        new RNDefaultPreferencePackage(),
         new VectorIconsPackage()
       );
     }
