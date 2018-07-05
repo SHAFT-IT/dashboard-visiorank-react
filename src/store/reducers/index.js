@@ -4,11 +4,13 @@ import login from './login.reducer';
 import dashboard from './dashboard.reducer';
 import logout from './logout.reducer';
 import messages from './message.reducer';
+import demandes from '../demandes/demandes.reducers'
 
 export default combineReducers({
   users,
   login,
   dashboard,
   logout,
-  messages
+  messages,
+  demandes
 });
