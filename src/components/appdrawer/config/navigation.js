@@ -39,35 +39,33 @@ const MenuImage = ({ navigation }) => {
 }
 
 const StackNavigator = createStackNavigator({
-
-  //important: key and screen name (i.e. DrawerNavigator) should be same while using the drawer navigator inside stack navigator.
-
-  DrawerNavigator: {
-    screen: DrawerNavigator
-  },
-}, {
-  navigationOptions: ({ navigation }) => ({
-
-    //custo header try
-    header: (/* Your custom header */
-      <AppHeader navigation={navigation}/>
-    ),
-
-    /*title: 'ReactNavigation',  // Title to appear in status bar
-    headerLeft:
-    <TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
-        <MenuImage style="styles.bar" navigation={navigation}/>
-    </TouchableOpacity>,
-    headerStyle: {
-        backgroundColor: '#333',
+    //important: key and screen name (i.e. DrawerNavigator) should be same while using the drawer navigator inside stack navigator.
+    DrawerNavigator: {
+      screen: DrawerNavigator
     },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },*/
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      //custo header try
+      header: (/* Your custom header */
+        <AppHeader navigation={navigation}/>
+      ),
 
-  })
-});
+      /*title: 'ReactNavigation',  // Title to appear in status bar
+      headerLeft:
+      <TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
+          <MenuImage style="styles.bar" navigation={navigation}/>
+      </TouchableOpacity>,
+      headerStyle: {
+          backgroundColor: '#333',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },*/
+
+    })
+  });
 
 export default StackNavigator;
 
