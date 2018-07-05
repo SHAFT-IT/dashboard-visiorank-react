@@ -4,20 +4,25 @@ import { getData } from '../../commons/preferences';
 import LoginContainer from '../login/app.container';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../assets/images/logo_login.png';
+import Drawer from "../appdrawer/config/navigation";
+import { connect } from 'react-redux';
+import { fetchLoginSuccess } from '../../store/actions/login.action';
 
-export default class Splash extends React.Component{
+class Splash extends React.Component{
 
     constructor(props) {
       super(props);
       this.state = {
-        loading: true
+        loading: true,
+        user: null
       }
       // this code might be called when there is no element avaliable in `document` yet (eg. initial render)
     }
 
     componentDidMount() {
       getData('user').then((value) => {
-        console.log(`Preference in splash: ${value}`);   
+        console.log(`Preference in splash: ${value}`);
+        this.setState({user: value});   
         this.showAlertWithDelay();
       });
       // this code will be always called when component is mounted in browser DOM ('after render') 
@@ -38,8 +43,19 @@ export default class Splash extends React.Component{
                   width={200}
                 />
             </View>);
+        }else{
+          let jsonObj = null;
+          if(this.state.user){
+            console.log(`2=======> ${this.state.user}`);
+            this.props.dispatch(fetchLoginSuccess(JSON.parse(this.state.user)));
+            jsonObj = JSON.parse(this.state.user);
+            if(jsonObj.mobile_token)
+              return <Drawer />  
+          }else{
+            return <LoginContainer />  
+          }  
         }
-        return <LoginContainer />  
+        return null;
 
         /*return (
           <View>
@@ -62,3 +78,4 @@ const styles = StyleSheet.create({
 
 });
 
+export default connect()(Splash);

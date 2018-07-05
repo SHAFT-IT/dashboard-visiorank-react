@@ -33,7 +33,7 @@ export function authenticate(email, password) {
     })
       .then((res) => res.json())
       .then(json => {
-        //console.log(json);
+        console.log(`1=======> ${JSON.stringify(json.user)}`);
         setData('user', json.user);
         dispatch(fetchLoginSuccess(json.user));
       })

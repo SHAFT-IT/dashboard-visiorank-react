@@ -6,7 +6,7 @@ import { fetchDashboard } from '../../store/actions/dashboard.action'
 import Loader from '../loader/Loader';
 import { CLICK_DASHBOARD_VISITE, CLICK_DASHBOARD_MESSAGE, CLICK_DASHBOARD_APPEL, CLICK_DASHBOARD_DEMANDE } from '../../commons/constant';
 
- class DashboardContainer extends Component{
+class DashboardContainer extends Component{
 
     componentDidMount() {
         const { token } = this.props
