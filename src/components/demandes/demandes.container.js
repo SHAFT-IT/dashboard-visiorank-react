@@ -10,7 +10,7 @@ class Demandes extends React.Component {
   }
 
   render() {
-    const { items } = this.state
+    const { items } = this.props
     return (
       <View>
         {items.map((item, key) => <Text key={key}>{JSON.stringify(item)}</Text>)}
