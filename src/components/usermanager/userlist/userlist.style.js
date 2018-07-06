@@ -9,19 +9,11 @@ export default  {
     item: {
         marginLeft: 0,
         marginRight: 0,
-        marginTop: 1,
-        height: 105,
+        marginTop: 0,
         backgroundColor: '#DCDCDC',
-        flexDirection: 'column'
-    },
-
-    itemtextfirst: {
-        marginLeft: 20,
-        marginRight: 20,
-        fontSize: 13,
-        textAlign: 'left',
-        color: 'black',
-        marginTop: 12,
+        flexDirection: 'column',
+        paddingVertical: 12,
+        marginVertical: 1
     },
 
     itemtext: {
@@ -30,7 +22,7 @@ export default  {
         fontSize: 13,
         textAlign: 'left',
         color: 'black',
-        marginTop: 6,
+        paddingVertical: 4,
     },
 
     errortext: {

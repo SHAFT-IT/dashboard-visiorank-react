@@ -76,7 +76,7 @@ const MessageItem = ({item}) => {
     
     let swipeBtns = [
         {
-            text: <Icon name="eye" style={styles.iconright}/>,
+            text: <Icon name="edit" style={styles.iconright}/>,
             backgroundColor: '#f5f5f5',
             underlayColor: '#ffffff',
             onPress: () => { }
