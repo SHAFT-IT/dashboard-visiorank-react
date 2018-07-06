@@ -21,13 +21,11 @@ class Splash extends React.Component{
 
     componentDidMount() {
       getData('user').then((value) => {
-        let user = null
         if (value) {
-          user = JSON.parse(value)
-          this.props.dispatch(fetchLoginSuccess(user));
-          this.setState({user: user}); 
+          this.props.dispatch(fetchLoginSuccess(value));
+          this.setState({user: value}); 
         }
-        console.log(`Preference in splash: ${value}`);  
+        console.log(`Preference in splash: `, value);  
         this.showAlertWithDelay();
       });
       // this code will be always called when component is mounted in browser DOM ('after render') 

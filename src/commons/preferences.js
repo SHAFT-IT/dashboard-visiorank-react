@@ -12,4 +12,15 @@ export const setData = (key, value) => {
 
 export const getData = (key) => {
     return DefaultPreference.get(`${KEY}:${key}`)
+        .then(value => {
+            return new Promise((resolve, reject) => {
+                if (value) {
+                    resolve(JSON.parse(value))
+                } else {
+                    reject({error: 'No value'})
+                }
+            }
+        )
+        .catch(error => console.log(error))
+    })
 }
