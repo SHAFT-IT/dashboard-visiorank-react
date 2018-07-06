@@ -47,7 +47,8 @@ export default  {
     },
 
     iconright: {
-        
+        fontSize: 19,
+        color: '#ffffff'
     }
     
 };

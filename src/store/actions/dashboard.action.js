@@ -20,16 +20,16 @@ export function fetchDashboard() {
   return dispatch => {
     getData('user')
       .then(user => {
-        dispatch(fetchMessageBegin());
+        dispatch(fetchDashboardBegin());
         fetch(`${URL_DASHBOARD}${user.mobile_token}`)
           .then(handleErrors)
           .then(res => res.json())
           .then(json => {
-            dispatch(fetchMessageSuccess(json));
+            dispatch(fetchDashboardSuccess(json));
           })
-          .catch(error => dispatch(fetchMessageFailure(error)));
+          .catch(error => dispatch(fetchDashboardFailure(error)));
       })
-      .catch(error => dispatch(fetchMessageFailure(error)))
+      .catch(error => dispatch(fetchDashboardFailure(error)))
   };    
 }
 

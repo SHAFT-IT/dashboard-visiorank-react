@@ -6,7 +6,8 @@ import MessagesListContainer from '../../messages/list/message.container';
 import DemandesContainer from '../../demandes/demandes.container'
 import DrawerContent from "../sidebar/Sidebar";
 import { Image } from 'react-native';
-import { AppHeader } from '../../appheader/appheader.component';
+import { NAVIGATION_TYPE_MENU, NAVIGATION_TYPE_BACK } from "../../../commons/constant";
+import AppheaderContainer from "../../appheader/appheader.container";
 
 const DrawerNavigator = createDrawerNavigator({
     Home: {
@@ -44,31 +45,22 @@ const StackNavigator = createStackNavigator({
       screen: DrawerNavigator
     },
     MessagesContainer: {
-      screen: MessagesListContainer
+      screen: MessagesListContainer,
+      navigationOptions: ({ navigation }) => ({
+        header: (
+          <AppheaderContainer navigation={navigation} type={NAVIGATION_TYPE_BACK} />
+        ),
+      }),
     }
   },
   {
-    navigationOptions: ({ navigation }) => {
-
-      //try custom
-      const {params = {}} = navigation.state;
-      if (params.hideHeader) {
-        return {
-          header: null,
-        }
-      }
-      return {
-        header: (
-          <AppHeader navigation={navigation}/>
-        ),
-      };
-
+    navigationOptions: ({ navigation }) => ({
       //custom header real
-      /*header: (
-        <AppHeader navigation={navigation}/>
-      ),*/
-      
-      //default header with text only
+      header: (
+        <AppheaderContainer navigation={navigation} type={NAVIGATION_TYPE_MENU} />
+      ),
+
+      //default header without title
       /*title: 'ReactNavigation',  // Title to appear in status bar
       headerLeft:
       <TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
@@ -82,7 +74,7 @@ const StackNavigator = createStackNavigator({
         fontWeight: 'bold',
       },*/
 
-    }
+    })
   });
 
 export default StackNavigator;

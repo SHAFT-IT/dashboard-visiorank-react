@@ -2,43 +2,25 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './appheader.style';
 import { DrawerActions } from 'react-navigation';
+import { AppHeader } from './appheader.component';
+import { NAVIGATION_TYPE_BACK, NAVIGATION_TYPE_MENU } from '../../commons/constant';
 
 class AppheaderContainer extends Component{
 
+    onClickBack = () => {
+
+        this.props.navigation.goBack();
+
+    }
+
     render() {
+
+        const {navigation, type} = this.props;
+
         return (
         
-            <View style={styles.parent}>
-                <View style={styles.headercontainerone}>
+            <AppHeader navigation={navigation} type={type} onClickBack={this.onClickBack} />
 
-                    <Image
-                        style={styles.logo}
-                        source={require('../../assets/images/logo_visiorank.png')}
-                        resizeMode='cover'/>
-
-                    <TouchableOpacity
-                        style={styles.touchableright}
-                        activeOpacity = { .5 } 
-                        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
-                    
-                        <Image
-                            style={styles.iconright}
-                            source={require('../../assets/images/menu_visio.png')}
-                            resizeMode='cover'
-                            />
-                        
-                    </TouchableOpacity>
-
-                </View>
-                <View style={styles.headercontainertwo}>
-
-                    <Text style={styles.headertextwhite}>Espace client :</Text>
-                    <Text style={styles.headertextorange}>02 22 06 99 03</Text>
-
-                </View>
-
-            </View>
-                
         );
     }
 
