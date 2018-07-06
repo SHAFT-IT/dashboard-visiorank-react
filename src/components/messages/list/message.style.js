@@ -38,5 +38,9 @@ export default  {
         textAlignVertical: "center",
         fontSize: 15,
     },
-
+    iconleft: {
+        position: 'absolute',
+        fontSize: 40,
+        color: 'grey'
+    },
 };
