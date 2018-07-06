@@ -32,7 +32,7 @@ class DrawerContent extends Component {
             <Text style={styles.textItemInside}>Statistiques de campagne</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerItem}>
+          <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Appel')}>
             <Icon name="phone" style={styles.iconItemLeft}/>
             <Text style={styles.textItemInside}>Liste des appels</Text>
           </TouchableOpacity>

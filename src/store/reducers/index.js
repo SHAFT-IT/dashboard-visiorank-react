@@ -5,6 +5,7 @@ import dashboard from './dashboard.reducer';
 import logout from './logout.reducer';
 import messages from './message.reducer';
 import demandes from '../demandes/demandes.reducers'
+import appels from './appel.reducer'
 
 export default combineReducers({
   users,
@@ -12,5 +13,6 @@ export default combineReducers({
   dashboard,
   logout,
   messages,
-  demandes
+  demandes,
+  appels
 });

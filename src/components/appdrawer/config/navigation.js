@@ -3,7 +3,8 @@ import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import MessagesListContainer from '../../messages/list/message.container';
-import DemandesContainer from '../../demandes/demandes.container'
+import DemandesContainer from '../../demandes/demandes.container';
+import AppelsListContainer from '../../appel/appel.container';
 import DrawerContent from "../sidebar/Sidebar";
 import { Image } from 'react-native';
 import { NAVIGATION_TYPE_MENU, NAVIGATION_TYPE_BACK } from "../../../commons/constant";
@@ -21,6 +22,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Demandes: {
       screen: DemandesContainer
+    },
+    Appel: {
+      screen: AppelsListContainer
     }
   },
   {
