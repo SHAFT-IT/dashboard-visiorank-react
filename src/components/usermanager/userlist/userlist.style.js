@@ -10,17 +10,27 @@ export default  {
         marginLeft: 0,
         marginRight: 0,
         marginTop: 1,
-        height: 50,
+        height: 105,
         backgroundColor: '#DCDCDC',
-        justifyContent: 'center',
+        flexDirection: 'column'
+    },
+
+    itemtextfirst: {
+        marginLeft: 20,
+        marginRight: 20,
+        fontSize: 13,
+        textAlign: 'left',
+        color: 'black',
+        marginTop: 12,
     },
 
     itemtext: {
         marginLeft: 20,
         marginRight: 20,
-        fontSize: 16,
+        fontSize: 13,
         textAlign: 'left',
-        color: 'black'
+        color: 'black',
+        marginTop: 6,
     },
 
     errortext: {
@@ -30,5 +40,10 @@ export default  {
         textAlignVertical: "center",
         fontSize: 15,
     },
+
+    iconright: {
+        fontSize: 30,
+        color: 'grey'
+    }
 
 };
