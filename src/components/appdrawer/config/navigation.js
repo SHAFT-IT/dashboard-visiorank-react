@@ -43,14 +43,32 @@ const StackNavigator = createStackNavigator({
     DrawerNavigator: {
       screen: DrawerNavigator
     },
+    MessagesContainer: {
+      screen: MessagesListContainer
+    }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      //custo header try
-      header: (/* Your custom header */
-        <AppHeader navigation={navigation}/>
-      ),
+    navigationOptions: ({ navigation }) => {
 
+      //try custom
+      const {params = {}} = navigation.state;
+      if (params.hideHeader) {
+        return {
+          header: null,
+        }
+      }
+      return {
+        header: (
+          <AppHeader navigation={navigation}/>
+        ),
+      };
+
+      //custom header real
+      /*header: (
+        <AppHeader navigation={navigation}/>
+      ),*/
+      
+      //default header with text only
       /*title: 'ReactNavigation',  // Title to appear in status bar
       headerLeft:
       <TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
@@ -64,7 +82,7 @@ const StackNavigator = createStackNavigator({
         fontWeight: 'bold',
       },*/
 
-    })
+    }
   });
 
 export default StackNavigator;

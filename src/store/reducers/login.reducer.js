@@ -13,6 +13,7 @@ export default function loginReducers(state = initialState, action) {
     case FETCHING_LOGIN_FAILURE:
       return { ...state, loading: false, error: action.payload }
     case FETCHING_LOGIN_SUCCESS:
+      console.log('REDUCER_LOG', action.payload);
       return { ...state, loading: false, error: null, item: action.payload }
     case DELETE_USER :
       return initialState

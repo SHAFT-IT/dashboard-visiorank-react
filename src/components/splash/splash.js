@@ -21,8 +21,13 @@ class Splash extends React.Component{
 
     componentDidMount() {
       getData('user').then((value) => {
-        console.log(`Preference in splash: ${value}`);
-        this.setState({user: value});   
+        let user = null
+        if (value) {
+          user = JSON.parse(value)
+          this.props.dispatch(fetchLoginSuccess(user));
+          this.setState({user: user}); 
+        }
+        console.log(`Preference in splash: ${value}`);  
         this.showAlertWithDelay();
       });
       // this code will be always called when component is mounted in browser DOM ('after render') 
@@ -43,15 +48,10 @@ class Splash extends React.Component{
                   width={200}
                 />
             </View>);
-        }else{
-          let jsonObj = null;
-          if(this.state.user){
-            console.log(`2=======> ${this.state.user}`);
-            this.props.dispatch(fetchLoginSuccess(JSON.parse(this.state.user)));
-            jsonObj = JSON.parse(this.state.user);
-            if(jsonObj.mobile_token)
+        } else {
+          if (this.state.user && this.state.user.mobile_token) {
               return <Drawer />  
-          }else{
+          } else {
             return <LoginContainer />  
           }  
         }
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f1f1f1'
   },
-
 
 });
 
