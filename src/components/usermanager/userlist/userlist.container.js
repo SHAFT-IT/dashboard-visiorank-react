@@ -44,14 +44,20 @@ class UserListContainer extends Component{
                 
                 {loading ? 
                     <Loader loading={loading} /> : 
-                    <ListView 
-                        dataSource={this.state.dataSource} 
-                        renderRow={
-                            (item) => (
-                                <MessageItem item={item}/>
-                            )
-                        } 
-                    />
+
+                    <View>
+
+                        <ListView 
+                            dataSource={this.state.dataSource} 
+                            renderRow={
+                                (item) => (
+                                    <MessageItem item={item}/>
+                                )
+                            } 
+                        />
+                        <Icon name="plus-circle" style={styles.iconbottom}/>
+                        
+                    </View>
                 }
             </View>
           

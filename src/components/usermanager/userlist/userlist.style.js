@@ -34,8 +34,16 @@ export default  {
     },
 
     iconright: {
-        fontSize: 30,
+        fontSize: 50,
         color: 'grey'
+    },
+
+    iconbottom: {
+        fontSize: 55,
+        color: 'grey',
+        position: 'absolute',
+        bottom: 25,
+        right: 30,
     }
 
 };
