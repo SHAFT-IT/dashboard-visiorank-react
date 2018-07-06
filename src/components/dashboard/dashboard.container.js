@@ -5,8 +5,19 @@ import { connect } from 'react-redux';
 import { fetchDashboard } from '../../store/actions/dashboard.action'
 import Loader from '../loader/Loader';
 import { CLICK_DASHBOARD_VISITE, CLICK_DASHBOARD_MESSAGE, CLICK_DASHBOARD_APPEL, CLICK_DASHBOARD_DEMANDE } from '../../commons/constant';
+import PropTypes from 'prop-types';
+import { NavigationActions, DrawerActions } from 'react-navigation';
 
 class DashboardContainer extends Component{
+
+    navigateToScreen = (route) => () => {
+        console.log('HERE NOW 1');
+        const navigateAction = NavigationActions.navigate({
+            routeName: route
+        });
+        this.props.navigation.dispatch(navigateAction);
+       
+    }
 
     componentDidMount() {
         const { token } = this.props
@@ -21,7 +32,12 @@ class DashboardContainer extends Component{
                 break;
         
             case CLICK_DASHBOARD_MESSAGE:
-                this.props.navigation.navigate('MessagesContainer');
+                //with button back
+                //this.props.navigation.navigate('MessagesContainer');
+                //without button back 
+                console.log('HERE NOW');
+                //this.navigateToScreen('Message');
+                this.props.navigation.navigate('Message');
                 break;
 
             case CLICK_DASHBOARD_APPEL:
@@ -55,5 +71,9 @@ const mapStateToProps = state => ({
     token: state.login.item.mobile_token
 })
 
+DashboardContainer.propTypes = {
+    navigation: PropTypes.object
+};
+  
 export default connect(mapStateToProps)(DashboardContainer)
 //<Dashboard/>  
