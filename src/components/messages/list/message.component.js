@@ -49,17 +49,12 @@ const MessageItem = ({item}) => {
     ];
 
     return (
-        /*<View style={styles.item}>
-            <Text style={ styles.itemtext }>{date}</Text> 
-            <Text style={ styles.itemtext }>{item.from}</Text> 
-            <Text style={ item.seen ? styles.itemtext : styles.itemtextunseen } >
-                { item.subject }
-            </Text>
-        </View>*/
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
             <TouchableHighlight underlayColor='#ffffff'>
                 <View style={styles.item}>
-                        <Text style={ item.seen ? styles.itemtext : styles.itemtextunseen }> {item.subject} </Text>
+                    <Text style={ styles.itemtext }>{date}</Text> 
+                    <Text style={ styles.itemtext }>{item.from}</Text> 
+                    <Text style={ item.seen ? styles.itemtext : styles.itemtextunseen }> {item.subject} </Text>
                 </View>
             </TouchableHighlight>
         </Swipeout>
