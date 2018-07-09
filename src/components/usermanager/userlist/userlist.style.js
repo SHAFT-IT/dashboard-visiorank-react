@@ -29,12 +29,24 @@ export default  {
     },
 
     itemtext: {
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 10,
+        marginRight: 0,
         fontSize: 13,
         textAlign: 'left',
         color: 'black',
         paddingVertical: 4,
+    },
+
+    itemtextright: {
+        marginRight: 10,
+        fontSize: 13,
+        textAlign: 'left',
+        color: 'black',
+        paddingVertical: 4,
+    },
+
+    itemtexthorizontal: {
+        flexDirection: 'row',
     },
 
     errortext: {

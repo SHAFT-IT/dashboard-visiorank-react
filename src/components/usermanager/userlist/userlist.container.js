@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, ListView } from 'react-native';
+import { Text, View, TouchableHighlight, ListView,Linking } from 'react-native';
 import styles from './userlist.style';
 import { fetchUsers } from '../../../store/actions/users.action';
 import { connect } from "react-redux";
@@ -136,12 +136,15 @@ const UserItem = ({item}) => {
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
             <TouchableHighlight underlayColor='#ffffff'>
                 <View style={styles.itemcontainer}>
-                    <View style={{width: 48}}>
-                        <Text style={{  width: 35, marginLeft:8, height: 35, borderRadius: 40 / 2, color:"#fbecc9", backgroundColor: backgroundColor, textAlign:'center', fontSize: 25/*, fontWeight:'bold'*/}}>{lettre}</Text>
+                    <View style={{width: 52}}>
+                        <Text style={{  width: 35, marginLeft:14, height: 35, borderRadius: 40 / 2, color:"#fbecc9", backgroundColor: backgroundColor, textAlign:'center', fontSize: 25/*, fontWeight:'bold'*/}}>{lettre}</Text>
                     </View>
                     <View style={styles.item}>
                         <Text style={styles.itemtext}> {item.societe ? `${item.societe} - ` : ''} {item.nom} {item.prenom} </Text>
-                        <Text style={styles.itemtext}>{item.telephone ? `${item.telephone} - ` : ''} {item.email} </Text>
+                        <View style={styles.itemtexthorizontal}>
+                            <Text style={styles.itemtext} onPress={()=> Linking.openURL(`tel:+${item.telephone}`)}>{item.telephone ? `${item.telephone} - ` : ''}</Text>
+                            <Text style={styles.itemtextright} onPress={() => Linking.openURL('mailto:mailto@deniseleeyohn.com?subject=abcdefg&body=body')}> {item.email} </Text>
+                        </View>
                     </View>
                 </View>    
             </TouchableHighlight>

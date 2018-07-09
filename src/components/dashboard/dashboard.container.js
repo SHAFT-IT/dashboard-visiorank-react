@@ -41,7 +41,7 @@ class DashboardContainer extends Component{
                 break;
 
             case CLICK_DASHBOARD_APPEL:
-            this.props.navigation.navigate('Appel');
+                this.props.navigation.navigate('Appel');
                 break;
 
             case CLICK_DASHBOARD_DEMANDE:
