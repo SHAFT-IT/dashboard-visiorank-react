@@ -9,18 +9,19 @@ class Demandes extends React.Component {
 
   constructor(props) {
     super(props)
+    let { items } = props
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.items),
-      items: props.items
+      dataSource: ds.cloneWithRows(items),
+      items
     }
   }
 
   componentWillReceiveProps ({ items }) {
     if (items !== this.props.items) {
       this.setState({
-        items,
-        dataSource: this.state.dataSource.cloneWithRows(items)
+        dataSource: this.state.dataSource.cloneWithRows(items),
+        items
       })
     }
   }
@@ -39,6 +40,8 @@ class Demandes extends React.Component {
   render() {
     const { loading } = this.props
 
+    alert(this.state.items.length)
+
     if (loading) {
       return <Loader loading={true}/>
     }
@@ -52,10 +55,10 @@ class Demandes extends React.Component {
 
 }
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchDemandes: function (token) {
+      console.log('token', token)
       dispatch(fetchDemandes(token))
     }
   }
