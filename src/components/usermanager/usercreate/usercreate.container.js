@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 
 class UserCreateContainer extends React.Component{
 
+    goBackToUser = () => {
+      console.log('HERE NOW GO');
+      this.props.navigation.goBack();
+    }
+
     constructor(props){
         super(props)
     
@@ -57,8 +62,9 @@ class UserCreateContainer extends React.Component{
 
           <TouchableHighlight
               style={styles.containericontop}
-              underlayColor='transparent'>
-              <Icon name="angle-left" style={styles.icontop}/>
+              underlayColor='transparent'
+              onPress={() => this.goBackToUser()}>
+              <Icon name="chevron-circle-left" style={styles.icontop}/>
           </TouchableHighlight>
           
         </View>
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
   },
   
   icontop: {
-    fontSize: 55,
+    fontSize: 45,
     color: 'grey',
     
   },
@@ -109,8 +115,8 @@ const styles = StyleSheet.create({
     left: 20,
     alignItems: "center",
     justifyContent: "center",
-    width: 40,
-    height: 40
+    width: 45,
+    height: 45
   },
   
   buttonSubmit: {
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
     color: '#939393',
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 20
   }
 
 });
