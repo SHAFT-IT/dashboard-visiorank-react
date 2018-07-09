@@ -1,13 +1,25 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, TouchableHighlight, ListView } from 'react-native';
+import { Text, View, TouchableHighlight, ListView,Linking } from 'react-native';
 import styles from './userlist.style';
 import { fetchUsers } from '../../../store/actions/users.action';
 import { connect } from "react-redux";
 import Loader from '../../loader/Loader';
 import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
+import { bgColor } from '../../../commons/colors';
 
 class UserListContainer extends Component{
+
+    navigateToScreen = (route) => () => {
+        console.log('HERE NOW 1');
+        const navigateAction = NavigationActions.navigate({
+            routeName: route
+        });
+        this.props.navigation.dispatch(navigateAction);
+       
+    }
 
     constructor(props) {
         super(props);
@@ -51,14 +63,24 @@ class UserListContainer extends Component{
                             dataSource={this.state.dataSource} 
                             renderRow={
                                 (item) => (
-                                    <MessageItem item={item}/>
+                                    <UserItem item={item}/>
                                 )
                             } 
                         />
-                        <Icon name="plus-circle" style={styles.iconbottom}/>
+
                         
+                        <TouchableHighlight style={styles.containericonbottom}
+                            underlayColor='transparent'
+                            onPress={this.navigateToScreen('UserCreate')}>
+                            
+                            <Icon name="plus-circle" style={styles.iconbottom}/>
+                            
+                        </TouchableHighlight>
+                    
                     </View>
                 }
+
+                
             </View>
           
         );
@@ -72,14 +94,29 @@ const mapStateToProps = state => ({
     error: state.users.error
 });
   
-/*const mapDispatchToProps = (dispatch) => {
+/*
+;this.navigateToScreen('UserCreate')
+<TouchableHighlight
+                            underlayColor='transparent'
+                            onPress={this.props.navigation.navigate('Message')}>
+
+                            </TouchableHighlight>
+
+const mapDispatchToProps = (dispatch) => {
     return{
         fetchUsers:dispatch(fetchUsers())
     } 
 }*/
 
-const MessageItem = ({item}) => {
-    
+const UserItem = ({item}) => {
+
+    let lettre = "A";
+    let backgroundColor = bgColor("A");
+    if(item.societe){
+        lettre = item.societe.charAt(0).toUpperCase();
+        backgroundColor = bgColor(lettre);
+    }
+
     let swipeBtns = [
         {
             text: <Icon name="edit" style={styles.iconright}/>,
@@ -98,17 +135,27 @@ const MessageItem = ({item}) => {
     return (
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
             <TouchableHighlight underlayColor='#ffffff'>
-                <View style={styles.item}>
-                    <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
-                    <Text style={styles.itemtext}>{item.societe || '......'} </Text>
-                    <Text style={styles.itemtext}>{item.telephone || '......'} </Text>
-                    <Text style={styles.itemtext}>{item.email} </Text>
-                </View>
+                <View style={styles.itemcontainer}>
+                    <View style={{width: 52}}>
+                        <Text style={{  width: 35, marginLeft:14, height: 35, borderRadius: 40 / 2, color:"#fbecc9", backgroundColor: backgroundColor, textAlign:'center', fontSize: 25/*, fontWeight:'bold'*/}}>{lettre}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.itemtext}> {item.societe ? `${item.societe} - ` : ''} {item.nom} {item.prenom} </Text>
+                        <View style={styles.itemtexthorizontal}>
+                            <Text style={styles.itemtext} onPress={()=> Linking.openURL(`tel:+${item.telephone}`)}>{item.telephone ? `${item.telephone} - ` : ''}</Text>
+                            <Text style={styles.itemtextright} onPress={() => Linking.openURL('mailto:mailto@deniseleeyohn.com?subject=abcdefg&body=body')}> {item.email} </Text>
+                        </View>
+                    </View>
+                </View>    
             </TouchableHighlight>
         </Swipeout>
 
     )
 }
+
+UserListContainer.propTypes = {
+    navigation: PropTypes.object
+};
 
 export default connect(mapStateToProps)(UserListContainer);
 
