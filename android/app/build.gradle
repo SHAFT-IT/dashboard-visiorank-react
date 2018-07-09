@@ -143,6 +143,7 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-sqlite-storage')
     compile project(':react-native-default-preference')
+    compile project(':react-native-charts-wrapper')
     apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 }
 
