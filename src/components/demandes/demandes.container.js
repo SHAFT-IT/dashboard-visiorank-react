@@ -11,7 +11,17 @@ class Demandes extends React.Component {
     super(props)
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      dataSource: ds.cloneWithRows(props.items)
+      dataSource: ds.cloneWithRows(this.props.items),
+      items: props.items
+    }
+  }
+
+  componentWillReceiveProps ({ items }) {
+    if (items !== this.props.items) {
+      this.setState({
+        items,
+        dataSource: this.state.dataSource.cloneWithRows(items)
+      })
     }
   }
 
@@ -27,9 +37,7 @@ class Demandes extends React.Component {
    * @returns {*}
    */
   render() {
-    const { items, loading } = this.props
-
-    console.log('items count', items.length)
+    const { loading } = this.props
 
     if (loading) {
       return <Loader loading={true}/>
