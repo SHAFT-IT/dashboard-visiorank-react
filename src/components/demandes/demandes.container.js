@@ -1,10 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text } from 'react-native'
-import { fetchDemandes } from "../../store/demandes/demandes.actions"
-import Loader from "../loader/Loader";
+import { ListView } from 'react-native'
+import { fetchDemandes } from '../../store/demandes/demandes.actions'
+import Loader from '../loader/Loader'
+import DemandeItem from './demande.item.component'
 
 class Demandes extends React.Component {
+
+  constructor(props) {
+    super(props)
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+    this.state = {
+      dataSource: ds.cloneWithRows(props.items)
+    }
+  }
 
   /**
    * Fetch items when component is mounted
@@ -20,18 +29,21 @@ class Demandes extends React.Component {
   render() {
     const { items, loading } = this.props
 
+    console.log('items count', items.length)
+
     if (loading) {
       return <Loader loading={true}/>
     }
 
     return (
-      <View>
-        {items && items.map((item, key) => <Text key={key}>{JSON.stringify(item)}</Text>)}
-      </View>
-    );
+      <ListView enableEmptySections={true}
+                dataSource={this.state.dataSource}
+                renderRow={item => <DemandeItem item={item}/>}/>
+    )
   }
 
 }
+
 
 const mapDispatchToProps = (dispatch) => {
   return {

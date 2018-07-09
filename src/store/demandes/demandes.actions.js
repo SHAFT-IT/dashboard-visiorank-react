@@ -1,5 +1,6 @@
-import { URL_DEMANDES } from "../../commons/urls";
-import { FETCH_DEMANDES, FETCH_DEMANDES_SUCCESS } from "./demandes.types";
+import { URL_DEMANDES } from '../../commons/urls'
+import { FETCH_DEMANDES, FETCH_DEMANDES_SUCCESS, FETCH_DEMANDES_FAILURE } from './demandes.types'
+import axios from 'axios';
 
 function fetchDemandesBegin() {
   return function (dispatch) {
@@ -15,25 +16,15 @@ function fetchDemandesSuccess(data) {
 
 function fetchDemandesFailure(error) {
   return function (dispatch) {
-    dispatch({ type: FETCH_DEMANDES_SUCCESS, payload: error })
+    dispatch({ type: FETCH_DEMANDES_FAILURE, payload: error })
   }
 }
 
 export function fetchDemandes(token) {
   return dispatch => {
-    dispatch(fetchDemandesBegin());
-    return fetch(`${URL_DEMANDES}`)
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchDemandesSuccess(json));
-      })
-      .catch(error => dispatch(fetchDemandesFailure(error)));
-  };
-}
-
-// Handle HTTP errors since fetch won't.
-function handleErrors(response) {
-  if (!response.ok) throw Error(response.statusText);
-  return response;
+    dispatch(fetchDemandesBegin())
+    return axios.get(`${URL_DEMANDES}`)
+      .then(res => dispatch(fetchDemandesSuccess(res.data)))
+      .catch(error => dispatch(fetchDemandesFailure(error)))
+  }
 }

@@ -14,6 +14,7 @@ export default function (state = initialState, { type, payload }) {
       return { ...state, loading: false, items: payload }
     case FETCH_DEMANDES_FAILURE:
       return { ...state, loading: false, error: payload }
+    default :
+      return state
   }
-  return state
 }
