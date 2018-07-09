@@ -7,25 +7,66 @@ export default  {
     },
 
     item: {
+        flex: 1, 
+        flexDirection: 'row',
         marginLeft: 0,
         marginRight: 0,
         marginTop: 1,
-        paddingVertical : 20,
+        paddingVertical : 10,
+        backgroundColor: '#DCDCDC',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    itemRight: {
+        flex: 1, 
+        flexDirection: 'column',
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 1,
+        width: 150,
         backgroundColor: '#DCDCDC',
         justifyContent: 'center',
     },
-
+    itemLeft: {
+        flex: 1, 
+        flexDirection: 'row',
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 1,
+        width: 50,
+        backgroundColor: '#DCDCDC',
+        justifyContent: 'center',
+    },
+    faChevronCircleUp : {
+        background: '#ffc0c0',
+        borderRadius: 50,
+        justifyContent: 'center',
+    },
     itemtext: {
-        marginLeft: 20,
+        marginLeft: 0,
         marginRight: 20,
         fontSize: 16,
         textAlign: 'left',
         color: 'black'
     },
-    itemtextunseen: {
-        marginLeft: 20,
+    itemtextdate: {
+        marginLeft: 0,
         marginRight: 20,
-        fontSize: 16,
+        fontSize: 12,
+        textAlign: 'left',
+        color: '#7d7b7b'
+    },
+    itemtextseen: {
+        marginLeft: 0,
+        marginRight: 20,
+        fontSize: 14,
+        textAlign: 'left',
+        color: 'black'
+    },
+    itemtextunseen: {
+        marginLeft: 0,
+        marginRight: 20,
+        fontSize: 14,
         textAlign: 'left',
         color: 'black',
         fontWeight: 'bold'
@@ -43,4 +84,23 @@ export default  {
         fontSize: 40,
         color: 'grey'
     },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+      },
+      outerCircle: {
+        borderRadius: 40,
+        width: 80,
+        height: 80,
+        backgroundColor: 'white',
+      },
+      innerCircle: {
+        borderRadius: 35,
+        width: 70,
+        height: 70,
+        margin: 5,
+        backgroundColor: 'black'
+      },
 };
