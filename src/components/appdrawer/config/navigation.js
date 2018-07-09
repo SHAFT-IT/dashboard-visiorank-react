@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import MessagesListContainer from '../../messages/list/message.container';
@@ -10,6 +10,26 @@ import { Image } from 'react-native';
 import { NAVIGATION_TYPE_MENU, NAVIGATION_TYPE_BACK } from "../../../commons/constant";
 import AppheaderContainer from "../../appheader/appheader.container";
 import UserCreateContainer from "../../usermanager/usercreate/usercreate.container";
+import VisitesContainer from "../../campagne/visites/visites.container";
+import GeolocContainer from "../../campagne/geoloc/geoloc.container";
+import RepartitionContainer from "../../campagne/repartition/repartition.container";
+
+const TabsCampagne = createMaterialTopTabNavigator({
+  Visite: VisitesContainer,
+  Geoloc: GeolocContainer,
+  Repartition: RepartitionContainer
+},{
+  tabBarOptions: {
+      activeTintColor: '#000',
+      inactiveTintColor: 'gray',
+      style: {
+          backgroundColor: '#fff',
+      },
+      indicatorStyle: {
+          backgroundColor: '#000',
+      },
+  }
+});
 
 const DrawerNavigator = createDrawerNavigator({
     Home: {
@@ -29,6 +49,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     UserCreate: {
       screen: UserCreateContainer
+    },
+    Campagne:{
+      screen: TabsCampagne
     }
   },
   {

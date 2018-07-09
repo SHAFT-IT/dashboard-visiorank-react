@@ -27,7 +27,7 @@ class DrawerContent extends Component {
             <Text style={styles.textItemInside}>Tableau de bord</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Home')}>
+          <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Campagne')}>
             <Icon name="bar-chart" style={styles.iconItemLeft}/>
             <Text style={styles.textItemInside}>Statistiques de campagne</Text>
           </TouchableOpacity>
