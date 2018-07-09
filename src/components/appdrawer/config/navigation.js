@@ -9,6 +9,7 @@ import DrawerContent from "../sidebar/Sidebar";
 import { Image } from 'react-native';
 import { NAVIGATION_TYPE_MENU, NAVIGATION_TYPE_BACK } from "../../../commons/constant";
 import AppheaderContainer from "../../appheader/appheader.container";
+import UserCreateContainer from "../../usermanager/usercreate/usercreate.container";
 
 const DrawerNavigator = createDrawerNavigator({
     Home: {
@@ -25,6 +26,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Appel: {
       screen: AppelsListContainer
+    },
+    UserCreate: {
+      screen: UserCreateContainer
     }
   },
   {

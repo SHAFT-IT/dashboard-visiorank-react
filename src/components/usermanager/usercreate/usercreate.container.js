@@ -1,7 +1,9 @@
 import React from 'react'
-import {View, TextInput, ScrollView, Button, Alert, StyleSheet} from 'react-native'
+import {View, TextInput, ScrollView, Text, Alert, StyleSheet, TouchableHighlight} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
 
-export default class UserCreateContainer extends React.Component{
+class UserCreateContainer extends React.Component{
 
     constructor(props){
         super(props)
@@ -19,40 +21,62 @@ export default class UserCreateContainer extends React.Component{
   
     render() {
       return (
-        <ScrollView style={styles.scrollcontent}>
-          <View>
-              <TextInput style={styles.edittext}
-                placeholder="Nom"
-                underlineColorAndroid='transparent'
-                returnKeyLabel = {"next"}
-                onChangeText={(textnom) => this.setState({nom:textnom})}
-              />
-              <TextInput style={styles.edittext}
-                placeholder="Prénom"
-                underlineColorAndroid='transparent'
-                returnKeyLabel = {"next"}
-                onChangeText={(textprenom) => this.setState({prenom:textprenom})}
-              />
-              <TextInput style={styles.edittext}
-                placeholder="Société"
-                underlineColorAndroid='transparent'
-                returnKeyLabel = {"next"}
-                onChangeText={(textsociete) => this.setState({societe:textsociete})}
-              />
-              <Button style={styles.button}
-                title="Create User"
-                onPress={() => this._createaction()}
-              />
+        <View>
+          <ScrollView style={styles.scrollcontent}>
+            <View>
+                <Text style={styles.bigtitle}>Ajouter un utilisateur</Text>
+                <TextInput style={styles.edittext}
+                  placeholder="Nom"
+                  underlineColorAndroid='transparent'
+                  returnKeyLabel = {"next"}
+                  onChangeText={(textnom) => this.setState({nom:textnom})}
+                />
+                <TextInput style={styles.edittext}
+                  placeholder="Prénom"
+                  underlineColorAndroid='transparent'
+                  returnKeyLabel = {"next"}
+                  onChangeText={(textprenom) => this.setState({prenom:textprenom})}
+                />
+                <TextInput style={styles.edittext}
+                  placeholder="Société"
+                  underlineColorAndroid='transparent'
+                  returnKeyLabel = {"next"}
+                  onChangeText={(textsociete) => this.setState({societe:textsociete})}
+                />
 
-          </View>
-        </ScrollView>
+                <TouchableHighlight
+                    style={styles.buttonSubmit}
+                    onPress={this.onPress}>
+
+                    <Text style={styles.buttonText}>Ajouter</Text>
+
+                </TouchableHighlight>
+                
+            </View>
+          </ScrollView>
+
+          <TouchableHighlight
+              style={styles.containericontop}
+              underlayColor='transparent'>
+              <Icon name="angle-left" style={styles.icontop}/>
+          </TouchableHighlight>
+          
+        </View>
+        
       );
   }
 
 
 }
 
+/*
+onPress={this.props.navigation.goBack()}*/
 
+UserCreateContainer.propTypes = {
+  navigation: PropTypes.object
+};
+
+export default UserCreateContainer;
 
 const styles = StyleSheet.create({
   edittext: {
@@ -66,18 +90,53 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     paddingLeft: 15,
-    borderColor: '#D2CAEC',
+    borderColor: '#939393',
   },
   
   scrollcontent: {
-    marginTop: 30,
+    marginTop: 17,
   },
   
-  button: {
+  icontop: {
+    fontSize: 55,
+    color: 'grey',
+    
+  },
+
+  containericontop: {
+    position: 'absolute',
+    top: 10,
+    left: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40
+  },
+  
+  buttonSubmit: {
     marginLeft: 30,
-    height: 45,
-  
+    marginRight: 30,
+    marginTop: 20,
+    height: 50,
+    borderRadius: 6,
+    paddingLeft: 15,
+    backgroundColor: 'green',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  
-  
+
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  bigtitle: {
+    textAlign: 'center',
+    color: '#939393',
+    fontSize: 18,
+    fontWeight: 'bold',
+  }
+
 });

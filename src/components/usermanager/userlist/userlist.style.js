@@ -34,16 +34,25 @@ export default  {
     },
 
     iconright: {
-        fontSize: 50,
+        fontSize: 40,
         color: 'grey'
     },
 
     iconbottom: {
         fontSize: 55,
         color: 'grey',
+        
+    },
+
+    containericonbottom: {
         position: 'absolute',
         bottom: 25,
         right: 30,
+        alignItems: "center",
+        justifyContent: "center",
+        width: 60,
+        height: 60
     }
+
 
 };

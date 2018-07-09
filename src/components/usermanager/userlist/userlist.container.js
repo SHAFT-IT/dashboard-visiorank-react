@@ -1,13 +1,24 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, TouchableHighlight, ListView } from 'react-native';
+import { Text, View, TouchableHighlight, ListView } from 'react-native';
 import styles from './userlist.style';
 import { fetchUsers } from '../../../store/actions/users.action';
 import { connect } from "react-redux";
 import Loader from '../../loader/Loader';
 import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 
 class UserListContainer extends Component{
+
+    navigateToScreen = (route) => () => {
+        console.log('HERE NOW 1');
+        const navigateAction = NavigationActions.navigate({
+            routeName: route
+        });
+        this.props.navigation.dispatch(navigateAction);
+       
+    }
 
     constructor(props) {
         super(props);
@@ -55,10 +66,20 @@ class UserListContainer extends Component{
                                 )
                             } 
                         />
-                        <Icon name="plus-circle" style={styles.iconbottom}/>
+
                         
+                        <TouchableHighlight style={styles.containericonbottom}
+                            underlayColor='transparent'
+                            onPress={this.navigateToScreen('UserCreate')}>
+                            
+                            <Icon name="plus-circle" style={styles.iconbottom}/>
+                            
+                        </TouchableHighlight>
+                    
                     </View>
                 }
+
+                
             </View>
           
         );
@@ -72,7 +93,15 @@ const mapStateToProps = state => ({
     error: state.users.error
 });
   
-/*const mapDispatchToProps = (dispatch) => {
+/*
+;this.navigateToScreen('UserCreate')
+<TouchableHighlight
+                            underlayColor='transparent'
+                            onPress={this.props.navigation.navigate('Message')}>
+
+                            </TouchableHighlight>
+
+const mapDispatchToProps = (dispatch) => {
     return{
         fetchUsers:dispatch(fetchUsers())
     } 
@@ -109,6 +138,10 @@ const MessageItem = ({item}) => {
 
     )
 }
+
+UserListContainer.propTypes = {
+    navigation: PropTypes.object
+};
 
 export default connect(mapStateToProps)(UserListContainer);
 
