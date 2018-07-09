@@ -1,5 +1,6 @@
 import { FETCHING_LOGIN, FETCHING_LOGIN_SUCCESS, FETCHING_LOGIN_FAILURE, DELETE_USER } from "../types/login.type";
 import { URL_LOGIN } from "../../commons/urls";
+import { setData } from "../../commons/preferences";
 
 export const fetchLoginBegin = () => ({
   type: FETCHING_LOGIN
@@ -32,7 +33,8 @@ export function authenticate(email, password) {
     })
       .then((res) => res.json())
       .then(json => {
-        console.log(json);
+        console.log(`1=======> ${JSON.stringify(json.user)}`);
+        setData('user', json.user);
         dispatch(fetchLoginSuccess(json.user));
       })
       .catch((e) => {

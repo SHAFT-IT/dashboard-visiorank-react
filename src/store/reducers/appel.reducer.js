@@ -1,4 +1,4 @@
-import { FETCHING_MESSAGE, FETCHING_MESSAGE_SUCCESS, FETCHING_MESSAGE_FAILURE } from "../types/message.type";
+import { FETCHING_APPEL, FETCHING_APPEL_SUCCESS, FETCHING_APPEL_FAILURE } from "../types/appel.type";
 
 const initialState = {
   items: [],
@@ -6,23 +6,23 @@ const initialState = {
   error: null
 };
 
-export default function messageReducer(state = initialState, action) {
+export default function appelReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCHING_MESSAGE :
+    case FETCHING_APPEL :
       return {
         ...state,
         loading: true,
         error: null
       };
 
-    case FETCHING_MESSAGE_SUCCESS :
+    case FETCHING_APPEL_SUCCESS :
       return {
         ...state,
         loading: false,
-        items: action.payload.messages
+        items: action.payload.appels
       };
 
-    case FETCHING_MESSAGE_FAILURE :
+    case FETCHING_APPEL_FAILURE :
       return {
         ...state,
         loading: false,

@@ -9,18 +9,20 @@ export default  {
     item: {
         marginLeft: 0,
         marginRight: 0,
-        marginTop: 1,
-        height: 50,
+        marginTop: 0,
         backgroundColor: '#DCDCDC',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        paddingVertical: 12,
+        marginVertical: 1
     },
 
     itemtext: {
         marginLeft: 20,
         marginRight: 20,
-        fontSize: 16,
+        fontSize: 13,
         textAlign: 'left',
-        color: 'black'
+        color: 'black',
+        paddingVertical: 4,
     },
 
     errortext: {
@@ -30,5 +32,18 @@ export default  {
         textAlignVertical: "center",
         fontSize: 15,
     },
+
+    iconright: {
+        fontSize: 50,
+        color: 'grey'
+    },
+
+    iconbottom: {
+        fontSize: 55,
+        color: 'grey',
+        position: 'absolute',
+        bottom: 25,
+        right: 30,
+    }
 
 };

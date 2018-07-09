@@ -4,27 +4,32 @@ import { getData } from '../../commons/preferences';
 import LoginContainer from '../login/app.container';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../assets/images/logo_login.png';
+import Drawer from "../appdrawer/config/navigation";
+import { connect } from 'react-redux';
+import { fetchLoginSuccess } from '../../store/actions/login.action';
 
-export default class Splash extends React.Component{
+class Splash extends React.Component{
 
     constructor(props) {
       super(props);
       this.state = {
-        loading: true
+        loading: true,
+        user: null
       }
       // this code might be called when there is no element avaliable in `document` yet (eg. initial render)
     }
 
     componentDidMount() {
-      // this code will be always called when component is mounted in browser DOM ('after render')
       getData('user').then((value) => {
-          console.log(`Preference : ${value}`)
-          this.showAlertWithDelay();
+        if (value) {
+          this.props.dispatch(fetchLoginSuccess(value));
+          this.setState({user: value}); 
         }
-      ).catch(error=>{}
-        //this.showAlertWithDelay();
-      );
-
+        console.log(`Preference in splash: `, value);  
+        this.showAlertWithDelay();
+      });
+      // this code will be always called when component is mounted in browser DOM ('after render') 
+      
     }
 
     showAlertWithDelay = () => {
@@ -41,8 +46,14 @@ export default class Splash extends React.Component{
                   width={200}
                 />
             </View>);
+        } else {
+          if (this.state.user && this.state.user.mobile_token) {
+              return <Drawer />  
+          } else {
+            return <LoginContainer />  
+          }  
         }
-        return <LoginContainer />  
+        return null;
 
         /*return (
           <View>
@@ -62,6 +73,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1f1f1'
   },
 
-
 });
 
+export default connect()(Splash);

@@ -53,7 +53,7 @@ export const Dashboard = ({ visitesCount, callCount, messagesCount, demandesCoun
                     
                         <Icon name="envelope" style={styles.iconleft}/>
                         <Text style={styles.topRightText}>{messagesCount}</Text>
-                        <Text style={styles.bottomRightText}>Messages</Text>
+                        <Text style={styles.bottomRightText}>Message(s) non lu(s)</Text>
 
                     </View>
                     

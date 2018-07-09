@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native';
-import styles from './message.style';
-import { fetchMessages } from '../../../store/actions/message.action';
+import styles from './appel.style';
+import { fetchAppels } from '../../store/actions/appel.action';
 import { connect } from "react-redux";
-import Loader from '../../loader/Loader';
-import { Messages }  from './message.component'; 
+import Loader from '../loader/Loader';
+import Appels from './appel.component'; 
 
-class MessagesListContainer extends Component{
+class AppelsListContainer extends Component{
 
     componentDidMount() {
         const { token } = this.props
-        this.props.dispatch(fetchMessages(token));
+        this.props.dispatch(fetchAppels(token));
     }
 
     render() {
-        const { error, loading, messages } = this.props;
+        const { error, loading, appels } = this.props;
         if (loading) {
             return <Loader loading={ loading }/>
         }
@@ -26,7 +26,7 @@ class MessagesListContainer extends Component{
                 </View>
             );
         }
-        if (!messages || messages.length<1) {
+        if (!appels || appels.length<1) {
             return (
                 <View style={styles.container}>
                     <Text style={styles.errortext}>Liste vide</Text>
@@ -34,17 +34,17 @@ class MessagesListContainer extends Component{
             );
         }
         return (
-                <Messages messages={ messages }/>  
+                <Appels appels={ appels }/>  
         );
     }
 }
 
 const mapStateToProps = state => ({
-    messages: state.messages.items,
-    loading: state.messages.loading,
-    error: state.messages.error,
+    appels: state.appels.items,
+    loading: state.appels.loading,
+    error: state.appels.error,
     token: state.login.item.mobile_token
 });
 
-export default connect(mapStateToProps)(MessagesListContainer);
+export default connect(mapStateToProps)(AppelsListContainer);
 

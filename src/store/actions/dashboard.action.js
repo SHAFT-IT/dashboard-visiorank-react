@@ -1,5 +1,6 @@
 import { FETCHING_DASHBOARD, FETCHING_DASHBOARD_SUCCESS, FETCHING_DASHBOARD_FAILURE } from '../types/dashboard.type'
 import { URL_DASHBOARD } from "../../commons/urls";
+import { getData } from "../../commons/preferences";
 
 export const fetchDashboardBegin = () => ({
   type: FETCHING_DASHBOARD
@@ -15,17 +16,21 @@ export const fetchDashboardFailure = error => ({
   payload: error
 });
 
-export function fetchDashboard(token) {
+export function fetchDashboard() {
   return dispatch => {
-    dispatch(fetchDashboardBegin());
-    return fetch(`${URL_DASHBOARD}${token}`)
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchDashboardSuccess(json));
+    getData('user')
+      .then(user => {
+        dispatch(fetchDashboardBegin());
+        fetch(`${URL_DASHBOARD}${user.mobile_token}`)
+          .then(handleErrors)
+          .then(res => res.json())
+          .then(json => {
+            dispatch(fetchDashboardSuccess(json));
+          })
+          .catch(error => dispatch(fetchDashboardFailure(error)));
       })
-      .catch(error => dispatch(fetchDashboardFailure(error)));
-  };
+      .catch(error => dispatch(fetchDashboardFailure(error)))
+  };    
 }
 
 // Handle HTTP errors since fetch won't.

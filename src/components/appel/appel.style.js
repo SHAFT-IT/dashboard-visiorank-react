@@ -5,16 +5,26 @@ export default  {
         flex: 1,
         flexDirection: 'column'
     },
-
     item: {
+        flex: 1, 
+        flexDirection: 'row',
         marginLeft: 0,
         marginRight: 0,
         marginTop: 1,
         paddingVertical : 20,
         backgroundColor: '#DCDCDC',
         justifyContent: 'center',
+        alignItems: 'center'
     },
-
+    itemLeft: {
+        flex: 1, 
+        flexDirection: 'column',
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 1,
+        backgroundColor: '#DCDCDC',
+        justifyContent: 'center',
+    },
     itemtext: {
         marginLeft: 20,
         marginRight: 20,
