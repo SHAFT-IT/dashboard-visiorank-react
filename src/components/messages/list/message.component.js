@@ -6,6 +6,7 @@ import 'moment/locale/fr'
 moment.locale('fr');
 import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { bgColor } from '../../../commons/colors';
 
 
 export class Messages extends React.Component {
@@ -31,8 +32,10 @@ export class Messages extends React.Component {
 }
 
 const MessageItem = ({item}) => {
-    const date = moment.unix(item.udate).format('Do MMMM YYYY hh:mm')
-
+    const date = moment.unix(item.udate).format('Do MMM YY')
+    const lettre = item.from.charAt(0).toUpperCase()
+    let backgroundColor = bgColor(lettre)
+    
     let swipeBtns = [
         {
             text: <Icon name="eye" style={styles.iconleft}/>,
@@ -51,12 +54,17 @@ const MessageItem = ({item}) => {
     return (
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
             <TouchableHighlight underlayColor='#ffffff'>
-                <View style={styles.item}>
-                    <Text style={ styles.itemtext }>{date}</Text> 
-                    <Text style={ styles.itemtext }>{item.from}</Text> 
-                    <Text style={ item.seen ? styles.itemtext : styles.itemtextunseen }> { item.subject } </Text>
-                </View>
-            </TouchableHighlight>
+                    <View style={styles.item}>
+                        <View style={{width: 50}}>
+                            <Text style={{  width: 40, height: 40, borderRadius: 40 / 2, color:"#fbecc9", backgroundColor: backgroundColor, textAlign:'center', fontSize: 30/*, fontWeight:'bold'*/}}>{lettre}</Text>
+                        </View>    
+                        <View style={{width: 270, marginLeft:5}}>
+                            <Text style={ styles.itemtextdate }>{date}</Text> 
+                            <Text style={ styles.itemtext } numberOfLines={1}>{item.from}</Text> 
+                            <Text style={ item.seen ? styles.itemtextseen : styles.itemtextunseen } numberOfLines={1}>{item.subject}</Text>
+                        </View>
+                    </View>
+                </TouchableHighlight>
         </Swipeout>
     )
 }
