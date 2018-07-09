@@ -8,6 +8,7 @@ import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
+import { bgColor } from '../../../commons/colors';
 
 class UserListContainer extends Component{
 
@@ -62,7 +63,7 @@ class UserListContainer extends Component{
                             dataSource={this.state.dataSource} 
                             renderRow={
                                 (item) => (
-                                    <MessageItem item={item}/>
+                                    <UserItem item={item}/>
                                 )
                             } 
                         />
@@ -107,8 +108,15 @@ const mapDispatchToProps = (dispatch) => {
     } 
 }*/
 
-const MessageItem = ({item}) => {
-    
+const UserItem = ({item}) => {
+
+    let lettre = "A";
+    let backgroundColor = bgColor("A");
+    if(item.societe){
+        lettre = item.societe.charAt(0).toUpperCase();
+        backgroundColor = bgColor(lettre);
+    }
+
     let swipeBtns = [
         {
             text: <Icon name="edit" style={styles.iconright}/>,
@@ -127,12 +135,15 @@ const MessageItem = ({item}) => {
     return (
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
             <TouchableHighlight underlayColor='#ffffff'>
-                <View style={styles.item}>
-                    <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
-                    <Text style={styles.itemtext}>{item.societe || '......'} </Text>
-                    <Text style={styles.itemtext}>{item.telephone || '......'} </Text>
-                    <Text style={styles.itemtext}>{item.email} </Text>
-                </View>
+                <View style={styles.itemcontainer}>
+                    <View style={{width: 48}}>
+                        <Text style={{  width: 35, marginLeft:8, height: 35, borderRadius: 40 / 2, color:"#fbecc9", backgroundColor: backgroundColor, textAlign:'center', fontSize: 25/*, fontWeight:'bold'*/}}>{lettre}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.itemtext}> {item.societe ? `${item.societe} - ` : ''} {item.nom} {item.prenom} </Text>
+                        <Text style={styles.itemtext}>{item.telephone ? `${item.telephone} - ` : ''} {item.email} </Text>
+                    </View>
+                </View>    
             </TouchableHighlight>
         </Swipeout>
 

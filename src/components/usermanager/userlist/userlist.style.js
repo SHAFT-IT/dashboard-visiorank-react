@@ -6,6 +6,18 @@ export default  {
         flexDirection: 'column'
     },
 
+    itemcontainer: {
+        flex: 1, 
+        flexDirection: 'row',
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 1,
+        paddingVertical : 10,
+        backgroundColor: '#DCDCDC',
+        alignItems: 'center',
+        height: 80,
+    },
+
     item: {
         marginLeft: 0,
         marginRight: 0,
@@ -34,7 +46,7 @@ export default  {
     },
 
     iconright: {
-        fontSize: 40,
+        fontSize: 25,
         color: 'grey'
     },
 
