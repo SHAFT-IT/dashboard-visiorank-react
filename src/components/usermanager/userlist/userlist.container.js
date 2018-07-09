@@ -12,8 +12,13 @@ import { bgColor } from '../../../commons/colors';
 
 class UserListContainer extends Component{
 
+    goToCreateUser = () => {
+        console.log('HERE NOW GO');
+        this.props.navigation.navigate('UserCreate');
+    }
+
     navigateToScreen = (route) => () => {
-        console.log('HERE NOW 1');
+        
         const navigateAction = NavigationActions.navigate({
             routeName: route
         });
@@ -71,7 +76,7 @@ class UserListContainer extends Component{
                         
                         <TouchableHighlight style={styles.containericonbottom}
                             underlayColor='transparent'
-                            onPress={this.navigateToScreen('UserCreate')}>
+                            onPress={() => this.goToCreateUser()}>
                             
                             <Icon name="plus-circle" style={styles.iconbottom}/>
                             
@@ -95,7 +100,7 @@ const mapStateToProps = state => ({
 });
   
 /*
-;this.navigateToScreen('UserCreate')
+this.navigateToScreen('UserCreate')
 <TouchableHighlight
                             underlayColor='transparent'
                             onPress={this.props.navigation.navigate('Message')}>
