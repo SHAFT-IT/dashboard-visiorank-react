@@ -2,6 +2,7 @@ import React from 'react'
 import {View, TextInput, ScrollView, Text, Alert, StyleSheet, TouchableHighlight} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
+import { connect } from "react-redux";
 
 class UserCreateContainer extends React.Component{
 
@@ -82,7 +83,7 @@ UserCreateContainer.propTypes = {
   navigation: PropTypes.object
 };
 
-export default UserCreateContainer;
+export default connect()(UserCreateContainer);
 
 const styles = StyleSheet.create({
   edittext: {

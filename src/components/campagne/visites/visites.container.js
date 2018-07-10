@@ -38,45 +38,14 @@ class VisitesContainer extends Component{
             backgroundTint: processColor('teal'),
               markerColor: processColor('#F0C0FF8C'),
             textColor: processColor('white'),
-          }
+          },
+          visites: []
         };
     }
 
     componentDidMount() {
         console.log('VisitesContainer');
         this.props.dispatch(fetchCampagnes());
-        this.setState(
-            update(this.state, {
-              data: {
-                $set: {
-                  dataSets: [
-                    {
-                        values: [{y: 90}, {y: 130}, {y: 100}, {y: 105}],
-                        label: 'Company Y',
-                        config: {
-                            lineWidth: 1,
-                            drawCubicIntensity: 0.4,
-                            circleRadius: 5,
-                            drawHighlightIndicators: false,
-                            color: processColor('blue'),
-                            drawFilled: true,
-                            fillColor: processColor('blue'),
-                            fillAlpha: 45,
-                            circleColor: processColor('blue')
-                        }
-                  }],
-                }
-              },
-              xAxis: {
-                $set: {
-                    fontFamily:"HelveticaNeue-Medium",
-                    fontWeight:"bold",
-                    fontStyle:"italic",
-                    valueFormatter: ['Q1', 'Q2', 'Q3', 'Q4']
-                }
-              }
-            })
-        );
     }
 
     handleSelect(event) {
@@ -90,10 +59,55 @@ class VisitesContainer extends Component{
         console.log(event.nativeEvent)
     }
 
+    componentWillReceiveProps ({ response }) {
+      if (response && response !== this.props.response) {
+
+       const values = response.visits.map(item => ({y: parseInt(item.value)}));
+       const labels = response.visits.map(item => item.label);
+
+       console.log('CHART VALUES =>', values);
+       console.log('CHART LABELS =>', labels);
+
+       this.setState(
+          update(this.state, {
+            data: {
+              $set: {
+                dataSets: [
+                  {
+                      values: values,
+                      label: 'Company Y',
+                      config: {
+                          lineWidth: 1,
+                          drawCubicIntensity: 0.4,
+                          circleRadius: 5,
+                          drawHighlightIndicators: false,
+                          color: processColor('blue'),
+                          drawFilled: true,
+                          fillColor: processColor('blue'),
+                          fillAlpha: 45,
+                          circleColor: processColor('blue')
+                      }
+                  }],
+              }
+            },
+            xAxis: {
+              $set: {
+                  fontFamily:"HelveticaNeue-Medium",
+                  fontWeight:"bold",
+                  fontStyle:"italic",
+                  valueFormatter: labels
+              }
+            }
+          })
+        );
+      }
+    }
+  
+
     render() {
 
-        const { error, loading, response } = this.props;
-          
+        const { error, loading } = this.props;
+
         if (error) {
             console.log("This is ERROR");
             return (

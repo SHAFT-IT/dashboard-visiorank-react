@@ -7,6 +7,7 @@ import messages from './message.reducer';
 import demandes from '../demandes/demandes.reducers'
 import appels from './appel.reducer'
 import campagnes from './campagne.reducer'
+import usercreateupdate from './usercreate.reducer'
 
 export default combineReducers({
   users,
@@ -16,5 +17,6 @@ export default combineReducers({
   messages,
   demandes,
   appels,
-  campagnes
+  campagnes,
+  usercreateupdate
 });

@@ -13,7 +13,7 @@ import { bgColor } from '../../../commons/colors';
 class UserListContainer extends Component{
 
     goToCreateUser = () => {
-        console.log('HERE NOW GO');
+        console.log(this.props.navigation);
         this.props.navigation.navigate('UserCreate');
     }
 
