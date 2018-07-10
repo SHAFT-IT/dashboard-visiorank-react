@@ -3,8 +3,12 @@ import {View, Text, StyleSheet, processColor} from 'react-native'
 import update from 'immutability-helper';
 import {LineChart} from 'react-native-charts-wrapper';
 import { GRIS_TEXT } from '../../../commons/colors';
+import { connect } from "react-redux";
+import Loader from '../../loader/Loader';
+import { fetchCampagnes } from '../../../store/actions/campagne.action';
 
-export default class VisitesContainer extends Component{
+
+class VisitesContainer extends Component{
 
     constructor() {
         super();
@@ -40,6 +44,7 @@ export default class VisitesContainer extends Component{
 
     componentDidMount() {
         console.log('VisitesContainer');
+        this.props.dispatch(fetchCampagnes());
         this.setState(
             update(this.state, {
               data: {
@@ -86,48 +91,76 @@ export default class VisitesContainer extends Component{
     }
 
     render() {
+
+        const { error, loading, response } = this.props;
+          
+        if (error) {
+            console.log("This is ERROR");
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.errortext}>Error calling ws! {error.message}</Text>
+                </View>
+            );
+        }
+  
         return (      
-        <View style={{flex: 1}}>
 
-            <View style={{height:50, justifyContent: 'center', backgroundColor: 'white' }}>
-                <Text style={{marginLeft: 23, textAlign: 'left', color: GRIS_TEXT}}>Statistique de campagnes</Text>
-            </View>
+          <View style={{flex: 1}}>
+            {loading ? 
+              
+              <Loader loading={loading} /> :
 
-            <View style={styles.container}>
-                <LineChart
-                    style={styles.chart}
-                    data={this.state.data}
-                    chartDescription={{text: ''}}
-                    legend={this.state.legend}
-                    marker={this.state.marker}
-                    xAxis={this.state.xAxis}
-                    drawGridBackground={false}
-                    borderColor={processColor('teal')}
-                    borderWidth={1}
-                    drawBorders={true}
+              <View style={{flex: 1, flexDirection: 'column'}}>
 
-                    touchEnabled={true}
-                    dragEnabled={true}
-                    scaleEnabled={true}
-                    scaleXEnabled={true}
-                    scaleYEnabled={true}
-                    pinchZoom={true}
-                    doubleTapToZoomEnabled={true}
+                  <View style={{height:50, justifyContent: 'center', backgroundColor: 'white' }}>
+                      <Text style={{marginLeft: 23, textAlign: 'left', color: GRIS_TEXT}}>Statistique de campagnes</Text>
+                  </View>
 
-                    dragDecelerationEnabled={true}
-                    dragDecelerationFrictionCoef={0.99}
+                  <View style={styles.container}>
+                      <LineChart
+                          style={styles.chart}
+                          data={this.state.data}
+                          chartDescription={{text: ''}}
+                          legend={this.state.legend}
+                          marker={this.state.marker}
+                          xAxis={this.state.xAxis}
+                          drawGridBackground={false}
+                          borderColor={processColor('teal')}
+                          borderWidth={1}
+                          drawBorders={true}
 
-                    keepPositionOnRotation={false}
-                    onSelect={this.handleSelect.bind(this)}
-                    onChange={(event) => console.log(event.nativeEvent)}
-                />
-            </View>
+                          touchEnabled={true}
+                          dragEnabled={true}
+                          scaleEnabled={true}
+                          scaleXEnabled={true}
+                          scaleYEnabled={true}
+                          pinchZoom={true}
+                          doubleTapToZoomEnabled={true}
 
-        </View>
+                          dragDecelerationEnabled={true}
+                          dragDecelerationFrictionCoef={0.99}
+
+                          keepPositionOnRotation={false}
+                          onSelect={this.handleSelect.bind(this)}
+                          onChange={(event) => console.log(event.nativeEvent)}
+                      />
+                  </View>
+
+              </View>
+            }
+          </View>
         );
     }
 
 }
+
+const mapStateToProps = state => ({
+  response: state.campagnes.response,
+  loading: state.campagnes.loading,
+  error: state.campagnes.error
+});
+
+export default connect(mapStateToProps)(VisitesContainer);
 
 const styles = StyleSheet.create({
     container: {
@@ -137,5 +170,5 @@ const styles = StyleSheet.create({
     chart: {
       flex: 1
     }
-  });
+});
   
