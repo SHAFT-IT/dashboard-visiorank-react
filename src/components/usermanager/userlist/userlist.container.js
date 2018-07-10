@@ -18,12 +18,10 @@ class UserListContainer extends Component{
     }
 
     navigateToScreen = (route) => () => {
-        
         const navigateAction = NavigationActions.navigate({
             routeName: route
         });
         this.props.navigation.dispatch(navigateAction);
-       
     }
 
     constructor(props) {
@@ -42,7 +40,7 @@ class UserListContainer extends Component{
             console.log("This is ERROR");
             return (
                 <View style={styles.container}>
-                    <Text style={styles.errortext}>Error calling ws! {error.message}</Text>
+                    <Text style={styles.errortext}>Error calling ws! {error}</Text>
                 </View>
             );
         }
@@ -99,19 +97,6 @@ const mapStateToProps = state => ({
     error: state.users.error
 });
   
-/*
-this.navigateToScreen('UserCreate')
-<TouchableHighlight
-                            underlayColor='transparent'
-                            onPress={this.props.navigation.navigate('Message')}>
-
-                            </TouchableHighlight>
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        fetchUsers:dispatch(fetchUsers())
-    } 
-}*/
 
 const UserItem = ({item}) => {
 
@@ -164,29 +149,3 @@ UserListContainer.propTypes = {
 
 export default connect(mapStateToProps)(UserListContainer);
 
-/*
-
-{users.map(user =>
-              <li key={user.id}>{user.title}</li>
-            )}
-
-<View style={styles.container}>
-    {loading ? 
-        <Loader loading={loading} /> : 
-        <FlatList
-            data={users}
-            renderItem = 
-            {({item}) => 
-
-                <View style={styles.item}>
-                    <Text style={styles.itemtext}>{item.nom} {item.prenom}</Text>
-                    <Text style={styles.itemtext}>{item.societe} </Text>
-                    <Text style={styles.itemtext}>{item.telephone} </Text>
-                    <Text style={styles.itemtext}>{item.email} </Text>
-                </View>
-
-            }
-        />
-    }
-</View>            
-*/

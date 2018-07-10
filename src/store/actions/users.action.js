@@ -1,6 +1,6 @@
 import { FETCHING_USER, FETCHING_USER_SUCCESS, FETCHING_USER_FAILURE } from "../types/users.type";
-import { URL_USER_LIST } from "../../commons/urls";
-
+import { URL_USERS } from "../../commons/urls";
+import { getData } from "../../commons/preferences";
 
 export const fetchUsersBegin = () => ({
   type: FETCHING_USER
@@ -18,16 +18,19 @@ export const fetchUsersFailure = error => ({
 
 export function fetchUsers() {
   return dispatch => {
-    dispatch(fetchUsersBegin());
-    return fetch(URL_USER_LIST)
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-
-        dispatch(fetchUsersSuccess(json));
-
+    getData('user')
+      .then(user => {
+        dispatch(fetchUsersBegin());
+        fetch(`${URL_USERS}${user.mobile_token}`)
+          .then(handleErrors)
+          .then(res => res.json())
+          .then(json => {
+            console.log('JSON USER =>', json);
+            dispatch(fetchUsersSuccess(json.users));
+          })
+          .catch(error => dispatch(fetchUsersFailure(error)));
       })
-      .catch(error => dispatch(fetchUsersFailure(error)));
+      .catch(error => dispatch(fetchUsersFailure(error)))
   };
 }
 

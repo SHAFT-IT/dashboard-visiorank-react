@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 class UserCreateContainer extends React.Component{
 
     goBackToUser = () => {
-      console.log('HERE NOW GO');
+      console.log('PROPS NAVIGATION UserCreateContainer=>', this.props.navigation);
       this.props.navigation.goBack();
     }
 
