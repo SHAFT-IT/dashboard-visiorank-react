@@ -34,7 +34,7 @@ class AppelsListContainer extends Component{
             );
         }
         return (
-                <Appels appels={ appels }/>  
+                <Appels appels={ appels } />  
         );
     }
 }

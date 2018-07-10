@@ -1,6 +1,5 @@
 import { URL_DEMANDES } from '../../commons/urls'
 import { FETCH_DEMANDES, FETCH_DEMANDES_SUCCESS, FETCH_DEMANDES_FAILURE } from './demandes.types'
-import axios from 'axios';
 
 function fetchDemandesBegin() {
   return function (dispatch) {
@@ -20,11 +19,15 @@ function fetchDemandesFailure(error) {
   }
 }
 
-export function fetchDemandes(token) {
+export function fetchDemandes() {
   return dispatch => {
     dispatch(fetchDemandesBegin())
-    return axios.get(`${URL_DEMANDES}`)
-      .then(res => dispatch(fetchDemandesSuccess(res.data)))
-      .catch(error => dispatch(fetchDemandesFailure(error)))
+    fetch(URL_DEMANDES)
+      .then(res => res.json())
+      .then(json => {
+        alert(json)
+        dispatch(fetchDemandesSuccess(json))
+      })
+      .catch(error => alert(error) || dispatch(fetchDemandesFailure(error)))
   }
 }

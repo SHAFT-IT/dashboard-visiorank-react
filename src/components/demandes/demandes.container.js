@@ -30,7 +30,7 @@ class Demandes extends React.Component {
    * Fetch items when component is mounted
    */
   componentDidMount() {
-    this.props.fetchDemandes('')
+    this.props.fetchDemandes()
   }
 
   /**
@@ -57,9 +57,8 @@ class Demandes extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDemandes: function (token) {
-      console.log('token', token)
-      dispatch(fetchDemandes(token))
+    fetchDemandes: function () {
+      dispatch(fetchDemandes())
     }
   }
 }

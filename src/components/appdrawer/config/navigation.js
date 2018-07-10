@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator, createDrawerNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import MessagesListContainer from '../../messages/list/message.container';
@@ -13,6 +13,7 @@ import UserCreateContainer from "../../usermanager/usercreate/usercreate.contain
 import VisitesContainer from "../../campagne/visites/visites.container";
 import GeolocContainer from "../../campagne/geoloc/geoloc.container";
 import RepartitionContainer from "../../campagne/repartition/repartition.container";
+import MessageDetails from '../../messages/detail/message.item.component'
 
 const TabsCampagne = createMaterialTopTabNavigator({
   Visite: VisitesContainer,
@@ -40,6 +41,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Message: {
       screen: MessagesListContainer
+    },
+    MessageDetails: {
+      screen: MessageDetails
     },
     Demandes: {
       screen: DemandesContainer
