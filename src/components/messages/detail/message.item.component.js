@@ -40,8 +40,7 @@ const styles = {
     text: {
         marginHorizontal : 10,
         marginVertical : 10        
- 
-    }
+     }
 }
 
 const mapStateToProps = state => ({
