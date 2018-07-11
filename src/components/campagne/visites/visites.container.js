@@ -60,14 +60,15 @@ class VisitesContainer extends Component{
     }
 
     componentWillReceiveProps ({ response }) {
-      if (response && response !== this.props.response) {
+      if (response && response !== this.props.response && response.visits && response.visits.length > 0) {
 
-       const values = response.visits.map(item => ({y: parseInt(item.value)}));
+       const values = response.visits.map(item => ({y: parseInt(item.value) || 0}));
        const labels = response.visits.map(item => item.label);
 
        console.log('CHART VALUES =>', values);
        console.log('CHART LABELS =>', labels);
 
+       
        this.setState(
           update(this.state, {
             data: {

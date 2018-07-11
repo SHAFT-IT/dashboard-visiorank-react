@@ -24,6 +24,8 @@ class UserCreateContainer extends React.Component{
           nom: '',
           prenom: '',
           societe: '',
+          telephone: '',
+
         }
     }
     
@@ -78,6 +80,12 @@ class UserCreateContainer extends React.Component{
                   underlineColorAndroid='transparent'
                   returnKeyLabel = {"next"}
                   onChangeText={(textsociete) => this.setState({societe:textsociete})}
+                />
+                <TextInput style={styles.edittext}
+                  placeholder="Numéro de téléphone VISIORANK"
+                  underlineColorAndroid='transparent'
+                  returnKeyLabel = {"next"}
+                  onChangeText={(textphone) => this.setState({telephone:textphone})}
                 />
 
                 <TouchableHighlight
