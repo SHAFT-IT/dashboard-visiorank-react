@@ -6,7 +6,7 @@ export default  {
     },
 
     logo: {
-        marginLeft: 30,
+        marginLeft: 30
     },
 
     headercontainerone: {
@@ -38,7 +38,6 @@ export default  {
     touchableright: {    
         position: 'absolute',  
         right: 10,
-        top: 10,
         justifyContent: 'center',
         alignItems: 'center',
         width: 40,

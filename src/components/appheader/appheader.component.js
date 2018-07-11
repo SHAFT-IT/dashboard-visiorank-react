@@ -47,12 +47,7 @@ export const AppHeader = ({navigation, type, onClickBack}) => (
 
             
         </View>
-        <View style={styles.headercontainertwo}>
-
-            <Text style={styles.headertextwhite}>Espace client :</Text>
-            <Text style={styles.headertextorange}>02 22 06 99 03</Text>
-
-        </View>
+        
 
     </View>
 

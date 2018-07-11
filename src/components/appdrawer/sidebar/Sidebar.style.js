@@ -32,4 +32,24 @@ export default {
       flexDirection: 'row',
       alignItems: 'center'
     },
+    headercontainertwo: {
+      height: 20,
+      flexDirection: 'row',
+      textAlignVertical: "center",
+      margin: 30
+    },
+    headertextorange: {
+      marginLeft: 5,
+      color: 'orange',
+      textAlign: "left",
+      textAlignVertical: "center",
+      fontSize: 14,
+    },
+    headertextwhite: {
+      marginLeft: 35,
+      color: 'white',
+      fontSize: 14,
+      textAlign: "left",
+      textAlignVertical: "center"
+    },
   };
