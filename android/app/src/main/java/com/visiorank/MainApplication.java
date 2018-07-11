@@ -3,6 +3,7 @@ package com.visiorank;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import com.reactlibrary.RNDefaultPreferencePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new SQLitePluginPackage(),   // register SQLite Plugin here
         new MainReactPackage(),
+            new MapsPackage(),
             new MPAndroidChartPackage(),
         new RNDefaultPreferencePackage(),
         new VectorIconsPackage()
