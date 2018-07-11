@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, Text} from 'react-native'
 
 export default class GeolocContainer extends Component{
 
@@ -12,7 +12,9 @@ export default class GeolocContainer extends Component{
       console.log(region);
         return (
           <View style ={styles.container}>
-          Geolocalisation
+            <Text style={{fontSize: 20, textAlign: 'center', margin: 10}}>
+              Geolocalisation
+            </Text>
         </View>
         );
     }
