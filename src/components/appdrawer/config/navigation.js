@@ -29,7 +29,8 @@ const TabsCampagne = createMaterialTopTabNavigator({
       indicatorStyle: {
           backgroundColor: '#000',
       },
-  }
+  },
+  swipeEnabled: false
 });
 
 const DrawerNavigator = createDrawerNavigator({
