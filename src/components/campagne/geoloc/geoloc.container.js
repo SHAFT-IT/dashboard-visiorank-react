@@ -3,15 +3,7 @@ import { StyleSheet,  View,  Text,  Dimensions } from 'react-native';
 import { connect } from "react-redux";
 import Loader from '../../loader/Loader';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-
-const screen = Dimensions.get('window');
-const ASPECT_RATIO = screen.width / screen.height;
-const LATITUDE = 48.128590;
-const LONGITUDE = 2.522647;
-const LATITUDE_DELTA = 12;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-//const LONGITUDE_DELTA = 12;
-
+import { MAPS_REGION_LATITUDE, MAPS_REGION_LONGITUDE, MAPS_REGION_LATITUDE_DELTA } from '../../../commons/constant';
 
 class AnimatedMarkers extends Component {
   constructor(props) {
@@ -29,12 +21,6 @@ class AnimatedMarkers extends Component {
       );
     }
 
-    if (loading){
-      return (
-        <Loader loading={loading} />
-      );
-    }
-
     let items = cities && cities.filter(city => city.latlng !== null)
 
     return (
@@ -43,13 +29,12 @@ class AnimatedMarkers extends Component {
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           initialRegion={{
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
+            latitude: MAPS_REGION_LATITUDE,
+            longitude: MAPS_REGION_LONGITUDE,
+            latitudeDelta: MAPS_REGION_LATITUDE_DELTA,
+            longitudeDelta: MAPS_REGION_LATITUDE_DELTA * (Dimensions.get('window').width / Dimensions.get('window').height),
           }}
         >
-
         {
           items && items.map(
             city => (

@@ -17,9 +17,10 @@ import MessageDetails from '../../messages/detail/message.item.component'
 
 const TabsCampagne = createMaterialTopTabNavigator({
   Visite: VisitesContainer,
-  Geoloc: GeolocContainer,
+  Maps: GeolocContainer,
   Repartition: RepartitionContainer
-},{
+},
+{
   tabBarOptions: {
       activeTintColor: '#000',
       inactiveTintColor: 'gray',
