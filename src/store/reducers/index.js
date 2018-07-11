@@ -8,6 +8,7 @@ import demandes from '../demandes/demandes.reducers'
 import appels from './appel.reducer'
 import campagnes from './campagne.reducer'
 import usercreateupdate from './usercreate.reducer'
+import sites from './sites.reducer'
 
 export default combineReducers({
   users,
@@ -18,5 +19,6 @@ export default combineReducers({
   demandes,
   appels,
   campagnes,
-  usercreateupdate
+  usercreateupdate,
+  sites
 });

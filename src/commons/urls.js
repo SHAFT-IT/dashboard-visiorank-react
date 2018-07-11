@@ -13,4 +13,5 @@ export const URL_APPEL_PRETINANCE = `${BASE_URL}/api/ws_update_call/`;
 export const URL_CAMPAGNE = `${BASE_URL}/api/ws_get_stats/`;
 export const URL_USERS = `${BASE_URL}/api/ws_get_users/`;
 export const URL_USER_CREATE_UPDATE = `${BASE_URL}/api/ws_save_user/`;
+export const URL_SITE_LIST = `${BASE_URL}/api/ws_get_sites/`;
 

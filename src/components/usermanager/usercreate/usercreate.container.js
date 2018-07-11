@@ -3,8 +3,14 @@ import {View, TextInput, ScrollView, Text, Alert, StyleSheet, TouchableHighlight
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import Loader from '../../loader/Loader';
+import { fetchSites } from '../../../store/actions/sites.action';
 
 class UserCreateContainer extends React.Component{
+
+    componentDidMount() {
+      this.props.dispatch(fetchSites());
+    }
 
     goBackToUser = () => {
       console.log('PROPS NAVIGATION UserCreateContainer=>', this.props.navigation);
@@ -26,8 +32,32 @@ class UserCreateContainer extends React.Component{
     }
   
     render() {
+
+      const { error, loading, sites } = this.props;
+        
+      if (error) {
+          console.log("This is ERROR SITES");
+          return (
+              <View style={styles.container}>
+                  <Text style={styles.errortext}>Erreur lors de la récuperation des sites !</Text>
+              </View>
+          );
+      }
+
       return (
         <View>
+
+          {loading ? 
+            
+            <Loader loading={loading} /> : 
+
+            <View>
+
+
+    
+            </View>
+          }
+
           <ScrollView style={styles.scrollcontent}>
             <View>
                 <Text style={styles.bigtitle}>Ajouter un utilisateur</Text>
@@ -83,7 +113,13 @@ UserCreateContainer.propTypes = {
   navigation: PropTypes.object
 };
 
-export default connect()(UserCreateContainer);
+const mapStateToProps = state => ({
+  sites: state.sites.items,
+  loading: state.sites.loading,
+  error: state.sites.error
+});
+
+export default connect(mapStateToProps)(UserCreateContainer);
 
 const styles = StyleSheet.create({
   edittext: {
