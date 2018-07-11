@@ -28,15 +28,10 @@ class DashboardContainer extends Component{
         console.log(name)
         switch (name) {
             case CLICK_DASHBOARD_VISITE:
-                
+                this.props.navigation.navigate('Campagne');
                 break;
         
             case CLICK_DASHBOARD_MESSAGE:
-                //with button back
-                //this.props.navigation.navigate('MessagesContainer');
-                //without button back 
-                console.log('HERE NOW');
-                //this.navigateToScreen('Message');
                 this.props.navigation.navigate('Message');
                 break;
 
