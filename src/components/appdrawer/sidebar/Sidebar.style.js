@@ -52,4 +52,11 @@ export default {
       textAlign: "left",
       textAlignVertical: "center"
     },
+    menutextcopyright: {
+      textAlignVertical: "center",
+      textAlign: "center",
+      color: 'grey',
+      fontSize: 7,
+      margin: 10
+    },
   };

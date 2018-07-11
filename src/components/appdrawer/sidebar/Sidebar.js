@@ -63,6 +63,9 @@ class DrawerContent extends Component {
             <Text style={styles.headertextwhite}>Espace client :</Text>
             <Text style={styles.headertextorange}>02 22 06 99 03</Text>
           </View>
+          <View style={styles.menutextcopyright}>
+          <Text style={styles.menutextcopyright}>© 2018. Tous droits réservés. Créé par Visiorank</Text>
+          </View>
         </View>
     );
   }
