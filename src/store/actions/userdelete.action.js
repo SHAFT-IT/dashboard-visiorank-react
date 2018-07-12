@@ -24,7 +24,7 @@ export function deleteUser(id) {
             
             dispatch(deleteUserBegin());
             fetch(`${URL_USER_DELETE}${user.mobile_token}`, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, ListView,Linking } from 'react-native';
+import { Text, View, TouchableHighlight, ListView, Linking, Alert } from 'react-native';
 import styles from './userlist.style';
 import { fetchUsers } from '../../../store/actions/users.action';
 import { connect } from "react-redux";
@@ -9,8 +9,25 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
 import { bgColor } from '../../../commons/colors';
-
+import LoaderDelete from '../../loader/LoaderDelete';
+import { AlertError } from '../../alert/AlertError';
+import { deleteUser } from '../../../store/actions/userdelete.action';
+ 
 class UserListContainer extends Component{
+
+    showPopupConfirm = (user) => {
+
+        Alert.alert(
+            '',
+            'Etes-vous sur de vouloir supprimer cet utilisateur ?',
+            [
+              {text: 'Annuler', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: 'OK', onPress: () => this.props.dispatch(deleteUser(user.id))},
+            ],
+            { cancelable: false }
+        )
+        //console.log('USER TO DELETE =>', user.id)
+    }
 
     goToCreateUser = () => {
         console.log(this.props.navigation);
@@ -27,14 +44,29 @@ class UserListContainer extends Component{
     constructor(props) {
         super(props);
         
+        this.state = {
+            selectedUser: {}, 
+        }
+
     }
 
     componentDidMount() {
         this.props.dispatch(fetchUsers());
     }
 
+    componentWillReceiveProps ({ response }) {
+        console.log("DELETE 1 ==>", response);
+        if (response && response !== this.props.response) {  
+            console.log("DELETE 2"); 
+            if(response.code == 200){
+                console.log("DELETE 3");
+                this.props.dispatch(fetchUsers());
+            }
+        }
+    }
+
     render() {
-        const { error, loading, users } = this.props;
+        const { error, loading, users, loadingdelete, errordelete } = this.props;
         
         if (error) {
             console.log("This is ERROR");
@@ -45,9 +77,6 @@ class UserListContainer extends Component{
             );
         }
     
-        //console.log('IN CONTAINER');
-        //console.log(users);
-
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(users),
@@ -62,11 +91,19 @@ class UserListContainer extends Component{
 
                     <View>
 
+                        {errordelete && (
+                            <AlertError textErrorValue='Erreur lors de la suppression !' />
+                        )}
+
+                        {loadingdelete && (
+                            <LoaderDelete loading={loadingdelete} textvalue='Supression...' />
+                        )}
+
                         <ListView 
                             dataSource={this.state.dataSource} 
                             renderRow={
                                 (item) => (
-                                    <UserItem item={item}/>
+                                    <UserItem item={item} showPopupConfirm={this.showPopupConfirm}/>
                                 )
                             } 
                         />
@@ -94,11 +131,14 @@ class UserListContainer extends Component{
 const mapStateToProps = state => ({
     users: state.users.items,
     loading: state.users.loading,
-    error: state.users.error
+    error: state.users.error,
+    response: state.userdelete.response,
+    loadingdelete: state.userdelete.loading,
+    errordelete: state.userdelete.error,
 });
   
 
-const UserItem = ({item}) => {
+const UserItem = ({item, showPopupConfirm}) => {
 
     let lettre = "A";
     let backgroundColor = bgColor("A");
@@ -118,7 +158,7 @@ const UserItem = ({item}) => {
             text: <Icon name="trash" style={styles.iconright}/>,
             backgroundColor: '#f9f9f9',
             underlayColor: '#ffffff',
-            onPress: () => { }
+            onPress: () => showPopupConfirm(item)
         }
     ];
 
