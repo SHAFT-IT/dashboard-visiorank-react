@@ -6,8 +6,28 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { logout } from '../../../store/actions/logout.action';
 import { connect } from 'react-redux';
+import { getData } from '../../../commons/preferences';
 
 class DrawerContent extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      user: {},
+    }
+  }
+
+  componentDidMount() {
+    
+    getData('user')
+        .then(user => {
+          //user.type
+          this.setState({user: user});
+        })
+        .catch(error => console.log("error"))
+
+  }
 
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
@@ -42,10 +62,14 @@ class DrawerContent extends Component {
             <Text style={styles.textItemInside}>Liste des messages</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
-            <Icon name="users" style={styles.iconItemLeft}/>
-            <Text style={styles.textItemInside}>Gestion des utilisateurs</Text>
-          </TouchableOpacity>
+          {this.state.user.type === '1' && (
+              
+            <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
+              <Icon name="users" style={styles.iconItemLeft}/>
+              <Text style={styles.textItemInside}>Gestion des utilisateurs</Text>
+            </TouchableOpacity>)
+
+          }
 
           <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('Demandes')}>
             <Icon name="ticket" style={styles.iconItemLeft}/>
