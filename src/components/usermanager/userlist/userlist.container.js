@@ -12,6 +12,7 @@ import { bgColor } from '../../../commons/colors';
 import LoaderDelete from '../../loader/LoaderDelete';
 import { AlertError } from '../../alert/AlertError';
 import { deleteUser } from '../../../store/actions/userdelete.action';
+import { NAVIGATION_TYPE_USER_UPDATE, NAVIGATION_TYPE_USER_CREATE } from '../../../commons/constant';
  
 class UserListContainer extends Component{
 
@@ -30,13 +31,13 @@ class UserListContainer extends Component{
     }
 
     goToCreateUser = () => {
-        console.log(this.props.navigation);
-        this.props.navigation.navigate('UserCreate');
+        
+        this.props.navigation.navigate('UserCreate', {user: {}, pagetype: NAVIGATION_TYPE_USER_CREATE});
     }
 
     goToEditUser = (user) => {
         
-        this.props.navigation.navigate('UserEdit', {user: user}); 
+        this.props.navigation.navigate('UserCreate', {user: user, pagetype: NAVIGATION_TYPE_USER_UPDATE});
     }
 
     navigateToScreen = (route) => () => {

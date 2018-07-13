@@ -7,6 +7,7 @@ import {
     Keyboard,
     TouchableOpacity,
     StyleSheet,
+    TouchableHighlight
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -14,13 +15,22 @@ import {connect} from "react-redux";
 import Loader from '../../loader/Loader';
 import {fetchSites} from '../../../store/actions/sites.action';
 import Autocomplete from 'react-native-autocomplete-input';
+import { NAVIGATION_TYPE_USER_CREATE } from '../../../commons/constant';
 
 class UserCreateContainer extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            query: ''
+            query: '',
+            nom: '',
+            prenom: '',
+            societe: '',
+            telephone: '',
+            site: '',
+            email: '',
+            mdpimap: '',
+            mdp: ''
         };
     }
 
@@ -28,9 +38,21 @@ class UserCreateContainer extends React.Component {
         this.props.dispatch(fetchSites());
     }
 
+    goBackToUser = () => {
+        console.log('PROPS NAVIGATION UserCreateContainer=>', this.props.navigation);
+        this.props.navigation.navigate('User');  
+    }
+  
+    onFocus() {
+        console.log('FOCUS GET ON AUTOCOMPLETE');
+        setTimeout(() => this.scroller.scrollTo({x: 0, y: 260}), 1000);
+         
+    }
+
     onPress = () => {
 
     }
+
     findSite(query) {
         if (query === '') {
             return [];
@@ -41,6 +63,8 @@ class UserCreateContainer extends React.Component {
     }
 
     render() {
+
+        //for user create
         const {error, loading} = this.props;
         const {query} = this.state;
         const filteredSites = this.findSite(query);
@@ -52,14 +76,66 @@ class UserCreateContainer extends React.Component {
                 </View>
             );
         }
+
+        //for user update
+        const { user, pagetype } = this.props.navigation.state.params;
+
         return (
-            <View>
+            <View style={styles.allcontent}>
                 {
                     loading ? <Loader loading={loading}/> :
                         <View/>
                 }
-                <ScrollView>
+
+                <View style={{height: 60}}>
+
+                    {pagetype === NAVIGATION_TYPE_USER_CREATE ? 
+                      <Text style={styles.bigtitle}>Ajouter un utilisateur</Text> :
+                      <Text style={styles.bigtitle}>Modifier un utilisateur</Text>
+                    }
+          
+                    <TouchableHighlight
+                      style={styles.containericontop}
+                      underlayColor='transparent'
+                      onPress={() => this.goBackToUser()}>
+                        <Icon name="chevron-circle-left" style={styles.icontop}/>
+                    </TouchableHighlight>
+
+                </View>
+
+                <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => {this.scroller = scroller}}>    
+                    
+                    <TextInput style={styles.edittext}
+                            placeholder="Nom"
+                            underlineColorAndroid='transparent'
+                            returnKeyLabel = {"next"}
+                            value={user.nom || ''}
+                            onChangeText={(textnom) => this.setState({nom:textnom})}
+                        />
+                    <TextInput style={styles.edittext}
+                            placeholder="Prénom"
+                            underlineColorAndroid='transparent'
+                            returnKeyLabel = {"next"}
+                            value={user.prenom || ''}
+                            onChangeText={(textprenom) => this.setState({prenom:textprenom})}
+                        />
+                    <TextInput style={styles.edittext}
+                            placeholder="Société"
+                            underlineColorAndroid='transparent'
+                            returnKeyLabel = {"next"}
+                            value={user.societe || ''}
+                            onChangeText={(textsociete) => this.setState({societe:textsociete})}
+                        />
+                    <TextInput style={styles.edittext}
+                            placeholder="Numéro de téléphone VISIORANK"
+                            underlineColorAndroid='transparent'
+                            returnKeyLabel = {"next"}
+                            value={user.telephone || ''}
+                            onChangeText={(textphone) => this.setState({telephone:textphone})}
+                        />
+
                     <Autocomplete
+                        onFocus={ () => this.onFocus() }
                         autoCapitalize="none"
                         autoCorrect={false}
                         containerStyle={styles.autocompleteContainer}
@@ -83,30 +159,7 @@ class UserCreateContainer extends React.Component {
                             />)
                         }
                     />
-                    <TextInput style={styles.edittext}
-                               placeholder="Nom"
-                               underlineColorAndroid='transparent'
-                               returnKeyLabel = {"next"}
-                               onChangeText={(name) => {}}
-                    />
-                    <TextInput style={styles.edittext}
-                               placeholder="Prénom"
-                               underlineColorAndroid='transparent'
-                               returnKeyLabel = {"next"}
-                               onChangeText={(firstname) => {}}
-                    />
-                    <TextInput style={styles.edittext}
-                               placeholder="Société"
-                               underlineColorAndroid='transparent'
-                               returnKeyLabel = {"next"}
-                               onChangeText={(enterprise) => {}}
-                    />
-                    <TextInput style={styles.edittext}
-                               placeholder="Numéro de téléphone VISIORANK"
-                               underlineColorAndroid='transparent'
-                               returnKeyLabel = {"next"}
-                               onChangeText={(phone) => {}}
-                    />
+
                     <TextInput style={styles.edittext}
                                placeholder="Email"
                                underlineColorAndroid='transparent'
@@ -132,6 +185,7 @@ class UserCreateContainer extends React.Component {
                         <Text style={styles.buttonText}>Ajouter</Text>
                     </TouchableOpacity>
                 </ScrollView>
+
             </View>
         );
     }
@@ -150,9 +204,13 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(UserCreateContainer);
 
 const styles = StyleSheet.create({
+
+    allcontent: {
+        flex: 1,
+        flexDirection: 'column'
+    },
     container: {
         backgroundColor: '#F5FCFF',
-        flex: 1,
         paddingTop: 25
     },
     autocompleteContainer: {
@@ -223,11 +281,11 @@ const styles = StyleSheet.create({
     containericontop: {
         position: 'absolute',
         top: 10,
-        left: 20,
+        left: 25,
         alignItems: "center",
         justifyContent: "center",
-        width: 45,
-        height: 45
+        width: 50,
+        height: 50,  
     },
     buttonSubmit: {
         marginLeft: 30,
@@ -252,6 +310,8 @@ const styles = StyleSheet.create({
         color: '#939393',
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 20,
+        marginTop: 20
     }
+    
 });
