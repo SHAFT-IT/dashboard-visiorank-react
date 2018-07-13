@@ -34,6 +34,11 @@ class UserListContainer extends Component{
         this.props.navigation.navigate('UserCreate');
     }
 
+    goToEditUser = (user) => {
+        
+        this.props.navigation.navigate('UserEdit', {user: user}); 
+    }
+
     navigateToScreen = (route) => () => {
         const navigateAction = NavigationActions.navigate({
             routeName: route
@@ -51,6 +56,7 @@ class UserListContainer extends Component{
     }
 
     componentDidMount() {
+        console.log('PROPS NAVIGATION UserListContainer=>', this.props.navigation);
         this.props.dispatch(fetchUsers());
     }
 
@@ -103,7 +109,7 @@ class UserListContainer extends Component{
                             dataSource={this.state.dataSource} 
                             renderRow={
                                 (item) => (
-                                    <UserItem item={item} showPopupConfirm={this.showPopupConfirm}/>
+                                    <UserItem item={item} showPopupConfirm={this.showPopupConfirm} goToEditUser={this.goToEditUser} />
                                 )
                             } 
                         />
@@ -138,7 +144,7 @@ const mapStateToProps = state => ({
 });
   
 
-const UserItem = ({item, showPopupConfirm}) => {
+const UserItem = ({item, showPopupConfirm, goToEditUser}) => {
 
     let lettre = "A";
     let backgroundColor = bgColor("A");
@@ -152,7 +158,7 @@ const UserItem = ({item, showPopupConfirm}) => {
             text: <Icon name="edit" style={styles.iconright}/>,
             backgroundColor: '#f5f5f5',
             underlayColor: '#ffffff',
-            onPress: () => { }
+            onPress: () => goToEditUser(item)
         },
         {
             text: <Icon name="trash" style={styles.iconright}/>,

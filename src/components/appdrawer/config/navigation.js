@@ -14,6 +14,7 @@ import VisitesContainer from "../../campagne/visites/visites.container";
 import GeolocContainer from "../../campagne/geoloc/geoloc.container";
 import RepartitionContainer from "../../campagne/repartition/repartition.container";
 import MessageDetails from '../../messages/detail/message.item.component'
+import UserEditContainer from "../../usermanager/useredit/useredit.container";
 
 const TabsCampagne = createMaterialTopTabNavigator({
   Visite: VisitesContainer,
@@ -58,6 +59,9 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Campagne:{
       screen: TabsCampagne
+    },
+    UserEdit: {
+      screen: UserEditContainer
     }
   },
   {
