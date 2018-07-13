@@ -15,7 +15,8 @@ import {connect} from "react-redux";
 import Loader from '../../loader/Loader';
 import {fetchSites} from '../../../store/actions/sites.action';
 import Autocomplete from 'react-native-autocomplete-input';
-import { NAVIGATION_TYPE_USER_CREATE } from '../../../commons/constant';
+import { NAVIGATION_TYPE_USER_CREATE, NAVIGATION_TYPE_USER_UPDATE } from '../../../commons/constant';
+import { createUpdateUser } from '../../../store/actions/usercreate.action';
 
 class UserCreateContainer extends React.Component {
 
@@ -23,11 +24,12 @@ class UserCreateContainer extends React.Component {
         super(props);
         this.state = {
             query: '',
+            userid: 0,
             nom: '',
             prenom: '',
             societe: '',
             telephone: '',
-            site: '',
+            analytics: '',
             email: '',
             mdpimap: '',
             mdp: ''
@@ -36,6 +38,17 @@ class UserCreateContainer extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(fetchSites());
+
+        //test if from update or from create
+        const { user, pagetype } = this.props.navigation.state.params;
+        if(pagetype === NAVIGATION_TYPE_USER_CREATE){
+            //PAGE IS CREATE USER
+            this.setState({userid: 0, nom: '', prenom: '', societe: '', telephone: '', analytics: '', email: '', mdpimap: '', mdp: ''});
+        }else if(pagetype === NAVIGATION_TYPE_USER_UPDATE){
+            //PAGE IS UPDATE USER
+            this.setState({userid: user.id, nom: user.nom, prenom: user.prenom, societe: user.societe, telephone: user.telephone, analytics: user.analytics, email: user.email, mdpimap: user.imap, mdp: ''});
+        }
+
     }
 
     goBackToUser = () => {
@@ -49,7 +62,10 @@ class UserCreateContainer extends React.Component {
          
     }
 
-    onPress = () => {
+    onCreate = () => {
+
+      console.log('ONCREATE USER =>', this.state.userid , ' | ',this.state.nom, ' | ', this.state.prenom , ' | ', this.state.societe, ' | ', this.state.telephone , ' | ', this.state.query , 'with id ', this.state.analytics , ' | ', this.state.email , ' | ', this.state.mdpimap, ' | ', this.state.mdp);
+      //this.props.dispatch(createUpdateUser(this.state.userid, this.state.nom, this.state.prenom, this.state.societe, this.state.telephone, this.state.analytics, this.state.email, this.state.mdpimap, this.state.mdp));
 
     }
 
@@ -78,7 +94,7 @@ class UserCreateContainer extends React.Component {
         }
 
         //for user update
-        const { user, pagetype } = this.props.navigation.state.params;
+        const { pagetype } = this.props.navigation.state.params;
 
         return (
             <View style={styles.allcontent}>
@@ -109,31 +125,31 @@ class UserCreateContainer extends React.Component {
                             placeholder="Nom"
                             underlineColorAndroid='transparent'
                             returnKeyLabel = {"next"}
-                            value={user.nom || ''}
+                            value={this.state.nom}
                             onChangeText={(textnom) => this.setState({nom:textnom})}
-                        />
+                    />
                     <TextInput style={styles.edittext}
                             placeholder="Prénom"
                             underlineColorAndroid='transparent'
                             returnKeyLabel = {"next"}
-                            value={user.prenom || ''}
+                            value={this.state.prenom}
                             onChangeText={(textprenom) => this.setState({prenom:textprenom})}
-                        />
+                    />
                     <TextInput style={styles.edittext}
                             placeholder="Société"
                             underlineColorAndroid='transparent'
                             returnKeyLabel = {"next"}
-                            value={user.societe || ''}
+                            value={this.state.societe}
                             onChangeText={(textsociete) => this.setState({societe:textsociete})}
-                        />
+                    />
                     <TextInput style={styles.edittext}
                             placeholder="Numéro de téléphone VISIORANK"
                             underlineColorAndroid='transparent'
                             returnKeyLabel = {"next"}
-                            value={user.telephone || ''}
+                            value={this.state.telephone}
                             onChangeText={(textphone) => this.setState({telephone:textphone})}
-                        />
-
+                    />
+     
                     <Autocomplete
                         onFocus={ () => this.onFocus() }
                         autoCapitalize="none"
@@ -143,9 +159,9 @@ class UserCreateContainer extends React.Component {
                         defaultValue={query}
                         onChangeText={text => this.setState({query: text})}
                         placeholder="Site Google Analytics"
-                        renderItem={({websiteUrl}) => (
+                        renderItem={({websiteUrl, id}) => (
                             <TouchableOpacity onPress={() => {
-                                this.setState({query: websiteUrl})
+                                this.setState({query: websiteUrl, analytics:id })
                                 Keyboard.dismiss()
                             }}>
                                 <Text style={styles.itemText}>
@@ -159,30 +175,36 @@ class UserCreateContainer extends React.Component {
                             />)
                         }
                     />
-
                     <TextInput style={styles.edittext}
                                placeholder="Email"
                                underlineColorAndroid='transparent'
                                returnKeyLabel = {"next"}
-                               onChangeText={(email) => {}}
+                               value={this.state.email}
+                               onChangeText={(textemail) => this.setState({email:textemail})}
                     />
                     <TextInput style={styles.edittext}
                                placeholder="Mot de passe IMAP"
                                underlineColorAndroid='transparent'
                                returnKeyLabel = {"next"}
-                               onChangeText={(imap) => {}}
+                               value={this.state.mdpimap}
+                               onChangeText={(textimap) => this.setState({mdpimap:textimap})}
                     />
                     <TextInput style={styles.edittext}
                                placeholder="Mot de passe"
                                underlineColorAndroid='transparent'
                                returnKeyLabel = {"next"}
                                secureTextEntry
-                               onChangeText={(password) => {}}
-                               />
+                               value={this.state.mdp}
+                               onChangeText={(textpassword) => this.setState({mdp:textpassword})}
+                    />
                     <TouchableOpacity
                         style={styles.buttonSubmit}
-                        onPress={this.onPress}>
-                        <Text style={styles.buttonText}>Ajouter</Text>
+                        onPress={this.onCreate}>
+                        {pagetype === NAVIGATION_TYPE_USER_CREATE ? 
+                          <Text style={styles.buttonText}>Ajouter</Text> :
+                          <Text style={styles.buttonText}>Modifier</Text>
+                        }
+                            
                     </TouchableOpacity>
                 </ScrollView>
 
@@ -224,6 +246,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         position:'relative',
         borderColor: '#939393',
+        zIndex: 1 
     },
     edittextautocomplete: {
         fontSize: 14,
