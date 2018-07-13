@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ListView } from 'react-native'
-import { fetchDemandes } from '../../store/demandes/demandes.actions'
+import { fetchDemandes } from '../../store/actions/demandes.actions'
 import Loader from '../loader/Loader'
 import DemandeItem from './demande.item.component'
 
@@ -30,7 +30,8 @@ class Demandes extends React.Component {
    * Fetch items when component is mounted
    */
   componentDidMount() {
-    this.props.fetchDemandes()
+    const { token } = this.props
+    this.props.dispatch(fetchDemandes(token));
   }
 
   /**
@@ -39,8 +40,6 @@ class Demandes extends React.Component {
    */
   render() {
     const { loading } = this.props
-
-    alert(this.state.items.length)
 
     if (loading) {
       return <Loader loading={true}/>
@@ -55,19 +54,12 @@ class Demandes extends React.Component {
 
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchDemandes: function () {
-      dispatch(fetchDemandes())
-    }
-  }
-}
-
 const mapStateToProps = (state) => {
   return {
     items: state.demandes.items || [],
-    loading: state.demandes.loading
+    loading: state.demandes.loading,
+    token: state.login.item.mobile_token 
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Demandes)
+export default connect(mapStateToProps)(Demandes)

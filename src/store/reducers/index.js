@@ -4,7 +4,7 @@ import login from './login.reducer';
 import dashboard from './dashboard.reducer';
 import logout from './logout.reducer';
 import messages from './message.reducer';
-import demandes from '../demandes/demandes.reducers'
+import demandes from './demandes.reducers'
 import appels from './appel.reducer'
 import campagnes from './campagne.reducer'
 import usercreateupdate from './usercreate.reducer'

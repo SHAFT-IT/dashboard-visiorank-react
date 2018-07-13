@@ -1,4 +1,4 @@
-import { FETCH_DEMANDES, FETCH_DEMANDES_FAILURE, FETCH_DEMANDES_SUCCESS } from "./demandes.types";
+import { FETCH_DEMANDES, FETCH_DEMANDES_FAILURE, FETCH_DEMANDES_SUCCESS } from "../types/demandes.types";
 
 const initialState = {
   items: [],
