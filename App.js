@@ -113,7 +113,7 @@ export default class App extends Component {
   }
 
   
-  () {
+  openCB() {
     console.log("Database OPENED");
     this.queryWithDelay();
   }
