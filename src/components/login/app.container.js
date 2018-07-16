@@ -15,17 +15,17 @@ class LoginContainer extends Component {
     }
 
     render() {  
-        const { login, logoutSuccess, loadingLogout, loading, user } = this.props;
-
-        if (loading || loadingLogout) {
+        const { login, logoutSuccess, loadingLogout, loading, response } = this.props;
+        
+        if (loadingLogout) {
             return <Loader loading={true} />
         }
 
-        if (user && user.mobile_token) {
+        if (response.user && response.user.mobile_token) {
             return <Drawer/>
         }
 
-        return <Login login={login} loading={loading} user={user}/>
+        return <Login login={login} loading={loading} response={response}/>
     }
 
     navigateToScreen = (route) => () => {
@@ -43,7 +43,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
     loading: state.login.loading,
-    user: state.login.item,
+    response: state.login.item,
     loadingLogout: state.logout.loading,
     logoutSuccess: state.logout.logoutSuccess
 })

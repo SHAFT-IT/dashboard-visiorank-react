@@ -22,7 +22,7 @@ class Splash extends React.Component{
     componentDidMount() {
       getData('user').then((value) => {
         if (value) {
-          this.props.dispatch(fetchLoginSuccess(value));
+          //this.props.dispatch(fetchLoginSuccess(value));
           this.setState({user: value}); 
         }
         console.log(`Preference in splash: `, value);  

@@ -62,7 +62,7 @@ class DrawerContent extends Component {
             <Text style={styles.textItemInside}>Liste des messages</Text>
           </TouchableOpacity>
 
-          {this.state.user.type === '1' && (
+          {this.state.user && this.state.user.type === '1' && (
               
             <TouchableOpacity style={styles.containerItem} onPress={this.navigateToScreen('User')}>
               <Icon name="users" style={styles.iconItemLeft}/>
@@ -78,7 +78,7 @@ class DrawerContent extends Component {
 
           <View style={styles.containerItemDevider}/>
 
-          <TouchableOpacity style={styles.containerItem} onPress={() => this.props.logout(token)}>
+          <TouchableOpacity style={styles.containerItem} onPress={() => this.props.logout()}>
             <Icon name="power-off" style={styles.iconItemLeft}/>
             <Text style={styles.textItemInside}>Deconnexion</Text>
           </TouchableOpacity>
@@ -100,7 +100,7 @@ DrawerContent.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  logout: (token) => dispatch(logout(token))
+  logout: () => dispatch(logout())
 })
 
 const mapStateToProps = state => ({

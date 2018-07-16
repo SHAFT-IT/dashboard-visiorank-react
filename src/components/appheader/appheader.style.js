@@ -10,7 +10,7 @@ export default  {
     },
 
     headercontainerone: {
-        height: 40,
+        height: 50,
         justifyContent: 'center',
     },
 

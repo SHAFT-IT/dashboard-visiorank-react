@@ -33,9 +33,10 @@ export function authenticate(email, password) {
     })
       .then((res) => res.json())
       .then(json => {
-        console.log(`1=======> ${JSON.stringify(json.user)}`);
-        setData('user', json.user);
-        dispatch(fetchLoginSuccess(json.user));
+        console.log(`1=======> ${JSON.stringify(json)}`);
+        if(json.code == 200)
+            setData('user', json.user);
+        dispatch(fetchLoginSuccess(json));
       })
       .catch((e) => {
         // console.warn(e);

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Image,
+  Alert,
   Dimensions,
   TextInput,
   ScrollView,
@@ -13,6 +13,8 @@ import { LockIcon, LogoIcon, PersonIcon } from '../../commons/images';
 import { VisioButton } from '../button/visio.button.component';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../assets/images/logo_login.png';
+import Loader from '../loader/Loader';
+import { AlertError } from '../alert/AlertError';
 
 const { width, height } = Dimensions.get("window");
 export default class Login extends React.Component {
@@ -20,19 +22,29 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: "contact@rauscher-67.fr",
-        password: "yu9XT24Jv"
+        email: "",
+        password: "",
+        formvalidation: false
     };
   }
 
   onPress = () => {
-    const { login, loading, user } = this.props;
-    //alert(`${this.state.email} ${this.state.password}`);
-
+    const { login } = this.props;
     console.log(this.state.password);
-    
-    login(this.state.email, this.state.password);//"admin@visiorank.fr","aUxSxWny";
+    if(this.state.email.length > 0 && this.state.password.length > 0){
 
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(this.state.email) === false)
+            AlertError("Email invalide !");
+        else
+            login(this.state.email, this.state.password);
+
+    }else{
+
+        AlertError("Veuillez remplir les champs !");
+ 
+    }
+    
   }
 
   onChangeText = (name, value) => {
@@ -40,11 +52,30 @@ export default class Login extends React.Component {
     this.setState({[name]: value})
   }
 
-  render ()  {
+  componentWillReceiveProps ({ response }) {
+        
+    if (response && response !== this.props.response) {  
+        
+        if(response.code == 1001){
+          AlertError(response.message)
+        }
+    }
+
+  }
+
+  render ()  {   
+
+    const { loading, response } = this.props;
+
     return (
       <View style={styles.container}>
           
-            
+          { 
+            loading && (
+              <Loader loading={true} />
+            )
+          }
+    
           <ScrollView style={styles.wrapper}>
              
               <View style={styles.iconTop}>
@@ -63,17 +94,21 @@ export default class Login extends React.Component {
                   placeholderTextColor="#9d9d9d"
                   underlineColorAndroid="transparent"
                   style={styles.input} 
-                  value="contact@rauscher-67.fr"
-                  onChangeText={(email) => this.onChangeText('email', email)}/>
+                  returnKeyLabel = {"next"}
+                  onSubmitEditing={() => { this.passwordTextInput.focus(); }}
+                  blurOnSubmit={false}
+                  onChangeText={(email) => this.onChangeText('email', email)}
+                  />
           
               <TextInput 
+                  ref={(input) => { this.passwordTextInput = input; }}
                   underlineColorAndroid="transparent"
                   placeholderTextColor="#9d9d9d"
                   placeholder="Mot de passe" 
                   style={styles.input} 
                   secureTextEntry 
-                  value="yu9XT24Jv"
                   onChangeText={(password) =>  this.onChangeText('password', password)}
+                  
               />
               
               <TouchableHighlight
@@ -92,6 +127,10 @@ export default class Login extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    allcontent: {
+      flex: 1,
+      
+    },
     container: {
       flex: 1,
       backgroundColor:'#f1f1f1'
