@@ -17,6 +17,8 @@ import {fetchSites} from '../../../store/actions/sites.action';
 import Autocomplete from 'react-native-autocomplete-input';
 import { NAVIGATION_TYPE_USER_CREATE, NAVIGATION_TYPE_USER_UPDATE } from '../../../commons/constant';
 import { createUpdateUser } from '../../../store/actions/usercreate.action';
+import LoaderCreate from '../../loader/LoaderCreate';
+import { AlertError } from '../../alert/AlertError';
 
 class UserCreateContainer extends React.Component {
 
@@ -32,8 +34,33 @@ class UserCreateContainer extends React.Component {
             analytics: '',
             email: '',
             mdpimap: '',
-            mdp: ''
+            mdp: '',
+            pagetype: null
         };
+    }
+
+    componentWillReceiveProps ({ response, sites }) {
+        
+        if (response && response !== this.props.response) {  
+            console.log("CREATE 2"); 
+            if(response.code == 200){
+                console.log("CREATE 3");
+                this.props.dispatch(fetchSites());
+            }
+        }
+
+        if(this.state.pagetype === NAVIGATION_TYPE_USER_UPDATE){
+            console.log("componentWillReceiveProps NAVIGATION_TYPE_USER_UPDATE"); 
+            if (sites && sites !== this.props.sites && sites.length > 0) {
+                console.log("AFTER GET SITES");
+                sites.map(site => {
+
+                    if(this.state.analytics === site.id)
+                        this.setState({query: site.websiteUrl});
+
+                });
+            }
+        }
     }
 
     componentDidMount() {
@@ -41,12 +68,13 @@ class UserCreateContainer extends React.Component {
 
         //test if from update or from create
         const { user, pagetype } = this.props.navigation.state.params;
+        
         if(pagetype === NAVIGATION_TYPE_USER_CREATE){
             //PAGE IS CREATE USER
-            this.setState({userid: 0, nom: '', prenom: '', societe: '', telephone: '', analytics: '', email: '', mdpimap: '', mdp: ''});
+            this.setState({pagetype: pagetype, userid: 0, nom: '', prenom: '', societe: '', telephone: '', analytics: '', email: '', mdpimap: '', mdp: ''});
         }else if(pagetype === NAVIGATION_TYPE_USER_UPDATE){
             //PAGE IS UPDATE USER
-            this.setState({userid: user.id, nom: user.nom, prenom: user.prenom, societe: user.societe, telephone: user.telephone, analytics: user.analytics, email: user.email, mdpimap: user.imap, mdp: ''});
+            this.setState({pagetype: pagetype, userid: user.id, nom: user.nom, prenom: user.prenom, societe: user.societe, telephone: user.telephone, analytics: user.analytics, email: user.email, mdpimap: user.imap, mdp: ''});
         }
 
     }
@@ -65,7 +93,7 @@ class UserCreateContainer extends React.Component {
     onCreate = () => {
 
       console.log('ONCREATE USER =>', this.state.userid , ' | ',this.state.nom, ' | ', this.state.prenom , ' | ', this.state.societe, ' | ', this.state.telephone , ' | ', this.state.query , 'with id ', this.state.analytics , ' | ', this.state.email , ' | ', this.state.mdpimap, ' | ', this.state.mdp);
-      //this.props.dispatch(createUpdateUser(this.state.userid, this.state.nom, this.state.prenom, this.state.societe, this.state.telephone, this.state.analytics, this.state.email, this.state.mdpimap, this.state.mdp));
+      this.props.dispatch(createUpdateUser(this.state.userid, this.state.nom, this.state.prenom, this.state.societe, this.state.telephone, this.state.analytics, this.state.email, this.state.mdpimap, this.state.mdp));
 
     }
 
@@ -81,7 +109,7 @@ class UserCreateContainer extends React.Component {
     render() {
 
         //for user create
-        const {error, loading} = this.props;
+        const {error, loading, loadingcreateupdate, errorcreateupdate} = this.props;
         const {query} = this.state;
         const filteredSites = this.findSite(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
@@ -94,20 +122,36 @@ class UserCreateContainer extends React.Component {
         }
 
         //for user update
-        const { pagetype } = this.props.navigation.state.params;
-
+        
         return (
             <View style={styles.allcontent}>
+ 
                 {
-                    loading ? <Loader loading={loading}/> :
-                        <View/>
+                    errorcreateupdate && (
+                        <AlertError textErrorValue='Erreur lors de la creation !' />
+                    )
+                }
+ 
+                {
+                    loadingcreateupdate && (
+                        
+                        this.state.pagetype === NAVIGATION_TYPE_USER_CREATE ?
+                            <LoaderCreate loading={loadingcreateupdate} textvalue='Creation utilisateur...'/> :
+                            <LoaderCreate loading={loadingcreateupdate} textvalue='Edition utilisateur...'/>
+                        
+                    )
+                }
+
+                {
+                    loading && (<Loader loading={loading}/>)
+                        
                 }
 
                 <View style={{height: 60}}>
 
-                    {pagetype === NAVIGATION_TYPE_USER_CREATE ? 
-                      <Text style={styles.bigtitle}>Ajouter un utilisateur</Text> :
-                      <Text style={styles.bigtitle}>Modifier un utilisateur</Text>
+                    {this.state.pagetype === NAVIGATION_TYPE_USER_CREATE ? 
+                      <Text style={styles.bigtitle}>Ajout utilisateur</Text> :
+                      <Text style={styles.bigtitle}>Modification utilisateur</Text>
                     }
           
                     <TouchableHighlight
@@ -149,7 +193,7 @@ class UserCreateContainer extends React.Component {
                             value={this.state.telephone}
                             onChangeText={(textphone) => this.setState({telephone:textphone})}
                     />
-     
+ 
                     <Autocomplete
                         onFocus={ () => this.onFocus() }
                         autoCapitalize="none"
@@ -200,7 +244,7 @@ class UserCreateContainer extends React.Component {
                     <TouchableOpacity
                         style={styles.buttonSubmit}
                         onPress={this.onCreate}>
-                        {pagetype === NAVIGATION_TYPE_USER_CREATE ? 
+                        {this.state.pagetype === NAVIGATION_TYPE_USER_CREATE ? 
                           <Text style={styles.buttonText}>Ajouter</Text> :
                           <Text style={styles.buttonText}>Modifier</Text>
                         }
@@ -220,7 +264,10 @@ UserCreateContainer.propTypes = {
 const mapStateToProps = state => ({
     sites: state.sites.items,
     loading: state.sites.loading,
-    error: state.sites.error
+    error: state.sites.error,
+    errorcreateupdate:  state.usercreateupdate.error,
+    loadingcreateupdate: state.usercreateupdate.loadingcreateupdate,
+    response: state.usercreateupdate.response
 });
 
 export default connect(mapStateToProps)(UserCreateContainer);
@@ -246,7 +293,6 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         position:'relative',
         borderColor: '#939393',
-        zIndex: 1 
     },
     edittextautocomplete: {
         fontSize: 14,

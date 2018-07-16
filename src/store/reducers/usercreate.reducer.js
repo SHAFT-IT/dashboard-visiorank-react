@@ -2,7 +2,7 @@ import { CREATE_USER, CREATE_USER_SUCCESS, CREATE_USER_FAILURE } from "../types/
 
 const initialState = {
   response: {},
-  loading: false,
+  loadingcreateupdate: false,
   error: null
 };
 
@@ -13,7 +13,7 @@ export default function userCreateReducer(state = initialState, action) {
       // Also, reset any errors. We're starting fresh.
       return {
         ...state,
-        loading: true,
+        loadingcreateupdate: true,
         error: null
       };
 
@@ -22,7 +22,7 @@ export default function userCreateReducer(state = initialState, action) {
       // Also, replace the items with the ones from the server
       return {
         ...state,
-        loading: false,
+        loadingcreateupdate: false,
         response: action.payload.usercreate
       };
 
@@ -34,7 +34,7 @@ export default function userCreateReducer(state = initialState, action) {
       // around! Do whatever seems right.
       return {
         ...state,
-        loading: false,
+        loadingcreateupdate: false,
         error: action.payload.error,
         response: {}
       };
