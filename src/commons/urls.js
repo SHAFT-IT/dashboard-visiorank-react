@@ -15,3 +15,5 @@ export const URL_USERS = `${BASE_URL}/api/ws_get_users/`;
 export const URL_USER_CREATE_UPDATE = `${BASE_URL}/api/ws_save_user/`;
 export const URL_SITE_LIST = `${BASE_URL}/api/ws_get_sites/`;
 export const URL_USER_DELETE = `${BASE_URL}/api/ws_delete_user/`;
+export const URL_STATUS = `${BASE_URL}/api/ws_status_list`;
+export const URL_PRIORITE = `${BASE_URL}/api/ws_priorities_list`;

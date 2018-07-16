@@ -112,7 +112,8 @@ export default class App extends Component {
     console.log("SQL executed fine");
   }
 
-  openCB() {
+  
+  () {
     console.log("Database OPENED");
     this.queryWithDelay();
   }

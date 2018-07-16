@@ -10,6 +10,8 @@ import campagnes from './campagne.reducer'
 import usercreateupdate from './usercreate.reducer'
 import sites from './sites.reducer'
 import userdelete from './userdelete.reducer'
+import status from './status.reducer'
+import priorite from './priorite.reducer'
 
 export default combineReducers({
   users,
@@ -22,5 +24,7 @@ export default combineReducers({
   campagnes,
   usercreateupdate,
   sites,
-  userdelete
+  userdelete,
+  status,
+  priorite
 });

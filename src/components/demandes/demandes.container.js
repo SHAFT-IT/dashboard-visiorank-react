@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
   return {
     items: state.demandes.items || [],
     loading: state.demandes.loading,
-    token: state.login.item.mobile_token 
+    token: state.login.item.mobile_token,
   }
 }
 
