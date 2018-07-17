@@ -1,26 +1,35 @@
 import {Dimensions} from 'react-native'
 
-export default  {
-
+export default {
+    iconAdd: {
+        fontSize: 55,
+        color: 'grey',
+    },
+    touchableStyle: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        opacity:0.5,
+        alignItems: "center",
+        justifyContent: "center",
+        width: 60,
+        height: 60
+    },
     parent: {
         flexDirection: 'column',
         backgroundColor: '#222',
     },
-
     logo: {
         marginLeft: 30
     },
-
     headercontainerone: {
         height: 40,
         justifyContent: 'center',
     },
-
     headercontainertwo: {
         height: 20,
         flexDirection: 'row',
     },
-
     headertextwhite: {
         marginLeft: 35,
         color: 'white',
@@ -28,7 +37,6 @@ export default  {
         textAlign: "left",
         textAlignVertical: "center"
     },
-
     headertextorange: {
         marginLeft: 5,
         color: 'orange',
@@ -36,17 +44,14 @@ export default  {
         textAlignVertical: "center",
         fontSize: 14,
     },
-
-    touchableright: {    
-        position: 'absolute',  
+    touchableright: {
+        position: 'absolute',
         right: 10,
         justifyContent: 'center',
         alignItems: 'center',
         width: 40,
         height: 35
-
     },
-
     iconright: {
         fontSize: 19,
         color: '#ffffff'
@@ -55,66 +60,66 @@ export default  {
         flexDirection: 'row',
         paddingLeft: 10,
         paddingTop: 5
-      },
-      ratingImage: {
+    },
+    ratingImage: {
         height: 100,
         width: 100
-      },
-      ratingText: {
+    },
+    ratingText: {
         paddingLeft: 10,
         color: 'grey'
-      },
-      container: {
+    },
+    container: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#f5f5f5'
-      },
-      title: {
+    },
+    title: {
         textAlign: 'center',
         fontSize: 22,
         fontWeight: '300',
         marginBottom: 20
-      },
-      header: {
+    },
+    header: {
         backgroundColor: '#DCDCDC',
-        padding: 10, 
-        flex:1, 
+        padding: 10,
+        flex: 1,
         flexDirection: 'column'
-      },
-      headerText: {
+    },
+    headerText: {
         textAlign: 'left',
         marginLeft: 5,
         fontSize: 14,
         fontWeight: '500'
-      },
-      content: {
+    },
+    content: {
         padding: 20,
         backgroundColor: '#fff'
-      },
-      active: {
+    },
+    active: {
         backgroundColor: 'rgba(255,255,255,1)'
-      },
-      inactive: {
+    },
+    inactive: {
         backgroundColor: 'rgba(245,252,255,1)'
-      },
-      selectors: {
+    },
+    selectors: {
         marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'center'
-      },
-      selector: {
+    },
+    selector: {
         backgroundColor: '#DCDCDC',
         padding: 10
-      },
-      activeSelector: {
+    },
+    activeSelector: {
         fontWeight: 'bold'
-      },
-      selectTitle: {
+    },
+    selectTitle: {
         fontSize: 14,
         fontWeight: '500',
         padding: 10
-      },
-      buttonSubmit: {
+    },
+    buttonSubmit: {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 1,
@@ -125,8 +130,8 @@ export default  {
         backgroundColor: 'green',
         alignItems: "center",
         justifyContent: "center",
-      },
-      bsubmit1: {
+    },
+    bsubmit1: {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 1,
@@ -134,56 +139,82 @@ export default  {
         borderRadius: 3,
         width: 100,
         padding: 5,
+        backgroundColor: '#5bc0de',
         alignItems: "center",
         justifyContent: "center",
-      },
-      buttonText: {
+    },
+    bsubmit2: {
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 1,
+        height: 25,
+        borderRadius: 3,
+        width: 100,
+        padding: 5,
+        backgroundColor: '#f0ad4e',
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    bsubmit3: {
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 1,
+        height: 25,
+        borderRadius: 3,
+        width: 100,
+        padding: 5,
+        backgroundColor: '#d9534f',
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    buttonText: {
+        color: 'white',
         fontSize: 11,
         textAlign: 'center',
-      },
-      containerItemDevider:{
-        margin : 0,
+    },
+    containerItemDevider: {
+        margin: 0,
         height: 2,
         backgroundColor: "#b9b9b9",
         color: "#b9b9b9"
-      },
-      buttonHeader:{
-          flex:1,
-          flexDirection: 'row',
-      },
-      contentList : {
+    },
+    buttonHeader: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    contentList: {
         textAlign: 'left',
         marginLeft: 5,
         fontSize: 11,
         fontWeight: '500'
-      },
-      iconItemLeft: {
+    },
+    iconItemLeft: {
         marginLeft: 25,
         fontSize: 15,
         color: '#ffffff',
         width: 19
-      },
-      buttonContent1:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:(Dimensions.get('window').width / 2)-2, 
-        height: 20,
-        backgroundColor: '#DCDCDC',
-        margin:2 
     },
-    buttonContent2:{
+    buttonContent1: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: (Dimensions.get('window').width / 2)-2, 
+        width: (Dimensions.get('window').width / 2) - 2,
         height: 20,
         backgroundColor: '#DCDCDC',
-        margin:2 
+        margin: 2
+    },
+    buttonContent2: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width / 2) - 2,
+        height: 20,
+        backgroundColor: '#DCDCDC',
+        margin: 2
     },
     buttonContentHeader: {
-        flex:1,
+        flex: 1,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        padding: 0, 
+        padding: 0,
         justifyContent: 'space-around',
         alignItems: 'center'
     },

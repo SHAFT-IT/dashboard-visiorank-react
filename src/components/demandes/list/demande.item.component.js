@@ -14,8 +14,8 @@ import { DEMANDE_STATUT_BROUILLON_KEY,
   DEMANDE_PRIORITE_HAUTE_KEY,
   DEMANDE_PRIORITE_NORMAL_KEY,
   DEMANDE_PRIORITE_BASSE_KEY
-} from '../../commons/constant';
-import { deleteDemande } from '../../store/actions/demandes.actions'
+} from '../../../commons/constant';
+import { deleteDemande } from '../../../store/actions/demandes.actions'
 
 class DemandeItem extends React.Component {
   state = {
