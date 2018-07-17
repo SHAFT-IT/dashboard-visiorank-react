@@ -48,11 +48,12 @@ class UserListContainer extends Component{
 
     onSwipeOpen = (isOpen) => {
 
-        if(isOpen)
-            console.log('ON SWIPE OPEN')
-        else
-            console.log('ON SWIPE CLOSE')
+        if (isOpen ){
+            
+        } else if(!isOpen){
 
+        }
+            
     }
 
     navigateToScreen = (route) => () => {
@@ -67,6 +68,7 @@ class UserListContainer extends Component{
         
         this.state = {
             selectedUser: {}, 
+            
         }
 
     }
@@ -125,7 +127,6 @@ class UserListContainer extends Component{
 
                         <ListView 
                             dataSource={this.state.dataSource} 
-                            onChangeVisibleRows={() => this.onSwipeOpen(false)}
                             renderRow={
                                 (item) => (
                                     <UserItem item={item} showPopupConfirm={this.showPopupConfirm} goToEditUser={this.goToEditUser} onSwipeOpen={this.onSwipeOpen} />
@@ -133,15 +134,15 @@ class UserListContainer extends Component{
                             } 
                         />
 
-                        
-                        <TouchableHighlight style={styles.containericonbottom}
+                        <TouchableHighlight 
+                            style={styles.containericonbottom}
                             underlayColor='transparent'
                             onPress={() => this.goToCreateUser()}>
-                            
+                        
                             <Icon name="plus-circle" style={styles.iconbottom}/>
-                            
+                        
                         </TouchableHighlight>
-                    
+                
                     </View>
                 }
 

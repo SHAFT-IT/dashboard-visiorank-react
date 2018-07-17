@@ -63,19 +63,20 @@ export default  {
     },
 
     iconbottom: {
-        fontSize: 55,
+        fontSize: 62,
         color: 'grey',
         
     },
 
     containericonbottom: {
         position: 'absolute',
-        bottom: 25,
-        right: 30,
+        bottom: 20,
+        right: 15,
         alignItems: "center",
         justifyContent: "center",
-        width: 60,
-        height: 60
+        width: 62,
+        height: 62,
+        opacity: 0.5,
     }
 
 
