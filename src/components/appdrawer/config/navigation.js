@@ -35,12 +35,30 @@ const TabsCampagne = createMaterialTopTabNavigator({
   swipeEnabled: false
 });
 
+const UserStackNavigator = createStackNavigator({
+
+  UserList: {
+    screen: UserListContainer
+  },
+
+  UserCreate: {
+    screen: UserCreateContainer
+  },
+
+},
+{
+  navigationOptions: ({ navigation }) => ({
+    header: null,
+  })
+
+});
+
 const DrawerNavigator = createDrawerNavigator({
     Home: {
       screen: DashboardContainer
     },
     User: {
-      screen: UserListContainer
+      screen: UserStackNavigator
     },
     Message: {
       screen: MessagesListContainer
@@ -53,9 +71,6 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Appel: {
       screen: AppelsListContainer
-    },
-    UserCreate: {
-      screen: UserCreateContainer
     },
     Campagne:{
       screen: TabsCampagne

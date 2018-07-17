@@ -16,6 +16,12 @@ import { NAVIGATION_TYPE_USER_UPDATE, NAVIGATION_TYPE_USER_CREATE } from '../../
  
 class UserListContainer extends Component{
 
+    updateData  = () => {
+        
+        this.props.dispatch(fetchUsers());
+
+    };
+
     showPopupConfirm = (user) => {
 
         Alert.alert(
@@ -32,12 +38,21 @@ class UserListContainer extends Component{
 
     goToCreateUser = () => {
         
-        this.props.navigation.navigate('UserCreate', {user: {}, pagetype: NAVIGATION_TYPE_USER_CREATE});
+        this.props.navigation.navigate('UserCreate', {user: {}, pagetype: NAVIGATION_TYPE_USER_CREATE, updateData:this.updateData});
     }
 
     goToEditUser = (user) => {
         
-        this.props.navigation.navigate('UserCreate', {user: user, pagetype: NAVIGATION_TYPE_USER_UPDATE});
+        this.props.navigation.navigate('UserCreate', {user: user, pagetype: NAVIGATION_TYPE_USER_UPDATE, updateData:this.updateData});
+    }
+
+    onSwipeOpen = (isOpen) => {
+
+        if(isOpen)
+            console.log('ON SWIPE OPEN')
+        else
+            console.log('ON SWIPE CLOSE')
+
     }
 
     navigateToScreen = (route) => () => {
@@ -61,13 +76,15 @@ class UserListContainer extends Component{
         this.props.dispatch(fetchUsers());
     }
 
-    componentWillReceiveProps ({ response }) {
+    componentWillReceiveProps ({ response }) {   
         console.log("DELETE 1 ==>", response);
         if (response && response !== this.props.response) {  
             console.log("DELETE 2"); 
             if(response.code == 200){
                 console.log("DELETE 3");
                 this.props.dispatch(fetchUsers());
+            }else{
+                AlertError('Erreur lors de la suppression') 
             }
         }
     }
@@ -98,9 +115,9 @@ class UserListContainer extends Component{
 
                     <View>
 
-                        {errordelete && (
+                        {/*errordelete && (
                             <AlertError textErrorValue='Erreur lors de la suppression !' />
-                        )}
+                        )*/}
 
                         {loadingdelete && (
                             <LoaderDelete loading={loadingdelete} textvalue='Supression...' />
@@ -108,9 +125,10 @@ class UserListContainer extends Component{
 
                         <ListView 
                             dataSource={this.state.dataSource} 
+                            onChangeVisibleRows={() => this.onSwipeOpen(false)}
                             renderRow={
                                 (item) => (
-                                    <UserItem item={item} showPopupConfirm={this.showPopupConfirm} goToEditUser={this.goToEditUser} />
+                                    <UserItem item={item} showPopupConfirm={this.showPopupConfirm} goToEditUser={this.goToEditUser} onSwipeOpen={this.onSwipeOpen} />
                                 )
                             } 
                         />
@@ -145,7 +163,7 @@ const mapStateToProps = state => ({
 });
   
 
-const UserItem = ({item, showPopupConfirm, goToEditUser}) => {
+const UserItem = ({item, showPopupConfirm, goToEditUser, onSwipeOpen}) => {
 
     let lettre = "A";
     let backgroundColor = bgColor("A");
@@ -170,7 +188,7 @@ const UserItem = ({item, showPopupConfirm, goToEditUser}) => {
     ];
 
     return (
-        <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent'>
+        <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent' onOpen={() => onSwipeOpen(true)} onClose={() => onSwipeOpen(false)}>
             <TouchableHighlight underlayColor='#ffffff'>
                 <View style={styles.itemcontainer}>
                     <View style={{width: 52}}>

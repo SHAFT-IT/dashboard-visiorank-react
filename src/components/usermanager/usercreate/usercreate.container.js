@@ -42,13 +42,14 @@ class UserCreateContainer extends React.Component {
     componentWillReceiveProps ({ response, sites }) {
         
         if (response && response !== this.props.response) {  
-            console.log("CREATE 2"); 
             if(response.code == 200){
-                console.log("CREATE 3");
-                this.props.dispatch(fetchSites());
+                this.props.navigation.goBack();
+                this.props.navigation.state.params.updateData();
+            }else{
+                AlertError('Erreur lors du traitement...') 
             }
         }
-
+  
         if(this.state.pagetype === NAVIGATION_TYPE_USER_UPDATE){
             console.log("componentWillReceiveProps NAVIGATION_TYPE_USER_UPDATE"); 
             if (sites && sites !== this.props.sites && sites.length > 0) {
@@ -81,7 +82,8 @@ class UserCreateContainer extends React.Component {
 
     goBackToUser = () => {
         console.log('PROPS NAVIGATION UserCreateContainer=>', this.props.navigation);
-        this.props.navigation.navigate('User');  
+        //this.props.navigation.navigate('User');  
+        this.props.navigation.goBack();
     }
   
     onFocus() {
@@ -93,7 +95,19 @@ class UserCreateContainer extends React.Component {
     onCreate = () => {
 
       console.log('ONCREATE USER =>', this.state.userid , ' | ',this.state.nom, ' | ', this.state.prenom , ' | ', this.state.societe, ' | ', this.state.telephone , ' | ', this.state.query , 'with id ', this.state.analytics , ' | ', this.state.email , ' | ', this.state.mdpimap, ' | ', this.state.mdp);
-      this.props.dispatch(createUpdateUser(this.state.userid, this.state.nom, this.state.prenom, this.state.societe, this.state.telephone, this.state.analytics, this.state.email, this.state.mdpimap, this.state.mdp));
+      if(this.state.nom.length > 0 && this.state.prenom.length > 0 && this.state.societe.length > 0 && this.state.telephone.length > 0 && this.state.query.length > 0 && this.state.email.length > 0 && this.state.mdpimap.length > 0){
+
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(this.state.email) === false)
+            AlertError("Email invalide !");    
+        else
+            this.props.dispatch(createUpdateUser(this.state.userid, this.state.nom, this.state.prenom, this.state.societe, this.state.telephone, this.state.analytics, this.state.email, this.state.mdpimap, this.state.mdp));
+ 
+      }else{
+
+        AlertError("Veuillez remplir les champs obligatoires!");
+
+      }
 
     }
 
@@ -126,10 +140,10 @@ class UserCreateContainer extends React.Component {
         return (
             <View style={styles.allcontent}>
  
-                {
+                {/*
                     errorcreateupdate && (
                         <AlertError textErrorValue='Erreur lors de la creation !' />
-                    )
+                    )*/
                 }
  
                 {
