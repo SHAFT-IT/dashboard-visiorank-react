@@ -81,9 +81,16 @@ const DrawerNavigator = createDrawerNavigator({
   },
   {
     initialRouteName: 'Home',
-    contentComponent: DrawerContent,
-    drawerWidth: 300,
+    drawerWidth: 260,
     drawerPosition: 'right',
+    contentOptions: {
+      activeBackgroundColor :'#080808',
+      inactiveBackgroundColor :'#00000000',
+      inactiveTintColor: '#ffffff', 
+      activeTintColor: '#1eacff',
+    },
+    contentComponent: props => <DrawerContent {...props}/>, 
+
   }
 );
 

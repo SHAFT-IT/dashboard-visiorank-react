@@ -36,7 +36,7 @@ export default {
       height: 20,
       flexDirection: 'row',
       textAlignVertical: "center",
-      margin: 30
+      margin: 0
     },
     headertextorange: {
       marginLeft: 5,
@@ -46,7 +46,7 @@ export default {
       fontSize: 14,
     },
     headertextwhite: {
-      marginLeft: 35,
+      marginLeft: 25,
       color: 'white',
       fontSize: 14,
       textAlign: "left",
