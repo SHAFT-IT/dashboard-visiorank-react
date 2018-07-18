@@ -40,8 +40,9 @@ class DashboardContainer extends Component{
                 break;
 
             case CLICK_DASHBOARD_DEMANDE:
-
+                this.props.navigation.navigate('Demandes');
                 break;
+
             default:
                 break;
         }
