@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ListView } from 'react-native'
+import { ListView, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStatus } from '../../store/actions/status.action';
 import Loader from '../loader/Loader';
@@ -12,7 +12,8 @@ class StatusList extends Component {
         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
           dataSource: dataSource.cloneWithRows(this.props.items),
-          activeIndex: 1
+          status: props.status,
+          activeIndex: parseInt(props.status.statut_id, 10)
         };
     }
 
@@ -66,17 +67,27 @@ class StatusList extends Component {
     }
 
     render() {
-        const { loading } = this.props
+        const { loading, status } = this.props
 
         if (loading) {
             return <Loader loading={true} />
         }
 
+        const current = this.props.items.find(i => i.statut_id === status.statut_id) || {}
+
         return (
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={item => <StatusItem item={item}/>}
-            />
+            
+            <View style={{paddingVertical: 5,  backgroundColor:'#fff'}}>
+                <View>
+                    <Text style={{fontWeight: 'bold', textAlign:'center'}}>Modifier le statut de la demande</Text>
+                    <Text style={{fontWeight: 'bold', textAlign:'center'}}>Statut actuel : {current.statut_libelle}</Text>
+                    <Text style={{fontWeight: 'bold', textAlign:'center'}}>Nouveau statut :</Text>
+                </View>
+                <ListView 
+                    dataSource={this.state.dataSource}
+                    renderRow={item => <StatusItem item={item} showModal={this.props.showModal}/>}
+                />
+            </View>
         )
     }
 }

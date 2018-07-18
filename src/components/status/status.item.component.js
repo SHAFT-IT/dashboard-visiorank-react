@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const getIconName = (statusId) => {
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
       height: 50,
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 10
+      padding: 10, 
+      backgroundColor: "white"
     },
     iconLeft: {
       marginLeft: 8,
@@ -33,13 +34,16 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ({ item }) => {
+
+const StatusItem = ({ item, showModal }) => {
   return (
-    <TouchableOpacity>
+    <TouchableHighlight underlayColor='transparent' onPress={() => showModal(false, {status: item})}>
       <View style={styles.container}>
         <Icon name={getIconName(parseInt(item.statut_id, 10))} style={styles.iconLeft}/>
         <Text style={styles.text}>{item.statut_libelle}</Text>
       </View>
-    </TouchableOpacity>
+    </TouchableHighlight>
   )
 }
+
+export default StatusItem

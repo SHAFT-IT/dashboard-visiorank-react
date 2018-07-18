@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {ListView, View, TouchableOpacity} from 'react-native'
+import {ListView, View, TouchableOpacity, Text} from 'react-native'
 import {fetchDemandes} from '../../../store/actions/demandes.actions'
 import Loader from '../../loader/Loader'
 import DemandeItem from './demande.item.component'
@@ -9,6 +9,8 @@ import styles from './demande.style';
 import {
     NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE,
 } from "../../../commons/constant";
+import Modal from "react-native-modal"
+import StatusList from '../../status/status.list.component'
 
 class Demandes extends React.Component {
 
@@ -18,7 +20,9 @@ class Demandes extends React.Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
             dataSource: ds.cloneWithRows(items),
-            items
+            items,
+            status: {}, priority:{},
+            isModalVisible: false
         }
     }
 
@@ -39,6 +43,9 @@ class Demandes extends React.Component {
         this.props.dispatch(fetchDemandes(token));
     }
 
+
+    showModal = (visibility, {status:{}, priority:{}}) => this.setState({ isModalVisible: visibility, status, priority });
+
     onPressNewDemand = () => {
         this.props.navigation.navigate('DemandCreate', {demand: {}, pageType: NAVIGATION_TYPE_DEMAND_CREATE});
     }
@@ -47,12 +54,22 @@ class Demandes extends React.Component {
         this.props.navigation.navigate('DemandCreate', {demand: {demand}, pageType: NAVIGATION_TYPE_DEMAND_UPDATE});
     }
 
+    onUpdateStatus = (status) => {
+        this.showModal (true, {status})
+    }
+
+    onUpdatePriority = (priority) => {
+        this.showModal (true, {priority})
+    }
+
     /**
      * Render component
      * @returns {*}
      */
     render() {
         const {loading} = this.props
+        const {status, priority} = this.state
+
         if (loading) {
             return <Loader loading={loading}/>
         }
@@ -60,7 +77,20 @@ class Demandes extends React.Component {
             <View style={{flex:1}}>
                 <ListView enableEmptySections={true}
                           dataSource={this.state.dataSource}
-                          renderRow={item => <DemandeItem item={item} onPressEditDemand={this.onPressEditDemand}/>}/>
+                          renderRow={item => <DemandeItem 
+                                item={item} 
+                                onPressEditDemand={this.onPressEditDemand}
+                                onUpdateStatus={this.onUpdateStatus}
+                                onUpdatePriority={this.onUpdatePriority}
+                            />
+                }/>
+                <Modal style={{flex:1}} isVisible={this.state.isModalVisible}>
+                    <TouchableOpacity onPress={() => this.showModal(false,{})} style={{flex:1}}>
+                        <View style={{ flex: 1 }}>
+                            <StatusList status={status||{}} showModal={this.showModal}/>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <TouchableOpacity style={styles.touchableStyle}
                                     underlayColor='transparent'
                                     onPress={this.onPressNewDemand}>
