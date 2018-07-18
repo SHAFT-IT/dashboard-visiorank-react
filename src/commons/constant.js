@@ -30,13 +30,12 @@ export const DEMANDE_STATUT_LIVRE_KEY = 4;
 export const DEMANDE_STATUT_VALIDE_KEY = 5; 
 export const DEMANDE_STATUT_CLOS_KEY = 6;
 
-// Type des demandes 
+// Type de priorité
 export const DEMANDE_PRIORITE_HAUTE_KEY = 1; 
 export const DEMANDE_PRIORITE_NORMAL_KEY = 2; 
 export const DEMANDE_PRIORITE_BASSE_KEY = 3;
 
-// Type des demandes
-export const DEMANDE_TYPE_NONE_KEY = 0;
+// Type de demande
 export const DEMANDE_TYPE_EVOLUTION_KEY = 1; 
 export const DEMANDE_TYPE_CORRECTION_KEY = 2; 
 export const DEMANDE_TYPE_DEMANDEINFO_KEY = 3;

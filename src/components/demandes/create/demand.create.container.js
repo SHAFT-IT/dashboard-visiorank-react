@@ -5,7 +5,12 @@ import {
     View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, Keyboard
 } from 'react-native'
 import {
+    DEMANDE_PRIORITE_BASSE_KEY,
     DEMANDE_PRIORITE_HAUTE_KEY,
+    DEMANDE_PRIORITE_NORMAL_KEY,
+    DEMANDE_TYPE_CORRECTION_KEY,
+    DEMANDE_TYPE_DEMANDEINFO_KEY,
+    DEMANDE_TYPE_EVOLUTION_KEY,
     DEMANDE_TYPE_NONE_KEY,
     NAVIGATION_TYPE_DEMAND_CREATE
 } from "../../../commons/constant";
@@ -29,17 +34,15 @@ class DemandCreateContainer extends Component {
         super(props)
         this.state = {
             user: {},
-            selectedType: {},
-            selectedPriority: {},
             query: '',
-
             userId: 0,
-            statusId: 1,
+            ticketId: 0,
             titre: '',
             description: '',
-            priorityId: 1,
+            selectedType: -1,
+            selectedPriority: -1,
             pageType: {},
-            demand:{}
+            demand: {}
         }
     }
 
@@ -49,12 +52,49 @@ class DemandCreateContainer extends Component {
                 this.setState({user: user});
             })
             .catch(error => console.log("error"))
-        const { demand, pageType } = this.props.navigation.state.params;
-        this.setState({demand: demand});
-        this.setState({pageType: pageType});
+        this.init()
         this.state.user && this.state.user.type === '1' && (
             this.props.dispatch(fetchUsers())
         )
+    }
+
+    initType = (type) => {
+        switch (parseInt(type)) {
+            case DEMANDE_TYPE_EVOLUTION_KEY:
+                return 0
+            case DEMANDE_TYPE_CORRECTION_KEY:
+                return 1
+            case DEMANDE_TYPE_DEMANDEINFO_KEY:
+                return 2
+            default:
+                return -1
+        }
+    }
+
+    initPriority = (priority) => {
+        switch (parseInt(priority)) {
+            case DEMANDE_PRIORITE_HAUTE_KEY:
+               return 0
+            case DEMANDE_PRIORITE_NORMAL_KEY:
+               return 1
+            case DEMANDE_PRIORITE_BASSE_KEY:
+               return 2
+            default:
+               return -1
+        }
+    }
+
+    init = () => {
+        const {demand, pageType} = this.props.navigation.state.params
+        this.setState({
+            pageType: pageType,
+            titre: demand.demand.titre,
+            description: demand.demand.description,
+            selectedType: this.initType(demand.demand.type_id),
+            selectedPriority: this.initPriority(demand.demand.priorite_id),
+            userId: demand.demand.user_id,
+            ticketId: demand.demand.ticket_id
+        });
     }
 
     findUser(query) {
@@ -79,12 +119,10 @@ class DemandCreateContainer extends Component {
     }
 
     updatePriority = (selectedPriority) => {
-        alert(selectedPriority)
         this.setState({selectedPriority: selectedPriority})
     }
 
     updateType = (selectedType) => {
-        alert(selectedType)
         this.setState({selectedType: selectedType})
     }
 
@@ -107,12 +145,11 @@ class DemandCreateContainer extends Component {
             {element: componentPriorityHigh},
             {element: componentPriorityNormal},
             {element: componentPriorityLow}]
-        const {selectedPriority} = this.state
         const buttonsType = [
             {element: componentTypeEvolution},
             {element: componentTypeCorrection},
             {element: componentTypeInfo}]
-        const {selectedType} = this.state
+        const {selectedType, selectedPriority} = this.state
         return (
             <View style={styles.allcontent}>
                 < View style={{height: 60}}>
@@ -133,11 +170,13 @@ class DemandCreateContainer extends Component {
                     <TextInput style={styles.edittext}
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
+                               value={this.state.titre}
                     />
                     <TextInput style={styles.textArea}
                                placeholder="Description"
                                underlineColorAndroid='transparent'
                                multiline={true}
+                               value={this.state.description}
                     />
                     {
                         this.state.user && this.state.user.type === '1' && (
@@ -168,7 +207,7 @@ class DemandCreateContainer extends Component {
                             />
                         )
                     }
-                    <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
+                    <Text style={styles.buttonGroupTitle}>Type de la demande:</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
                         selectedTextStyle={styles.selectedTextStyle}
@@ -178,7 +217,7 @@ class DemandCreateContainer extends Component {
                         buttons={buttonsType}
                         buttonStyle={styles.buttonGroupBackground}
                         containerStyle={{height: 45}}/>
-                    <Text style={styles.buttonGroupTitle}>Type de la demande:</Text>
+                    <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
                         selectedTextStyle={styles.selectedTextStyle}
