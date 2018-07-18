@@ -15,8 +15,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonGroup} from 'react-native-elements';
 import {fetchUsers} from "../../../store/actions/users.action";
 
-const pageType = NAVIGATION_TYPE_DEMAND_CREATE;
-
 const componentPriorityNormal = () => <Text style={styles.buttonGroup}>Normal</Text>
 const componentPriorityLow = () => <Text style={styles.buttonGroup}>Basse</Text>
 const componentPriorityHigh = () => <Text style={styles.buttonGroup}>Haute</Text>
@@ -34,7 +32,14 @@ class DemandCreateContainer extends Component {
             selectedType: {},
             selectedPriority: {},
             query: '',
+
             userId: 0,
+            statusId: 1,
+            titre: '',
+            description: '',
+            priorityId: 1,
+            pageType: {},
+            demand:{}
         }
     }
 
@@ -44,9 +49,12 @@ class DemandCreateContainer extends Component {
                 this.setState({user: user});
             })
             .catch(error => console.log("error"))
-        {
+        const { demand, pageType } = this.props.navigation.state.params;
+        this.setState({demand: demand});
+        this.setState({pageType: pageType});
+        this.state.user && this.state.user.type === '1' && (
             this.props.dispatch(fetchUsers())
-        }
+        )
     }
 
     findUser(query) {
@@ -81,7 +89,7 @@ class DemandCreateContainer extends Component {
     }
 
     render() {
-        const {query} = this.state;
+        const {query, pageType} = this.state;
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
         const {error, loading} = this.props;
@@ -131,31 +139,35 @@ class DemandCreateContainer extends Component {
                                underlineColorAndroid='transparent'
                                multiline={true}
                     />
-                    <Autocomplete
-                        onFocus={() => this.onFocus()}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        containerStyle={styles.autocompleteContainer}
-                        data={filteredUser.length === 1 && comp(query, filteredUser[0].societe) ? [] : filteredUser}
-                        defaultValue={query}
-                        onChangeText={text => this.setState({query: text})}
-                        placeholder="Choisir un utilisateur"
-                        renderItem={({societe, prenom, nom, id}) => (
-                            <TouchableOpacity onPress={() => {
-                                this.setState({query: societe, userId: id})
-                                Keyboard.dismiss()
-                            }}>
-                                <Text style={styles.itemText}>
-                                    {societe + " - " + prenom + " " + nom }
-                                </Text>
-                            </TouchableOpacity>
-                        )}
-                        renderTextInput={(props) => (
-                            <TextInput {...props} style={styles.edittextautocomplete}
-                                       underlineColorAndroid='transparent'
-                            />)
-                        }
-                    />
+                    {
+                        this.state.user && this.state.user.type === '1' && (
+                            <Autocomplete
+                                onFocus={() => this.onFocus()}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                containerStyle={styles.autocompleteContainer}
+                                data={filteredUser.length === 1 && comp(query, filteredUser[0].societe) ? [] : filteredUser}
+                                defaultValue={query}
+                                onChangeText={text => this.setState({query: text})}
+                                placeholder="Choisir un utilisateur"
+                                renderItem={({societe, prenom, nom, id}) => (
+                                    <TouchableOpacity onPress={() => {
+                                        this.setState({query: societe, userId: id})
+                                        Keyboard.dismiss()
+                                    }}>
+                                        <Text style={styles.itemText}>
+                                            {societe + " - " + prenom + " " + nom}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )}
+                                renderTextInput={(props) => (
+                                    <TextInput {...props} style={styles.edittextautocomplete}
+                                               underlineColorAndroid='transparent'
+                                    />)
+                                }
+                            />
+                        )
+                    }
                     <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
@@ -286,9 +298,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left'
     },
-    buttonGroupBackground: {
-
-    },
+    buttonGroupBackground: {},
     buttonGroupContainer: {
         marginLeft: 30,
         marginRight: 30,

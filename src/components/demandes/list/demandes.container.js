@@ -6,7 +6,9 @@ import Loader from '../../loader/Loader'
 import DemandeItem from './demande.item.component'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './demande.style';
-import {NAVIGATION_TYPE_USER_CREATE} from "../../../commons/constant";
+import {
+    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE,
+} from "../../../commons/constant";
 
 class Demandes extends React.Component {
 
@@ -38,8 +40,13 @@ class Demandes extends React.Component {
     }
 
     onPressNewDemand = () => {
-        this.props.navigation.navigate('DemandCreate', {});
+        this.props.navigation.navigate('DemandCreate', {demand: {}, pageType: NAVIGATION_TYPE_DEMAND_CREATE});
     }
+
+    onPressEditDemand = (demand) => {
+        this.props.navigation.navigate('DemandCreate', {demand: {demand}, pageType: NAVIGATION_TYPE_DEMAND_UPDATE});
+    }
+
     /**
      * Render component
      * @returns {*}
@@ -53,7 +60,7 @@ class Demandes extends React.Component {
             <View style={{flex:1}}>
                 <ListView enableEmptySections={true}
                           dataSource={this.state.dataSource}
-                          renderRow={item => <DemandeItem item={item}/>}/>
+                          renderRow={item => <DemandeItem item={item} onPressEditDemand={this.onPressEditDemand}/>}/>
                 <TouchableOpacity style={styles.touchableStyle}
                                     underlayColor='transparent'
                                     onPress={this.onPressNewDemand}>
