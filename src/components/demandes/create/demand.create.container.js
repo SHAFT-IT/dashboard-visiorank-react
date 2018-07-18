@@ -13,6 +13,7 @@ import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonGroup} from 'react-native-elements';
+import {fetchUsers} from "../../../store/actions/users.action";
 
 const pageType = NAVIGATION_TYPE_DEMAND_CREATE;
 
@@ -31,7 +32,9 @@ class DemandCreateContainer extends Component {
         this.state = {
             user: {},
             selectedType: {},
-            selectedPriority: {}
+            selectedPriority: {},
+            query: '',
+            userId: 0,
         }
     }
 
@@ -41,15 +44,22 @@ class DemandCreateContainer extends Component {
                 this.setState({user: user});
             })
             .catch(error => console.log("error"))
+        {
+            this.props.dispatch(fetchUsers())
+        }
     }
 
-    renderButtonType = (text, type) => {
-        return <Text
-            style={[styles.buttonGroup, {backgroundColor: (type === this.state.selectedType) ? 'red' : 'white'}]}>{text}</Text>
+    findUser(query) {
+        if (query === '') {
+            return [];
+        }
+        const {users} = this.props;
+        const regex = new RegExp(`${query.trim()}`, 'i');
+        return users.filter(user => user.societe.search(regex) >= 0);
     }
 
     onFocus() {
-        setTimeout(() => this.scroller.scrollTo({x: 0, y: 260}), 1000);
+        setTimeout(() => this.scroller.scrollTo({x: 0, y: 240}), 1000);
     }
 
     onBackPressed = () => {
@@ -71,6 +81,9 @@ class DemandCreateContainer extends Component {
     }
 
     render() {
+        const {query} = this.state;
+        const filteredUser = this.findUser(query);
+        const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
         const {error, loading} = this.props;
         if (error) {
             return (
@@ -118,35 +131,34 @@ class DemandCreateContainer extends Component {
                                underlineColorAndroid='transparent'
                                multiline={true}
                     />
-                    {this.state.user.type === '1' && (
-                        <Autocomplete
-                            onFocus={() => this.onFocus()}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            containerStyle={styles.autocompleteContainer}
-                            data={[]}
-                            defaultValue={query}
-                            onChangeText={text => this.setState({query: text})}
-                            placeholder="Choisir un utilisateur"
-                            renderItem={({websiteUrl, id}) => (
-                                <TouchableOpacity onPress={() => {
-                                    this.setState({query: websiteUrl, analytics: id})
-                                    Keyboard.dismiss()
-                                }}>
-                                    <Text style={styles.itemText}>
-                                        {websiteUrl}
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                            renderTextInput={(props) => (
-                                <TextInput {...props} style={styles.edittextautocomplete}
-                                           underlineColorAndroid='transparent'
-                                />)
-                            }
-                        />)
-                    }
+                    <Autocomplete
+                        onFocus={() => this.onFocus()}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        containerStyle={styles.autocompleteContainer}
+                        data={filteredUser.length === 1 && comp(query, filteredUser[0].societe) ? [] : filteredUser}
+                        defaultValue={query}
+                        onChangeText={text => this.setState({query: text})}
+                        placeholder="Choisir un utilisateur"
+                        renderItem={({societe, prenom, nom, id}) => (
+                            <TouchableOpacity onPress={() => {
+                                this.setState({query: societe, userId: id})
+                                Keyboard.dismiss()
+                            }}>
+                                <Text style={styles.itemText}>
+                                    {societe + " - " + prenom + " " + nom }
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                        renderTextInput={(props) => (
+                            <TextInput {...props} style={styles.edittextautocomplete}
+                                       underlineColorAndroid='transparent'
+                            />)
+                        }
+                    />
                     <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
                     <ButtonGroup
+                        selectedBackgroundColor='red'
                         style={styles.buttonGroupContainer}
                         onPress={this.updateType}
                         selectedIndex={selectedType}
@@ -156,6 +168,7 @@ class DemandCreateContainer extends Component {
 
                     <Text style={styles.buttonGroupTitle}>Type de la demande:</Text>
                     <ButtonGroup
+                        selectedBackgroundColor='red'
                         style={styles.buttonGroupContainer}
                         onPress={this.updatePriority}
                         selectedIndex={selectedPriority}
@@ -177,8 +190,9 @@ class DemandCreateContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.sites.loading,
-    error: state.sites.error
+    users: state.users.items,
+    loading: state.users.loading,
+    error: state.users.error
 });
 
 export default connect(mapStateToProps)(DemandCreateContainer);
@@ -265,7 +279,7 @@ const styles = StyleSheet.create({
         textAlign: 'left'
     },
     buttonGroupBackground: {
-        backgroundColor:'green'
+
     },
     buttonGroupContainer: {
         marginLeft: 30,
@@ -277,8 +291,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    selectedTextStyle:{
-        backgroundColor:'red',
+    selectedTextStyle: {
+        backgroundColor: 'red',
     },
     textArea: {
         textAlignVertical: 'top',
