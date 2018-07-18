@@ -158,17 +158,18 @@ class DemandCreateContainer extends Component {
                     />
                     <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
                     <ButtonGroup
-                        selectedBackgroundColor='red'
+                        selectedButtonStyle={styles.selectedButtonStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
                         style={styles.buttonGroupContainer}
                         onPress={this.updateType}
                         selectedIndex={selectedType}
                         buttons={buttonsType}
                         buttonStyle={styles.buttonGroupBackground}
                         containerStyle={{height: 45}}/>
-
                     <Text style={styles.buttonGroupTitle}>Type de la demande:</Text>
                     <ButtonGroup
-                        selectedBackgroundColor='red'
+                        selectedButtonStyle={styles.selectedButtonStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
                         style={styles.buttonGroupContainer}
                         onPress={this.updatePriority}
                         selectedIndex={selectedPriority}
@@ -237,6 +238,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
         marginTop: 25
     },
+    selectedButtonStyle: {
+        backgroundColor: 'green',
+    },
+    selectedTextStyle: {
+        color: 'white',
+    },
+
     infoText: {
         textAlign: 'center'
     },
@@ -290,9 +298,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         textAlign: 'center',
-    },
-    selectedTextStyle: {
-        backgroundColor: 'red',
     },
     textArea: {
         textAlignVertical: 'top',
