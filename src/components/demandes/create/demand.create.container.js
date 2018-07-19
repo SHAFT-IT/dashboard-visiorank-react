@@ -12,7 +12,7 @@ import {
     DEMANDE_TYPE_DEMANDEINFO_KEY,
     DEMANDE_TYPE_EVOLUTION_KEY,
     DEMANDE_TYPE_NONE_KEY,
-    NAVIGATION_TYPE_DEMAND_CREATE
+    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE
 } from "../../../commons/constant";
 import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -50,12 +50,14 @@ class DemandCreateContainer extends Component {
         getData('user')
             .then(user => {
                 this.setState({user: user});
+                user.type === '1' && (
+                    this.props.dispatch(fetchUsers())
+                )
             })
             .catch(error => console.log("error"))
+
+
         this.init()
-        this.state.user && this.state.user.type === '1' && (
-            this.props.dispatch(fetchUsers())
-        )
     }
 
     initType = (type) => {
@@ -74,27 +76,34 @@ class DemandCreateContainer extends Component {
     initPriority = (priority) => {
         switch (parseInt(priority)) {
             case DEMANDE_PRIORITE_HAUTE_KEY:
-               return 0
+                return 0
             case DEMANDE_PRIORITE_NORMAL_KEY:
-               return 1
+                return 1
             case DEMANDE_PRIORITE_BASSE_KEY:
-               return 2
+                return 2
             default:
-               return -1
+                return -1
         }
     }
 
     init = () => {
         const {demand, pageType} = this.props.navigation.state.params
-        this.setState({
-            pageType: pageType,
-            titre: demand.demand.titre,
-            description: demand.demand.description,
-            selectedType: this.initType(demand.demand.type_id),
-            selectedPriority: this.initPriority(demand.demand.priorite_id),
-            userId: demand.demand.user_id,
-            ticketId: demand.demand.ticket_id
-        });
+        if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            this.setState({
+                pageType: pageType,
+                titre: demand.demand.titre,
+                description: demand.demand.description,
+                selectedType: this.initType(demand.demand.type_id),
+                selectedPriority: this.initPriority(demand.demand.priorite_id),
+                userId: demand.demand.user_id,
+                ticketId: demand.demand.ticket_id
+            });
+        } else {
+            this.setState({
+                pageType: pageType,
+                selectedPriority: 1
+            });
+        }
     }
 
     findUser(query) {
@@ -111,7 +120,7 @@ class DemandCreateContainer extends Component {
     }
 
     onBackPressed = () => {
-
+        this.props.navigation.goBack();
     }
 
     onCreateDemandPressed = () => {
@@ -127,7 +136,8 @@ class DemandCreateContainer extends Component {
     }
 
     render() {
-        const {query, pageType} = this.state;
+        const {query, pageType, user} = this.state;
+        alert(pageType)
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
         const {error, loading} = this.props;
@@ -179,7 +189,7 @@ class DemandCreateContainer extends Component {
                                value={this.state.description}
                     />
                     {
-                        this.state.user && this.state.user.type === '1' && (
+                        user.type === '1' && (
                             <Autocomplete
                                 onFocus={() => this.onFocus()}
                                 autoCapitalize="none"

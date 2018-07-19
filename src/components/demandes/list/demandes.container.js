@@ -21,7 +21,7 @@ class Demandes extends React.Component {
         this.state = {
             dataSource: ds.cloneWithRows(items),
             items,
-            status: {}, priority:{},
+            status: {}, priority: {},
             isModalVisible: false
         }
     }
@@ -43,8 +43,11 @@ class Demandes extends React.Component {
         this.props.dispatch(fetchDemandes(token));
     }
 
-
-    showModal = (visibility, {status:{}, priority:{}}) => this.setState({ isModalVisible: visibility, status, priority });
+    showModal = (visibility, state = {status: {}, priority: {}}) => this.setState({
+        isModalVisible: visibility,
+        status: state.status,
+        priority: state.priority
+    });
 
     onPressNewDemand = () => {
         this.props.navigation.navigate('DemandCreate', {demand: {}, pageType: NAVIGATION_TYPE_DEMAND_CREATE});
@@ -55,11 +58,11 @@ class Demandes extends React.Component {
     }
 
     onUpdateStatus = (status) => {
-        this.showModal (true, {status})
+        this.showModal(true, {status})
     }
 
     onUpdatePriority = (priority) => {
-        this.showModal (true, {priority})
+        this.showModal(true, {priority})
     }
 
     /**
@@ -74,26 +77,26 @@ class Demandes extends React.Component {
             return <Loader loading={loading}/>
         }
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 <ListView enableEmptySections={true}
                           dataSource={this.state.dataSource}
-                          renderRow={item => <DemandeItem 
-                                item={item} 
-                                onPressEditDemand={this.onPressEditDemand}
-                                onUpdateStatus={this.onUpdateStatus}
-                                onUpdatePriority={this.onUpdatePriority}
-                            />
-                }/>
-                <Modal style={{flex:1}} isVisible={this.state.isModalVisible}>
-                    <TouchableOpacity onPress={() => this.showModal(false,{})} style={{flex:1}}>
-                        <View style={{ flex: 1 }}>
-                            <StatusList status={status||{}} showModal={this.showModal}/>
+                          renderRow={item => <DemandeItem
+                              item={item}
+                              onPressEditDemand={this.onPressEditDemand}
+                              onUpdateStatus={this.onUpdateStatus}
+                              onUpdatePriority={this.onUpdatePriority}
+                          />
+                          }/>
+                <Modal style={{flex: 1}} isVisible={this.state.isModalVisible}>
+                    <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
+                        <View style={{flex: 1}}>
+                            <StatusList status={status || {}} showModal={this.showModal}/>
                         </View>
                     </TouchableOpacity>
                 </Modal>
                 <TouchableOpacity style={styles.touchableStyle}
-                                    underlayColor='transparent'
-                                    onPress={this.onPressNewDemand}>
+                                  underlayColor='transparent'
+                                  onPress={this.onPressNewDemand}>
                     <Icon name="plus-circle" style={styles.iconAdd}/>
                 </TouchableOpacity>
             </View>

@@ -28,7 +28,6 @@ class DrawerContent extends Component {
           this.setState({user: user});
         })
         .catch(error => console.log("error"))
-
   }
 
   getBackgroundColor  = (active) => {

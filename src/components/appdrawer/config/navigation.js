@@ -38,22 +38,33 @@ const TabsCampagne = createMaterialTopTabNavigator({
     });
 
 const UserStackNavigator = createStackNavigator({
-
         UserList: {
             screen: UserListContainer
         },
-
         UserCreate: {
             screen: UserCreateContainer
         },
-
     },
     {
         navigationOptions: ({navigation}) => ({
             header: null,
         })
-
     });
+
+const DemandsStackNavigator = createStackNavigator({
+        Demands: {
+            screen: DemandesContainer
+        },
+        DemandCreate: {
+            screen: DemandCreateContainer
+        },
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            header: null,
+        })
+    });
+
 
 const DrawerNavigator = createDrawerNavigator({
         Home: {
@@ -69,7 +80,7 @@ const DrawerNavigator = createDrawerNavigator({
             screen: MessageDetails
         },
         Demandes: {
-            screen: DemandesContainer
+            screen: DemandsStackNavigator
         },
         Appel: {
             screen: AppelsListContainer
@@ -80,9 +91,6 @@ const DrawerNavigator = createDrawerNavigator({
         UserEdit: {
             screen: UserEditContainer
         },
-        DemandCreate: {
-            screen: DemandCreateContainer
-        }
     },
     {
         initialRouteName: 'Home',
