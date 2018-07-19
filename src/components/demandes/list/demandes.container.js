@@ -11,6 +11,7 @@ import {
 } from "../../../commons/constant";
 import Modal from "react-native-modal"
 import StatusList from '../../status/status.list.component'
+import {fetchUsers} from "../../../store/actions/users.action";
 
 class Demandes extends React.Component {
 
@@ -35,6 +36,11 @@ class Demandes extends React.Component {
         }
     }
 
+    updateDemands = () => {
+        const {token} = this.props
+        this.props.dispatch(fetchDemandes(token));
+    };
+
     /**
      * Fetch items when component is mounted
      */
@@ -50,11 +56,19 @@ class Demandes extends React.Component {
     });
 
     onPressNewDemand = () => {
-        this.props.navigation.navigate('DemandCreate', {demand: {}, pageType: NAVIGATION_TYPE_DEMAND_CREATE});
+        this.props.navigation.navigate('DemandCreate', {
+            demand: {},
+            pageType: NAVIGATION_TYPE_DEMAND_CREATE,
+            updateDemands: this.updateDemands
+        });
     }
 
     onPressEditDemand = (demand) => {
-        this.props.navigation.navigate('DemandCreate', {demand: {demand}, pageType: NAVIGATION_TYPE_DEMAND_UPDATE});
+        this.props.navigation.navigate('DemandCreate', {
+            demand: {demand},
+            pageType: NAVIGATION_TYPE_DEMAND_UPDATE,
+            updateDemands: this.updateDemands
+        });
     }
 
     onUpdateStatus = (status) => {

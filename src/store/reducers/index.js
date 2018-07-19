@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import users from './users.reducer';
 import login from './login.reducer';
 import dashboard from './dashboard.reducer';
@@ -12,19 +12,21 @@ import sites from './sites.reducer'
 import userdelete from './userdelete.reducer'
 import status from './status.reducer'
 import priorite from './priorite.reducer'
+import demandCreate from './demands.create.reducer'
 
 export default combineReducers({
-  users,
-  login,
-  dashboard,
-  logout,
-  messages,
-  demandes,
-  appels,
-  campagnes,
-  usercreateupdate,
-  sites,
-  userdelete,
-  status,
-  priorite
+    users,
+    login,
+    dashboard,
+    logout,
+    messages,
+    demandes,
+    appels,
+    campagnes,
+    usercreateupdate,
+    demandCreate,
+    sites,
+    userdelete,
+    status,
+    priorite
 });

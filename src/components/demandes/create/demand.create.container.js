@@ -19,6 +19,9 @@ import Autocomplete from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonGroup} from 'react-native-elements';
 import {fetchUsers} from "../../../store/actions/users.action";
+import LoaderCreate from "../../loader/LoaderCreate";
+import {AlertError} from "../../alert/AlertError";
+import {createDemand} from "../../../store/actions/demands.create.action";
 
 const componentPriorityNormal = () => <Text style={styles.buttonGroup}>Normal</Text>
 const componentPriorityLow = () => <Text style={styles.buttonGroup}>Basse</Text>
@@ -35,7 +38,7 @@ class DemandCreateContainer extends Component {
         this.state = {
             user: {},
             query: '',
-            userId: 0,
+            userId: -1,
             ticketId: 0,
             titre: '',
             description: '',
@@ -53,11 +56,21 @@ class DemandCreateContainer extends Component {
                 user.type === '1' && (
                     this.props.dispatch(fetchUsers())
                 )
+                user.type === '0' && (
+                    this.setState({userId: user.id})
+                )
             })
             .catch(error => console.log("error"))
-
-
         this.init()
+    }
+
+    componentWillReceiveProps({demandCreateResponse}) {
+        if (demandCreateResponse && demandCreateResponse !== this.props.response) {
+            if (demandCreateResponse.code == 200) {
+                this.props.navigation.goBack()
+                this.props.navigation.state.params.updateDemands()
+            }
+        }
     }
 
     initType = (type) => {
@@ -86,6 +99,32 @@ class DemandCreateContainer extends Component {
         }
     }
 
+    toPriority = (priority) => {
+        switch (priority) {
+            case 0:
+                return DEMANDE_PRIORITE_HAUTE_KEY
+            case 1:
+                return DEMANDE_PRIORITE_NORMAL_KEY
+            case 2:
+                return DEMANDE_PRIORITE_BASSE_KEY
+            default:
+                return -1
+        }
+    }
+
+    toType = (type) => {
+        switch (type) {
+            case 0:
+                return DEMANDE_TYPE_EVOLUTION_KEY
+            case 1:
+                return DEMANDE_TYPE_CORRECTION_KEY
+            case 2:
+                return DEMANDE_TYPE_DEMANDEINFO_KEY
+            default:
+                return -1
+        }
+    }
+
     init = () => {
         const {demand, pageType} = this.props.navigation.state.params
         if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
@@ -104,6 +143,7 @@ class DemandCreateContainer extends Component {
                 selectedPriority: 1
             });
         }
+
     }
 
     findUser(query) {
@@ -124,7 +164,30 @@ class DemandCreateContainer extends Component {
     }
 
     onCreateDemandPressed = () => {
-
+        const {userId, titre, description, selectedType, selectedPriority, user} = this.state
+        if (titre === '') {
+            alert('Veuillez insérer un titre.')
+        } else if (description === '') {
+            alert('Veuillez insérer une description.')
+        } else if (userId === -1 && user.type === '1') {
+            alert('Veuillez choisir un utilisateur.')
+        } else if (selectedType === -1) {
+            alert('Veuillez choisir le type de demande.')
+        } else if (selectedPriority === -1) {
+            alert('Veuillez choisir la priorité de la demande.')
+        } else {
+            demand = {}
+            demand.titre = titre
+            demand.description = description
+            demand.type = this.toType(selectedType)
+            demand.priorityId = this.toPriority(selectedPriority)
+            if (user.type === '1') {
+                demand.userId = userId
+            } else {
+                demand.userId = user.id
+            }
+            this.props.dispatch(createDemand(demand))
+        }
     }
 
     updatePriority = (selectedPriority) => {
@@ -132,15 +195,17 @@ class DemandCreateContainer extends Component {
     }
 
     updateType = (selectedType) => {
-        this.setState({selectedType: selectedType})
+        const {pageType} = this.props.navigation.state.params
+        if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
+            this.setState({selectedType: selectedType})
+        }
     }
 
     render() {
         const {query, pageType, user} = this.state;
-        alert(pageType)
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-        const {error, loading} = this.props;
+        const {error, loading, demandCreateLoading} = this.props;
         if (error) {
             return (
                 <View style={styles.errorContainer}>
@@ -148,8 +213,8 @@ class DemandCreateContainer extends Component {
                 </View>
             )
         }
-        if (loading) {
-            return (<Loader loading={loading}/>)
+        if (loading || demandCreateLoading) {
+            return (<Loader loading={loading || demandCreateLoading}/>)
         }
         const buttonsPriority = [
             {element: componentPriorityHigh},
@@ -181,12 +246,14 @@ class DemandCreateContainer extends Component {
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
                                value={this.state.titre}
+                               onChangeText={text => this.setState({titre: text})}
                     />
                     <TextInput style={styles.textArea}
                                placeholder="Description"
                                underlineColorAndroid='transparent'
                                multiline={true}
                                value={this.state.description}
+                               onChangeText={text => this.setState({description: text})}
                     />
                     {
                         user.type === '1' && (
@@ -252,10 +319,14 @@ class DemandCreateContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    users: state.users.items,
-    loading: state.users.loading,
-    error: state.users.error
-});
+        users: state.users.items,
+        loading: state.users.loading,
+        error: state.users.error,
+        demandCreateResponse: state.demandCreate.response,
+        demandCreateLoading: state.demandCreate.loadingOnCreateUser,
+        demandCreateError: state.demandCreate.error,
+    })
+;
 
 export default connect(mapStateToProps)(DemandCreateContainer);
 
