@@ -12,7 +12,7 @@ import {
     DEMANDE_TYPE_DEMANDEINFO_KEY,
     DEMANDE_TYPE_EVOLUTION_KEY,
     DEMANDE_TYPE_NONE_KEY,
-    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE
+    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE
 } from "../../../commons/constant";
 import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -66,7 +66,13 @@ class DemandCreateContainer extends Component {
         this.init()
     }
 
-    componentWillReceiveProps({demandCreateResponse, demandUpdateResponse, demandCreateError, demandUpdateError}) {
+    componentWillReceiveProps({
+                                  demandCreateResponse,
+                                  demandUpdateResponse,
+                                  demandCreateError,
+                                  demandUpdateError,
+                                  users
+                              }) {
         if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
@@ -88,6 +94,16 @@ class DemandCreateContainer extends Component {
         }
         if (demandUpdateError) {
             alert("Une erreur est survenue...")
+        }
+        const {pageType, demand} = this.props.navigation.state.params
+        if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            if (users && users.length > 0) {
+                users.map(user => {
+                    if( demand.demand.user_id === user.id)
+                        this.setState({query: user.societe})
+
+                })
+            }
         }
     }
 
