@@ -114,9 +114,9 @@ class Demandes extends React.Component {
                               onUpdatePriority={this.onUpdatePriority}
                           />
                           }/>
-                <Modal style={{flex: 1}} isVisible={this.state.isModalVisible}>
+                <Modal isVisible={this.state.isModalVisible} transparent={true}>
                     <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
-                        <View style={{flex: 1}}>
+                        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                             {this.state.status && <StatusList showModal={this.showModal}/>}
                         </View>
                     </TouchableOpacity>
