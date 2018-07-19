@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {ListView, View, TouchableOpacity, Text} from 'react-native'
 import {fetchDemandes} from '../../../store/actions/demandes.actions'
+import {changeStatusDemande} from '../../../store/actions/demandes.actions'
 import Loader from '../../loader/Loader'
 import DemandeItem from './demande.item.component'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,8 +23,11 @@ class Demandes extends React.Component {
         this.state = {
             dataSource: ds.cloneWithRows(items),
             items,
-            status: {}, priority: {},
-            isModalVisible: false
+            demande: {},
+            isModalVisible: false,
+            
+            status: false,
+            priority: false,
         }
     }
 
@@ -49,11 +53,21 @@ class Demandes extends React.Component {
         this.props.dispatch(fetchDemandes(token));
     }
 
-    showModal = (visibility, state = {status: {}, priority: {}}) => this.setState({
-        isModalVisible: visibility,
-        status: state.status,
-        priority: state.priority
-    });
+    showModal = (visibility, state = {status: false, priority: false, statusId: 0, priorityId: 0}) => {
+    
+        const {currentDemande} = this.props
+        
+        this.setState({
+            isModalVisible: visibility,
+            status: state.status,
+            priority: state.priority,
+        });
+
+        if (!visibility) {
+            if (state.status && state.statusId)
+                this.props.dispatch (changeStatusDemande(state.statusId, currentDemande.ticket_id))
+        }
+    }
 
     onPressNewDemand = () => {
         this.props.navigation.navigate('DemandCreate', {
@@ -71,12 +85,12 @@ class Demandes extends React.Component {
         });
     }
 
-    onUpdateStatus = (status) => {
-        this.showModal(true, {status})
+    onUpdateStatus = () => {
+        this.showModal(true, {status: true})
     }
 
-    onUpdatePriority = (priority) => {
-        this.showModal(true, {priority})
+    onUpdatePriority = () => {
+        this.showModal(true,{priority: true})
     }
 
     /**
@@ -85,7 +99,6 @@ class Demandes extends React.Component {
      */
     render() {
         const {loading} = this.props
-        const {status, priority} = this.state
 
         if (loading) {
             return <Loader loading={loading}/>
@@ -104,7 +117,7 @@ class Demandes extends React.Component {
                 <Modal style={{flex: 1}} isVisible={this.state.isModalVisible}>
                     <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
                         <View style={{flex: 1}}>
-                            <StatusList status={status || {}} showModal={this.showModal}/>
+                            {this.state.status && <StatusList showModal={this.showModal}/>}
                         </View>
                     </TouchableOpacity>
                 </Modal>
@@ -122,7 +135,8 @@ const mapStateToProps = (state) => {
     return {
         items: state.demandes.items || [],
         loading: state.demandes.loading,
-        token: state.login.item.mobile_token
+        token: state.login.item.mobile_token,
+        currentDemande: state.demandes.current
     }
 }
 

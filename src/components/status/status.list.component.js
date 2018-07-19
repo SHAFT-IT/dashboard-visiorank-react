@@ -12,8 +12,7 @@ class StatusList extends Component {
         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
           dataSource: dataSource.cloneWithRows(this.props.items),
-          status: props.status,
-          activeIndex: parseInt(props.status.statut_id, 10)
+          activeIndex: parseInt(props.currentDemande.statut_id, 10)
         };
     }
 
@@ -27,7 +26,7 @@ class StatusList extends Component {
 
         // STATUT_PRISE_EN_CHARGE_KEY
         if (activeIndex === 2) {
-            return items.filter(item => [1, 3, 6].includes(parseInt(item.statut_id, 10)))
+            return items.filter(item => [1, 4, 6].includes(parseInt(item.statut_id, 10)))
         }
 
         // STATUT_REFUSE_KEY
@@ -67,13 +66,13 @@ class StatusList extends Component {
     }
 
     render() {
-        const { loading, status } = this.props
+        const { loading, currentDemande } = this.props
 
         if (loading) {
             return <Loader loading={true} />
         }
 
-        const current = this.props.items.find(i => i.statut_id === status.statut_id) || {}
+        const current = this.props.items.find(i => i.statut_id === currentDemande.statut_id) || {}
 
         return (
             
@@ -94,7 +93,8 @@ class StatusList extends Component {
 
 const mapStateToProps = state => ({
     loading: state.status.loading,
-    items: state.status.items
+    items: state.status.items,
+    currentDemande: state.demandes.current
 })
 
 export default connect(mapStateToProps)(StatusList)

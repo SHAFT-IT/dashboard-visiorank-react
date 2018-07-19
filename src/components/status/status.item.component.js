@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 const StatusItem = ({ item, showModal }) => {
   return (
-    <TouchableHighlight underlayColor='transparent' onPress={() => showModal(false, {status: item})}>
+    <TouchableHighlight underlayColor='transparent' onPress={() => showModal(false, {status:true, statusId: item.statut_id})}>
       <View style={styles.container}>
         <Icon name={getIconName(parseInt(item.statut_id, 10))} style={styles.iconLeft}/>
         <Text style={styles.text}>{item.statut_libelle}</Text>

@@ -1,5 +1,15 @@
 import { URL_DEMANDES } from '../../commons/urls'
-import { FETCH_DEMANDES, FETCH_DEMANDES_SUCCESS, FETCH_DEMANDES_FAILURE, DELETE_DEMANDE, DELETE_DEMANDE_FAILURE, DELETE_DEMANDE_SUCCESS } from '../types/demandes.types'
+import { FETCH_DEMANDES, 
+  FETCH_DEMANDES_SUCCESS, 
+  FETCH_DEMANDES_FAILURE, 
+  DELETE_DEMANDE, 
+  DELETE_DEMANDE_FAILURE, 
+  DELETE_DEMANDE_SUCCESS, 
+  CHANGE_STATUS_DEMANDE, 
+  CHANGE_STATUS_DEMANDE_SUCCESS, 
+  CHANGE_STATUS_DEMANDE_FAILURE,
+  CHANGE_CURRENT_DEMANDE
+} from '../types/demandes.types'
 import { getData } from "../../commons/preferences";
 
 function fetchDemandesBegin() {
@@ -38,6 +48,30 @@ function deleteDemandeFailure(error) {
   }
 }
 
+function changeStatusDemandeBegin() {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_STATUS_DEMANDE })
+  }
+}
+
+function changeStatusDemandeSuccess(data) {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_STATUS_DEMANDE_SUCCESS, payload: data })
+  }
+}
+
+function changeStatusDemandeFailure(error) {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_STATUS_DEMANDE_FAILURE, payload: error })
+  }
+}
+
+export function changeCurrentDemande(demande) {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_CURRENT_DEMANDE, payload: demande })
+  }
+}
+
 export function fetchDemandes() {
   return dispatch => {
     getData('user')
@@ -69,7 +103,6 @@ export function deleteDemande(id) {
           })
           .then((res) => res.json())
           .then(json => {
-              //dispatch(deleteDemandeSuccess(json));
               dispatch(fetchDemandes());
           })
           .catch((e) => {
@@ -77,5 +110,30 @@ export function deleteDemande(id) {
           });
       })
       .catch(error => console.log('cannot get user preference'))
+  };
+}
+
+export function changeStatusDemande(statusId, ticketId) {
+  return dispatch => {
+    getData('user')
+    .then(user => {
+        dispatch(changeStatusDemandeBegin());
+        fetch(`${URL_DEMANDES}${user.mobile_token}`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({statusId: statusId, ticketId: ticketId})
+        })
+        .then((res) => res.json())
+        .then(json => {
+            dispatch(fetchDemandes());
+        })
+        .catch((e) => {
+            dispatch(changeStatusDemandeFailure(e));
+        });
+    })
+    .catch(error => console.log('cannot get user preference'))
   };
 }
