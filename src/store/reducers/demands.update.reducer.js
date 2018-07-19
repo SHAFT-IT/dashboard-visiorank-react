@@ -1,29 +1,33 @@
-import {CREATE_DEMAND, CREATE_DEMAND_FAILURE, CREATE_DEMAND_SUCCESS} from "../types/demandes.types";
+import {
+    UPDATE_DEMAND,
+    UPDATE_DEMAND_FAILURE,
+    UPDATE_DEMAND_SUCCESS
+} from "../types/demandes.types";
 
 const initialState = {
     response: null,
-    loadingOnCreateUser: false,
+    loadingOnUpdateUser: false,
     error: null
 };
 
-export default function demandCreateReducer(state = initialState, action) {
+export default function demandUpdateReducer(state = initialState, action) {
     switch (action.type) {
-        case CREATE_DEMAND:
+        case UPDATE_DEMAND:
             return {
                 ...state,
-                loadingOnCreateUser: true,
+                loadingOnUpdateUser: true,
                 error: null
             };
-        case CREATE_DEMAND_SUCCESS:
+        case UPDATE_DEMAND_SUCCESS:
             return {
                 ...state,
-                loadingOnCreateUser: true,
+                loadingOnUpdateUser: true,
                 response: action.payload
             };
-        case CREATE_DEMAND_FAILURE:
+        case UPDATE_DEMAND_FAILURE:
             return {
                 ...state,
-                loadingOnCreateUser: false,
+                loadingOnUpdateUser: false,
                 error: action.payload,
                 response: null
             };

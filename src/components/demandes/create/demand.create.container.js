@@ -22,6 +22,8 @@ import {fetchUsers} from "../../../store/actions/users.action";
 import LoaderCreate from "../../loader/LoaderCreate";
 import {AlertError} from "../../alert/AlertError";
 import {createDemand} from "../../../store/actions/demands.create.action";
+import demandUpdate from "../../../store/reducers/demands.update.reducer";
+import {updateDemand} from "../../../store/actions/demands.update.action";
 
 const componentPriorityNormal = () => <Text style={styles.buttonGroup}>Normal</Text>
 const componentPriorityLow = () => <Text style={styles.buttonGroup}>Basse</Text>
@@ -64,12 +66,28 @@ class DemandCreateContainer extends Component {
         this.init()
     }
 
-    componentWillReceiveProps({demandCreateResponse}) {
-        if (demandCreateResponse && demandCreateResponse !== this.props.response) {
+    componentWillReceiveProps({demandCreateResponse, demandUpdateResponse, demandCreateError, demandUpdateError}) {
+        if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
+            } else {
+                alert("Une erreur est survenue...")
             }
+        }
+        if (demandUpdateResponse) {
+            if (demandUpdateResponse.code == 200) {
+                this.props.navigation.goBack()
+                this.props.navigation.state.params.updateDemands()
+            } else {
+                alert("Une erreur est survenue...")
+            }
+        }
+        if (demandCreateError) {
+            alert("Une erreur est survenue...")
+        }
+        if (demandUpdateError) {
+            alert("Une erreur est survenue...")
         }
     }
 
@@ -135,15 +153,15 @@ class DemandCreateContainer extends Component {
                 selectedType: this.initType(demand.demand.type_id),
                 selectedPriority: this.initPriority(demand.demand.priorite_id),
                 userId: demand.demand.user_id,
-                ticketId: demand.demand.ticket_id
+                ticketId: demand.demand.ticket_id,
+                demand: demand.demand
             });
         } else {
             this.setState({
                 pageType: pageType,
-                selectedPriority: 1
+                selectedType: 1
             });
         }
-
     }
 
     findUser(query) {
@@ -163,7 +181,7 @@ class DemandCreateContainer extends Component {
         this.props.navigation.goBack();
     }
 
-    onCreateDemandPressed = () => {
+    onCreateDemand = () => {
         const {userId, titre, description, selectedType, selectedPriority, user} = this.state
         if (titre === '') {
             alert('Veuillez insérer un titre.')
@@ -176,17 +194,55 @@ class DemandCreateContainer extends Component {
         } else if (selectedPriority === -1) {
             alert('Veuillez choisir la priorité de la demande.')
         } else {
-            demand = {}
-            demand.titre = titre
-            demand.description = description
-            demand.type = this.toType(selectedType)
-            demand.priorityId = this.toPriority(selectedPriority)
+            const newDemand = {}
+            newDemand.titre = titre
+            newDemand.description = description
+            newDemand.type = this.toType(selectedType)
+            newDemand.priorityId = this.toPriority(selectedPriority)
             if (user.type === '1') {
-                demand.userId = userId
+                newDemand.userId = userId
             } else {
-                demand.userId = user.id
+                newDemand.userId = user.id
             }
-            this.props.dispatch(createDemand(demand))
+            this.props.dispatch(createDemand(newDemand))
+        }
+    }
+
+    onUpdateDemand = () => {
+        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.state
+        if (titre === '') {
+            alert('Veuillez insérer un titre.')
+        } else if (description === '') {
+            alert('Veuillez insérer une description.')
+        } else if (userId === -1 && user.type === '1') {
+            alert('Veuillez choisir un utilisateur.')
+        } else if (selectedType === -1) {
+            alert('Veuillez choisir le type de demande.')
+        } else if (selectedPriority === -1) {
+            alert('Veuillez choisir la priorité de la demande.')
+        } else {
+            const newDemand = {}
+            newDemand.ticketId = demand.ticket_id
+            newDemand.titre = titre
+            newDemand.titre = titre
+            newDemand.description = description
+            newDemand.type = this.toType(selectedType)
+            newDemand.priorityId = this.toPriority(selectedPriority)
+            if (user.type === '1') {
+                newDemand.userId = userId
+            } else {
+                newDemand.userId = user.id
+            }
+            this.props.dispatch(updateDemand(newDemand))
+        }
+    }
+
+    onCreateOrEditDemandPressed = () => {
+        const {pageType} = this.props.navigation.state.params
+        if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
+            this.onCreateDemand()
+        } else {
+            this.onUpdateDemand()
         }
     }
 
@@ -195,17 +251,14 @@ class DemandCreateContainer extends Component {
     }
 
     updateType = (selectedType) => {
-        const {pageType} = this.props.navigation.state.params
-        if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            this.setState({selectedType: selectedType})
-        }
+        this.setState({selectedType: selectedType})
     }
 
     render() {
         const {query, pageType, user} = this.state;
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-        const {error, loading, demandCreateLoading} = this.props;
+        const {error, loading, demandCreateLoading, demandUpdateLoading} = this.props;
         if (error) {
             return (
                 <View style={styles.errorContainer}>
@@ -213,8 +266,8 @@ class DemandCreateContainer extends Component {
                 </View>
             )
         }
-        if (loading || demandCreateLoading) {
-            return (<Loader loading={loading || demandCreateLoading}/>)
+        if (loading || demandCreateLoading || demandUpdateLoading) {
+            return (<Loader loading={loading || demandCreateLoading || demandUpdateLoading}/>)
         }
         const buttonsPriority = [
             {element: componentPriorityHigh},
@@ -306,7 +359,7 @@ class DemandCreateContainer extends Component {
                         containerStyle={{height: 45}}/>
                     <TouchableOpacity
                         style={styles.buttonSubmit}
-                        onPress={this.onCreateDemandPressed}>
+                        onPress={this.onCreateOrEditDemandPressed}>
                         {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
                             <Text style={styles.buttonText}>Ajouter</Text> :
                             <Text style={styles.buttonText}>Modifier</Text>
@@ -325,6 +378,9 @@ const mapStateToProps = state => ({
         demandCreateResponse: state.demandCreate.response,
         demandCreateLoading: state.demandCreate.loadingOnCreateUser,
         demandCreateError: state.demandCreate.error,
+        demandUpdateResponse: state.demandUpdate.response,
+        demandUpdateLoading: state.demandUpdate.loadingOnUpdateUser,
+        demandUpdateError: state.demandUpdate.error,
     })
 ;
 

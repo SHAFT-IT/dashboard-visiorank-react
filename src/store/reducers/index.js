@@ -13,6 +13,7 @@ import userdelete from './userdelete.reducer'
 import status from './status.reducer'
 import priorite from './priorite.reducer'
 import demandCreate from './demands.create.reducer'
+import demandUpdate from './demands.update.reducer'
 
 export default combineReducers({
     users,
@@ -25,6 +26,7 @@ export default combineReducers({
     campagnes,
     usercreateupdate,
     demandCreate,
+    demandUpdate,
     sites,
     userdelete,
     status,
