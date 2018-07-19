@@ -8,7 +8,10 @@ import { FETCH_DEMANDES,
   CHANGE_STATUS_DEMANDE, 
   CHANGE_STATUS_DEMANDE_SUCCESS, 
   CHANGE_STATUS_DEMANDE_FAILURE,
-  CHANGE_CURRENT_DEMANDE
+  CHANGE_CURRENT_DEMANDE, 
+  CHANGE_PRIORITE_DEMANDE,
+  CHANGE_PRIORITE_DEMANDE_SUCCESS,
+  CHANGE_PRIORITE_DEMANDE_FAILURE
 } from '../types/demandes.types'
 import { getData } from "../../commons/preferences";
 
@@ -69,6 +72,24 @@ function changeStatusDemandeFailure(error) {
 export function changeCurrentDemande(demande) {
   return function (dispatch) {
     dispatch({ type: CHANGE_CURRENT_DEMANDE, payload: demande })
+  }
+}
+
+function changePriorityDemandeBegin() {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_PRIORITE_DEMANDE })
+  }
+}
+
+function changePriorityDemandeSuccess(data) {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_PRIORITE_DEMANDE_SUCCESS, payload: data })
+  }
+}
+
+function changePriorityDemandeFailure(error) {
+  return function (dispatch) {
+    dispatch({ type: CHANGE_PRIORITE_DEMANDE_FAILURE, payload: error })
   }
 }
 
@@ -137,3 +158,29 @@ export function changeStatusDemande(statusId, ticketId) {
     .catch(error => console.log('cannot get user preference'))
   };
 }
+
+export function changePriorityDemande(priorityId, ticketId) {
+  return dispatch => {
+    getData('user')
+    .then(user => {
+        dispatch(changePriorityDemandeBegin());
+        fetch(`${URL_DEMANDES}${user.mobile_token}`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({priorityId: priorityId, ticketId: ticketId})
+        })
+        .then((res) => res.json())
+        .then(json => {
+            dispatch(fetchDemandes());
+        })
+        .catch((e) => {
+            dispatch(changePriorityDemandeFailure(e));
+        });
+    })
+    .catch(error => console.log('cannot get user preference'))
+  };
+}
+

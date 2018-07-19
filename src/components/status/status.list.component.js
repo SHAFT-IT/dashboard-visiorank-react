@@ -76,9 +76,9 @@ class StatusList extends Component {
 
         return (
             
-            <View style={{width: 300, height: 'auto', paddingVertical: 5,  backgroundColor:'#fff'}}>
+            <View style={{width: 300, height: 'auto', borderRadius: 5, paddingVertical: 5,  backgroundColor:'#fff'}}>
                 <View>
-                    <Text style={{fontWeight: 'bold', textAlign:'center'}}>Modification du statut de la demande</Text>
+                    <Text style={{fontWeight: 'bold', textAlign:'center', margin:20}}>Modification du statut de la demande</Text>
                     <Text style={{fontWeight: 'bold', textAlign:'center'}}>Statut actuel : {current.statut_libelle}</Text>
                     <Text style={{fontWeight: 'bold', textAlign:'center'}}>Nouveau statut :</Text>
                 </View>

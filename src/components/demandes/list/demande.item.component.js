@@ -108,14 +108,21 @@ class DemandeItem extends React.Component {
                                             this.props.dispatch(changeCurrentDemande(item))
                                             onUpdateStatus()
                                         }}>
-                        <Text style={[styles.buttonText, {color: buttonTextColor}]}>{item.status}</Text>
+                        <Text style={[styles.buttonText, {color: buttonTextColor}]}>
+                            {item.status}  <Icon name="chevron-down" style={[styles.icontop, {color: buttonTextColor}]}/>
+                        </Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={[styles.bsubmit1, {backgroundColor: '#fff'}]}>
                         <Text style={[styles.buttonText, {color: '#000'}]}>{item.type}</Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={[styles.bsubmit1, {backgroundColor: prioriteBgColor}]}
-                                        onPress={() => onUpdatePriority()}>
-                        <Text style={[styles.buttonText, {color: priotiteTextColor}]}>{item.priority}</Text>
+                                        onPress={() => {
+                                            this.props.dispatch(changeCurrentDemande(item))
+                                            onUpdatePriority()
+                                        }}>
+                        <Text style={[styles.buttonText, {color: priotiteTextColor}]}>
+                            {item.priority}  <Icon name="chevron-down" style={[styles.icontop, {color: priotiteTextColor}]}/>
+                        </Text>
                     </TouchableHighlight>
                 </View>
             </View>

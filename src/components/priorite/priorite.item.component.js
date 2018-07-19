@@ -1,5 +1,14 @@
 import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+const getIconName = (priorityId) => {
+  switch(priorityId) {
+    case 1: return 'arrow-up'     // Haute
+    case 2: return 'arrow-right'      // Normal
+    case 3: return 'arrow-down' // Basse
+  }
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -25,6 +34,7 @@ export default ({ item }) => {
   return (
     <TouchableOpacity>
       <View style={styles.container}>
+        <Icon name={getIconName(parseInt(item.priorite_id, 10))} style={styles.iconLeft}/>
         <Text style={styles.text}>{item.priorite_libelle}</Text>
       </View>
     </TouchableOpacity>

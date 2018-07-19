@@ -15,6 +15,9 @@ export default {
         width: 60,
         height: 60
     },
+    icontop: {
+        fontSize: 10
+    },
     parent: {
         flexDirection: 'column',
         backgroundColor: '#222',
@@ -169,7 +172,7 @@ export default {
     },
     buttonText: {
         color: 'white',
-        fontSize: 11,
+        fontSize: 10,
         textAlign: 'center',
     },
     containerItemDevider: {

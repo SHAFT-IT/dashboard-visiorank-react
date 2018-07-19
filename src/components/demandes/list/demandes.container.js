@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {ListView, View, TouchableOpacity, Text} from 'react-native'
 import {fetchDemandes} from '../../../store/actions/demandes.actions'
 import {changeStatusDemande} from '../../../store/actions/demandes.actions'
+import {changePriorityDemande} from '../../../store/actions/demandes.actions'
 import Loader from '../../loader/Loader'
 import DemandeItem from './demande.item.component'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +13,7 @@ import {
 } from "../../../commons/constant";
 import Modal from "react-native-modal"
 import StatusList from '../../status/status.list.component'
-import {fetchUsers} from "../../../store/actions/users.action";
+import PrioriteList from '../../priorite/priorite.list.component'
 
 class Demandes extends React.Component {
 
@@ -25,9 +26,8 @@ class Demandes extends React.Component {
             items,
             demande: {},
             isModalVisible: false,
-            
             status: false,
-            priority: false,
+            priority: false
         }
     }
 
@@ -66,6 +66,8 @@ class Demandes extends React.Component {
         if (!visibility) {
             if (state.status && state.statusId)
                 this.props.dispatch (changeStatusDemande(state.statusId, currentDemande.ticket_id))
+            if (state.priority && state.statusId)
+                this.props.dispatch (changePriorityDemande(state.priorityId, currentDemande.ticket_id))
         }
     }
 
@@ -116,8 +118,9 @@ class Demandes extends React.Component {
                           }/>
                 <Modal isVisible={this.state.isModalVisible} transparent={true}>
                     <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
-                        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius:10}}>
                             {this.state.status && <StatusList showModal={this.showModal}/>}
+                            {this.state.priority && <PrioriteList showModal={this.showModal}/>}
                         </View>
                     </TouchableOpacity>
                 </Modal>
