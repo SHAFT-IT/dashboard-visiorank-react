@@ -65,6 +65,20 @@ const DemandsStackNavigator = createStackNavigator({
         })
     });
 
+const MessagesStackNavigator = createStackNavigator({
+        Messages: {
+            screen: MessagesListContainer
+        },
+        MessageDetails: {
+            screen: MessageDetails
+        },
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            header: null,
+        })
+    });
+
 
 const DrawerNavigator = createDrawerNavigator({
         Home: {
@@ -74,10 +88,7 @@ const DrawerNavigator = createDrawerNavigator({
             screen: UserStackNavigator
         },
         Message: {
-            screen: MessagesListContainer
-        },
-        MessageDetails: {
-            screen: MessageDetails
+            screen: MessagesStackNavigator
         },
         Demandes: {
             screen: DemandsStackNavigator
