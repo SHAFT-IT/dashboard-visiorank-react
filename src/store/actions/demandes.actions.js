@@ -1,4 +1,4 @@
-import { URL_DEMANDES } from '../../commons/urls'
+import { URL_DEMANDES, URL_DEMANDE_UPDATE_PRIORITY } from '../../commons/urls'
 import { FETCH_DEMANDES, 
   FETCH_DEMANDES_SUCCESS, 
   FETCH_DEMANDES_FAILURE, 
@@ -164,7 +164,7 @@ export function changePriorityDemande(priorityId, ticketId) {
     getData('user')
     .then(user => {
         dispatch(changePriorityDemandeBegin());
-        fetch(`${URL_DEMANDES}${user.mobile_token}`, {
+        fetch(`${URL_DEMANDE_UPDATE_PRIORITY}${user.mobile_token}`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

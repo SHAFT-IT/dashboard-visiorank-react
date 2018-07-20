@@ -2,8 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {ListView, View, TouchableOpacity, Text} from 'react-native'
 import {fetchDemandes} from '../../../store/actions/demandes.actions'
-import {changeStatusDemande} from '../../../store/actions/demandes.actions'
-import {changePriorityDemande} from '../../../store/actions/demandes.actions'
+import {changeStatusDemande, changePriorityDemande} from '../../../store/actions/demandes.actions'
 import Loader from '../../loader/Loader'
 import DemandeItem from './demande.item.component'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -66,7 +65,7 @@ class Demandes extends React.Component {
         if (!visibility) {
             if (state.status && state.statusId)
                 this.props.dispatch (changeStatusDemande(state.statusId, currentDemande.ticket_id))
-            if (state.priority && state.statusId)
+            if (state.priority && state.priorityId)
                 this.props.dispatch (changePriorityDemande(state.priorityId, currentDemande.ticket_id))
         }
     }

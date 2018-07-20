@@ -48,7 +48,6 @@ class DemandeItem extends React.Component {
     }
     _renderHeader = (item) => {
         const {onUpdateStatus, onUpdatePriority} = this.props
-
         switch (parseInt(item.statut_id)) {
             case DEMANDE_STATUT_BROUILLON_KEY:
                 statusBgColor = '#fff';
@@ -96,12 +95,14 @@ class DemandeItem extends React.Component {
                 prioriteBgColor = '#31b0d5';
                 priotiteTextColor = '#fff';
         }
-
         return (
             <View style={styles.header}>
-                <View>
-                    <Text style={styles.headerText} numberOfLines={2}>Demande #{item.ticket_id} - {item.titre}</Text>
-                </View>
+                    <View>
+                        <Text style={styles.headerText} numberOfLines={2}>
+                            <Icon name="ticket" style={styles.headerText}/>  Demande #{item.ticket_id} - {item.titre}
+                        </Text>
+                    </View>
+
                 <View style={styles.buttonHeader}>
                     <TouchableHighlight style={[styles.bsubmit1, {backgroundColor: statusBgColor}]}
                                         onPress={() => {

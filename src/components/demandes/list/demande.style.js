@@ -93,7 +93,8 @@ export default {
         textAlign: 'left',
         marginLeft: 5,
         fontSize: 14,
-        fontWeight: '500'
+        fontWeight: '500',
+        marginBottom:10
     },
     content: {
         padding: 20,
@@ -138,6 +139,7 @@ export default {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 1,
+        marginBottom: 5,
         height: 25,
         borderRadius: 3,
         width: 100,
@@ -150,6 +152,7 @@ export default {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 1,
+        marginBottom: 5,
         height: 25,
         borderRadius: 3,
         width: 100,

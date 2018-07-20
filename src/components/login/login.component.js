@@ -20,16 +20,10 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
-
-        email: "admin@visiorank.fr",
-        password: "aUxSxWny"
-
-/*
-        email: "contact@rauscher-67.fr",
-        password: "yu9XT24Jv"
-        */
-
+      //email: "admin@visiorank.fr",
+      //password: "aUxSxWny"
+      email: "contact@rauscher-67.fr",
+      password: "yu9XT24Jv"
     };
   }
 

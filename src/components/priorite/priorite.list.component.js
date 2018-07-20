@@ -65,7 +65,7 @@ class PrioriteList extends Component {
                 </View>
                 <ListView
                 dataSource={this.state.dataSource}
-                renderRow={item => <PrioriteItem item={item}/>}
+                renderRow={item => <PrioriteItem item={item} showModal={this.props.showModal}/>}
                 />
             </View>
         )

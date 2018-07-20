@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const getIconName = (priorityId) => {
@@ -26,17 +26,17 @@ const styles = StyleSheet.create({
     },
     text: {
       color: '#444',
-      fontSize: 16
+      fontSize: 14
     }
 })
 
-export default ({ item }) => {
+export default ({ item, showModal }) => {
   return (
-    <TouchableOpacity>
+    <TouchableHighlight underlayColor='transparent' onPress={() => showModal(false, {priority:true, priorityId: item.priorite_id})}>
       <View style={styles.container}>
         <Icon name={getIconName(parseInt(item.priorite_id, 10))} style={styles.iconLeft}/>
         <Text style={styles.text}>{item.priorite_libelle}</Text>
       </View>
-    </TouchableOpacity>
+    </TouchableHighlight>
   )
 }
