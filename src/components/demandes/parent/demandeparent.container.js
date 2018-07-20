@@ -36,19 +36,19 @@ const tabsDemande = (pageType, demand, updateDemands) => createBottomTabNavigato
         DemandeCreateTab: {
             screen: props => <DemandCreateContainer {...props} pageType={pageType} demand={demand} updateDemands={updateDemands} />,
             navigationOptions: {
-                title: 'Ajout',  
+                title: '',  
             }
         },
         DemandeAttachmentTab: {
             screen: AttachmentContainer,
             navigationOptions: {
-                title: 'Pièce jointe',
+                title: '',
             }
         },
         DemandeHistoryTab: {
             screen: HistoryContainer,
             navigationOptions: {
-                title: 'Historique',
+                title: '',
             }
         }
     },
@@ -59,7 +59,7 @@ const tabsDemande = (pageType, demand, updateDemands) => createBottomTabNavigato
             const { routeName } = navigation.state;
             let iconName;
             if (routeName === 'DemandeCreateTab') {
-                iconName = 'plus';
+                iconName = 'info';
             } else if (routeName === 'DemandeAttachmentTab') {
                 iconName = 'paperclip';
             } else if (routeName === 'DemandeHistoryTab') {
@@ -68,13 +68,14 @@ const tabsDemande = (pageType, demand, updateDemands) => createBottomTabNavigato
      
             // You can return any component that you like here! We usually use an
             // icon component from react-native-vector-icons
-            return <Icon name={iconName} style={[{fontSize: 17}, {color: focused ? 'orange' : GRIS_TEXT}]} />;
+            return <Icon name={iconName} style={[{fontSize: 30}, {color: focused ? 'orange' : GRIS_TEXT}]} />;
           },
           
         }),
         tabBarOptions: {
             activeTintColor: 'orange',
             inactiveTintColor: GRIS_TEXT,
+            showLabel:false,
             style:{
                 height:40,
                 backgroundColor: '#fff',

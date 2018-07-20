@@ -12,7 +12,7 @@ import {NAVIGATION_TYPE_DEMAND_CREATE} from "../../../commons/constant";
 
 export const DemandCreate = ({onBackPressed, onCreateDemandPressed, pageType}) => (
     <View style={styles.allcontent}>
-        < View style={{height: 60}}>
+        <View style={{height: 60}}>
             {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
                 <Text style={styles.bigtitle}>Ajouter une demande</Text> :
                 <Text style={styles.bigtitle}>Modifier la demande</Text>

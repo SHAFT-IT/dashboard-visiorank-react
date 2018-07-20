@@ -26,19 +26,19 @@ const TabsCampagne = createBottomTabNavigator ({
         Visite: {
             screen: VisitesContainer,
             navigationOptions: {
-                title: 'Visites',
+                title: '',
             }
         },
         Maps: {
             screen: GeolocContainer,
             navigationOptions: {
-                title: 'Géolocalisation', 
+                title: '', 
             }
         },
         Repartition: {
             screen: RepartitionContainer,
             navigationOptions: {
-                title: 'Répartition des heures',
+                title: '',
             }
         }
     },
@@ -58,13 +58,14 @@ const TabsCampagne = createBottomTabNavigator ({
      
             // You can return any component that you like here! We usually use an
             // icon component from react-native-vector-icons
-            return <Icon name={iconName} style={[{fontSize: 17}, {color: focused ? 'orange' : GRIS_TEXT}]} />;
+            return <Icon name={iconName} style={[{fontSize: 30}, {color: focused ? 'orange' : GRIS_TEXT}]} />;
           },
           
         }),
         tabBarOptions: {
             activeTintColor: 'orange',
             inactiveTintColor: GRIS_TEXT,
+            showLabel:false,
             style: {
                 backgroundColor: '#fff',
             },

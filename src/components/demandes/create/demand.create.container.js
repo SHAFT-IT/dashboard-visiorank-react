@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 import Loader from '../../loader/Loader'
 import {withNavigation} from 'react-navigation'
 import {
-    View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, Keyboard
+    View, Text, TouchableHighlight, TouchableOpacity, ScrollView, TextInput, StyleSheet, Keyboard
 } from 'react-native'
 import {
     DEMANDE_PRIORITE_BASSE_KEY,
@@ -13,6 +13,12 @@ import {
     DEMANDE_TYPE_DEMANDEINFO_KEY,
     DEMANDE_TYPE_EVOLUTION_KEY,
     DEMANDE_TYPE_NONE_KEY,
+    DEMANDE_STATUT_BROUILLON_KEY,
+    DEMANDE_STATUT_PRISE_EN_CHARGE_KEY,
+    DEMANDE_STATUT_REFUSE_KEY,
+    DEMANDE_STATUT_LIVRE_KEY,
+    DEMANDE_STATUT_VALIDE_KEY,
+    DEMANDE_STATUT_CLOS_KEY,
     NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE
 } from "../../../commons/constant";
 import {getData} from '../../../commons/preferences';
@@ -297,21 +303,39 @@ class DemandCreateContainer extends Component {
             {element: componentTypeCorrection},
             {element: componentTypeInfo}]
         const {selectedType, selectedPriority} = this.state
+
+        switch (parseInt(this.state.demand.statut_id)) {
+            case DEMANDE_STATUT_BROUILLON_KEY:statusBgColor = '#fff';buttonTextColor = '#000';break;
+            case DEMANDE_STATUT_PRISE_EN_CHARGE_KEY:statusBgColor = '#f0ad4e';buttonTextColor = '#fff';break;
+            case DEMANDE_STATUT_REFUSE_KEY:statusBgColor = '#d9534f';buttonTextColor = '#fff';break;
+            case DEMANDE_STATUT_LIVRE_KEY:statusBgColor = '#5bc0de';buttonTextColor = '#fff';break;
+            case DEMANDE_STATUT_VALIDE_KEY:statusBgColor = '#5cb85c';buttonTextColor = '#fff';break;
+            case DEMANDE_STATUT_CLOS_KEY:statusBgColor = '#337ab7';buttonTextColor = '#fff';break;
+            default:statusBgColor = '#337ab7';buttonTextColor = '#fff';
+        }
+        /*<View style={{height: 60}}>
+            {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
+                <Text style={styles.bigtitle}>Ajouter une demande</Text> :
+                <Text style={styles.bigtitle}>Modifier la demande</Text>
+            }
+            <TouchableOpacity
+                style={styles.containericontop}
+                underlayColor='transparent'
+                onPress={this.onBackPressed}>
+                <Icon name="chevron-circle-left" style={styles.icontop}/>
+            </TouchableOpacity>
+        </View>*/
         return (
             <View style={styles.allcontent}>
-                <View style={{height: 60}}>
-                    {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
-                        <Text style={styles.bigtitle}>Ajouter une demande</Text> :
-                        <Text style={styles.bigtitle}>Modifier la demande</Text>
-                    }
-                    <TouchableOpacity
-                        style={styles.containericontop}
-                        underlayColor='transparent'
-                        onPress={this.onBackPressed}>
-                        <Icon name="chevron-circle-left" style={styles.icontop}/>
-                    </TouchableOpacity>
-                </View>
+                
                 <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => { this.scroller = scroller }}>
+                    <View>
+                        <TouchableHighlight style={[styles.bsubmit1, {backgroundColor: statusBgColor, marginTop:20}]}>
+                            <Text style={[styles.buttonText, {color: buttonTextColor}]}>
+                                Statut de la demande :  {this.state.demand.status}  <Icon name="chevron-down" style={[styles.icontopStatus, {color: buttonTextColor}]}/>
+                            </Text>
+                        </TouchableHighlight>
+                    </View>                    
                     <TextInput style={styles.edittext}
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
@@ -377,10 +401,7 @@ class DemandCreateContainer extends Component {
                     <TouchableOpacity
                         style={styles.buttonSubmit}
                         onPress={this.onCreateOrEditDemandPressed}>
-                        {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
-                            <Text style={styles.buttonText}>Ajouter</Text> :
-                            <Text style={styles.buttonText}>Modifier</Text>
-                        }
+                        <Text style={styles.buttonSubmitText}>Enregistrer</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
@@ -415,6 +436,21 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F5FCFF',
         paddingTop: 25
+    },
+    bsubmit1: {
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 1,
+        marginBottom: 5,
+        height: 50,
+        borderRadius: 3,
+        width: 300,
+        padding: 5,
+        marginLeft: 30,
+        backgroundColor: '#5bc0de',
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: 'center'
     },
     autocompleteContainer: {
         left: 0,
@@ -523,6 +559,9 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'grey',
     },
+    icontopStatus: {
+        fontSize: 10,
+    },
     containericontop: {
         position: 'absolute',
         top: 10,
@@ -546,7 +585,13 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 12,
+        //fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    buttonSubmitText: {
+        color: 'white',
+        fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
     },
