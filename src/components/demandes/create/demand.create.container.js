@@ -296,7 +296,7 @@ class DemandCreateContainer extends Component {
         const {selectedType, selectedPriority} = this.state
         return (
             <View style={styles.allcontent}>
-                < View style={{height: 60}}>
+                <View style={{height: 60}}>
                     {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
                         <Text style={styles.bigtitle}>Ajouter une demande</Text> :
                         <Text style={styles.bigtitle}>Modifier la demande</Text>
@@ -308,9 +308,7 @@ class DemandCreateContainer extends Component {
                         <Icon name="chevron-circle-left" style={styles.icontop}/>
                     </TouchableOpacity>
                 </View>
-                <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => {
-                    this.scroller = scroller
-                }}>
+                <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => { this.scroller = scroller }}>
                     <TextInput style={styles.edittext}
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
@@ -362,7 +360,7 @@ class DemandCreateContainer extends Component {
                         selectedIndex={selectedType}
                         buttons={buttonsType}
                         buttonStyle={styles.buttonGroupBackground}
-                        containerStyle={{height: 45}}/>
+                        containerStyle={{height: 35}}/>
                     <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
@@ -372,7 +370,7 @@ class DemandCreateContainer extends Component {
                         selectedIndex={selectedPriority}
                         buttons={buttonsPriority}
                         buttonStyle={styles.buttonGroupBackground}
-                        containerStyle={{height: 45}}/>
+                        containerStyle={{height: 35}}/>
                     <TouchableOpacity
                         style={styles.buttonSubmit}
                         onPress={this.onCreateOrEditDemandPressed}>
@@ -472,8 +470,8 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 10,
+        //fontWeight: 'bold',
         textAlign: 'left',
         height: 45,
         borderRadius: 6,
@@ -486,7 +484,7 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
-        fontSize: 14,
+        fontSize: 10,
         fontWeight: 'bold',
         textAlign: 'left'
     },
@@ -497,8 +495,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     buttonGroup: {
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 10,
+        //fontWeight: 'bold',
         textAlign: 'center',
     },
     textArea: {
@@ -506,8 +504,8 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 10,
+        //fontWeight: 'bold',
         textAlign: 'left',
         height: 150,
         borderRadius: 6,
@@ -519,7 +517,7 @@ const styles = StyleSheet.create({
         marginTop: 17,
     },
     icontop: {
-        fontSize: 45,
+        fontSize: 25,
         color: 'grey',
     },
     containericontop: {
@@ -545,16 +543,17 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     bigtitle: {
-        textAlign: 'center',
+        textAlign: 'left',
         color: '#939393',
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 20,
-        marginTop: 20
+        marginLeft: 70,
+        marginTop: 25
     }
 });
