@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
 import Loader from '../../loader/Loader'
+import {withNavigation} from 'react-navigation'
 import {
     View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, Keyboard
 } from 'react-native'
@@ -64,6 +65,8 @@ class DemandCreateContainer extends Component {
             })
             .catch(error => console.log("error"))
         this.init()
+
+        //alert(JSON.stringify(this.props));
     }
 
     componentWillReceiveProps({
@@ -73,7 +76,7 @@ class DemandCreateContainer extends Component {
                                   demandUpdateError,
                                   users
                               }) {
-        /*if (demandCreateResponse) {
+        if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
@@ -84,7 +87,7 @@ class DemandCreateContainer extends Component {
         if (demandUpdateResponse) {
             if (demandUpdateResponse.code == 200) {
                 this.props.navigation.goBack()
-                this.props.navigation.state.params.updateDemands()
+                this.props.updateDemands()
             } else {
                 alert("Une erreur est survenue...")
             }
@@ -95,7 +98,7 @@ class DemandCreateContainer extends Component {
         if (demandUpdateError) {
             alert("Une erreur est survenue...")
         }
-        const {pageType, demand} = this.props.navigation.state.params
+        const {pageType, demand} = this.props
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             if (users && users.length > 0) {
                 users.map(user => {
@@ -104,7 +107,7 @@ class DemandCreateContainer extends Component {
 
                 })
             }
-        }*/
+        }
     }
 
     initType = (type) => {
@@ -160,7 +163,7 @@ class DemandCreateContainer extends Component {
     }
 
     init = () => {
-        /*const {demand, pageType} = this.props.navigation.state.params
+        const {demand, pageType} = this.props;
         if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             this.setState({
                 pageType: pageType,
@@ -177,7 +180,7 @@ class DemandCreateContainer extends Component {
                 pageType: pageType,
                 selectedType: 1
             });
-        }*/
+        }
     }
 
     findUser(query) {
@@ -254,12 +257,12 @@ class DemandCreateContainer extends Component {
     }
 
     onCreateOrEditDemandPressed = () => {
-        /*const {pageType} = this.props.navigation.state.params
+        const {pageType} = this.props;
         if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
             this.onCreateDemand()
         } else {
             this.onUpdateDemand()
-        }*/
+        }
     }
 
     updatePriority = (selectedPriority) => {
@@ -398,7 +401,7 @@ const mapStateToProps = state => ({
     })
 ;
 
-export default connect(mapStateToProps)(DemandCreateContainer);
+export default withNavigation (connect(mapStateToProps)(DemandCreateContainer));
 
 const styles = StyleSheet.create({
     richText: {
@@ -547,7 +550,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    bigtitle: {
+    bigtitle: { 
         textAlign: 'left',
         color: '#939393',
         fontSize: 14,
