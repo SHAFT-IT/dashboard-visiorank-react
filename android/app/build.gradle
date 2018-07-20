@@ -144,6 +144,7 @@ dependencies {
     compile project(':react-native-sqlite-storage')
     compile project(':react-native-default-preference')
     compile project(':react-native-charts-wrapper')
+    compile project(':react-native-file-picker')
     apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
     // google maps 

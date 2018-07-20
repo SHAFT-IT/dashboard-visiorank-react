@@ -73,7 +73,7 @@ class DemandCreateContainer extends Component {
                                   demandUpdateError,
                                   users
                               }) {
-        if (demandCreateResponse) {
+        /*if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
@@ -104,7 +104,7 @@ class DemandCreateContainer extends Component {
 
                 })
             }
-        }
+        }*/
     }
 
     initType = (type) => {
@@ -160,7 +160,7 @@ class DemandCreateContainer extends Component {
     }
 
     init = () => {
-        const {demand, pageType} = this.props.navigation.state.params
+        /*const {demand, pageType} = this.props.navigation.state.params
         if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             this.setState({
                 pageType: pageType,
@@ -177,7 +177,7 @@ class DemandCreateContainer extends Component {
                 pageType: pageType,
                 selectedType: 1
             });
-        }
+        }*/
     }
 
     findUser(query) {
@@ -254,12 +254,12 @@ class DemandCreateContainer extends Component {
     }
 
     onCreateOrEditDemandPressed = () => {
-        const {pageType} = this.props.navigation.state.params
+        /*const {pageType} = this.props.navigation.state.params
         if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
             this.onCreateDemand()
         } else {
             this.onUpdateDemand()
-        }
+        }*/
     }
 
     updatePriority = (selectedPriority) => {

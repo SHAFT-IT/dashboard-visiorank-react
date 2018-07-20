@@ -1,5 +1,5 @@
 import React from "react";
-import {createStackNavigator, createDrawerNavigator, createMaterialTopTabNavigator} from 'react-navigation';
+import {createStackNavigator, createDrawerNavigator, createBottomTabNavigator  } from 'react-navigation';
 import DashboardContainer from '../../dashboard/dashboard.container';
 import UserListContainer from '../../usermanager/userlist/userlist.container';
 import MessagesListContainer from '../../messages/list/message.container';
@@ -16,17 +16,55 @@ import RepartitionContainer from "../../campagne/repartition/repartition.contain
 import MessageDetails from '../../messages/detail/message.item.component'
 import UserEditContainer from "../../usermanager/useredit/useredit.container";
 import DemandCreateContainer from '../../demandes/create/demand.create.container';
+import { GRIS_TEXT } from "../../../commons/colors";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AttachmentContainer from "../../demandes/attachment/attachment.container";
+import HistoryContainer from "../../demandes/history/history.container";
+import DemandeParentContainer from "../../demandes/parent/demandeparent.container";
 
-
-const TabsCampagne = createMaterialTopTabNavigator({
-        Visite: VisitesContainer,
-        Maps: GeolocContainer,
-        Repartition: RepartitionContainer
+const TabsCampagne = createBottomTabNavigator ({
+        Visite: {
+            screen: VisitesContainer,
+            navigationOptions: {
+                title: 'Visites',
+            }
+        },
+        Maps: {
+            screen: GeolocContainer,
+            navigationOptions: {
+                title: 'Géolocalisation', 
+            }
+        },
+        Repartition: {
+            screen: RepartitionContainer,
+            navigationOptions: {
+                title: 'Répartition des heures',
+            }
+        }
     },
     {
+        navigationOptions: ({ navigation }) => ({
+          
+          tabBarIcon: ({ focused, tintColor }) => {
+            const { routeName } = navigation.state;
+            let iconName;
+            if (routeName === 'Visite') {
+                iconName = `bar-chart${focused ? '' : ''}`;
+            } else if (routeName === 'Maps') {
+                iconName = `map-marker${focused ? '' : ''}`;
+            } else if (routeName === 'Repartition') {
+                iconName = `phone${focused ? '' : ''}`;
+            } 
+     
+            // You can return any component that you like here! We usually use an
+            // icon component from react-native-vector-icons
+            return <Icon name={iconName} style={[{fontSize: 17}, {color: focused ? 'orange' : GRIS_TEXT}]} />;
+          },
+          
+        }),
         tabBarOptions: {
-            activeTintColor: '#000',
-            inactiveTintColor: 'gray',
+            activeTintColor: 'orange',
+            inactiveTintColor: GRIS_TEXT,
             style: {
                 backgroundColor: '#fff',
             },
@@ -34,8 +72,9 @@ const TabsCampagne = createMaterialTopTabNavigator({
                 backgroundColor: '#000',
             },
         },
-        swipeEnabled: false
-    });
+        swipeEnabled: false,
+    }
+);
 
 const UserStackNavigator = createStackNavigator({
         UserList: {
@@ -56,7 +95,7 @@ const DemandsStackNavigator = createStackNavigator({
             screen: DemandesContainer
         },
         DemandCreate: {
-            screen: DemandCreateContainer
+            screen: DemandeParentContainer 
         },
     },
     {

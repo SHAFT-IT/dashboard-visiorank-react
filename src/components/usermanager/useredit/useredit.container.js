@@ -1,136 +1,90 @@
 import React, { Component } from 'react'
-import {View, TextInput, ScrollView, Text, Alert, StyleSheet, TouchableHighlight} from 'react-native'
+import {View, Platform, TextInput, ScrollView, Text, Alert, StyleSheet, TouchableHighlight} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import Loader from '../../loader/Loader';
 import { fetchSites } from '../../../store/actions/sites.action';
 import { NavigationActions } from 'react-navigation'
+var FilePickerManager = require('NativeModules').FilePickerManager;
  
-class UserEditContainer extends Component{
+export default class UserEditContainer extends Component{
 
-    componentDidMount() {
-        this.props.dispatch(fetchSites());
-    }
-
-    goBackToUser = () => {
-        console.log('PROPS NAVIGATION UserCreateContainer=>', this.props.navigation);
-        //this.props.navigation.goBack(null);  
-        /*const backAction = NavigationActions.back({
-            routeName: 'User'
-          });
-        this.props.navigation.dispatch(backAction);*/
-        this.props.navigation.navigate('User');  
-    }
-
-    constructor(props){
-        super(props)
+    constructor(props) {
+        super(props);
     
         this.state = {
-            nom: '',
-            prenom: '',
-            societe: '',
-            telephone: '',
-            site: '',
-            email: '',
-            mdpimap: '',
-            mdp: ''
+            file: null
+        };
+
+    }
+
+    componentDidMount() {
+        
+    }
+
+    selectFileTapped = () => {
+
+        if (Platform.OS === 'android') {
+            const options = {
+                title: 'File Picker',
+                chooseFileButtonTitle: 'Choose File...'
+            };
+        
+            FilePickerManager.showFilePicker(options, (response) => {
+                console.log('Response = ', response);
+        
+                if (response.didCancel) {
+                    console.log('User cancelled photo picker');
+                }
+                else if (response.error) {
+                    console.log('ImagePickerManager Error: ', response.error);
+                }
+                else if (response.customButton) {
+                    console.log('User tapped custom button: ', response.customButton);
+                }
+                else {
+                    this.setState({
+                        file: response
+                    });
+                }
+            });
+      
+        }else if (Platform.OS === 'ios') {
+            //for ios
         }
+
     }
     
     render() {
 
-
-        const { error, loading, sites } = this.props;
-        
-        if (error) {
-            console.log("This is ERROR SITES");
-            return (
-                <View style={styles.container}>
-                    <Text style={styles.errortext}>Erreur lors de la récuperation des sites !</Text>
-                </View>
-            );
-        }
-
-        const { user } = this.props.navigation.state.params;
-
         return (
           
-            <View>
-
-                {loading && (
-                    <Loader loading={loading} />)
-                }
-
-                <ScrollView style={styles.scrollcontent}>
-                    <View>
-                        <Text style={styles.bigtitle}>Modifier un utilisateur</Text>
-                        <TextInput style={styles.edittext}
-                            placeholder="Nom"
-                            underlineColorAndroid='transparent'
-                            returnKeyLabel = {"next"}
-                            value={user.nom}
-                            onChangeText={(textnom) => this.setState({nom:textnom})}
-                        />
-                        <TextInput style={styles.edittext}
-                            placeholder="Prénom"
-                            underlineColorAndroid='transparent'
-                            returnKeyLabel = {"next"}
-                            value={user.prenom}
-                            onChangeText={(textprenom) => this.setState({prenom:textprenom})}
-                        />
-                        <TextInput style={styles.edittext}
-                            placeholder="Société"
-                            underlineColorAndroid='transparent'
-                            returnKeyLabel = {"next"}
-                            value={user.societe}
-                            onChangeText={(textsociete) => this.setState({societe:textsociete})}
-                        />
-                        <TextInput style={styles.edittext}
-                            placeholder="Numéro de téléphone VISIORANK"
-                            underlineColorAndroid='transparent'
-                            returnKeyLabel = {"next"}
-                            value={user.telephone}
-                            onChangeText={(textphone) => this.setState({telephone:textphone})}
-                        />
-
-                        <TouchableHighlight
-                            style={styles.buttonSubmit}
-                            onPress={this.onPress}>
-
-                            <Text style={styles.buttonText}>Ajouter</Text>
-
-                        </TouchableHighlight>
-                        
-                    </View>
-                </ScrollView>
+            <View style={{ flex: 1}}> 
 
                 <TouchableHighlight
                     style={styles.containericontop}
                     underlayColor='transparent'
-                    onPress={() => this.goBackToUser()}>
+                    onPress={() => this.selectFileTapped()}>
                     <Icon name="chevron-circle-left" style={styles.icontop}/>
                 </TouchableHighlight>
-          
+
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+
+                    {this.state.file && typeof this.state.file === 'object' ? 
+                        <Text>{JSON.stringify(this.state.file)}</Text> :
+                        <Text>Your file detail appear here</Text> 
+                    }
+                    
+                </View>
+
             </View>
-        
+             
 
         );
     }
 
 }
-
-UserEditContainer.propTypes = {
-    navigation: PropTypes.object
-};
-
-const mapStateToProps = state => ({
-    sites: state.sites.items,
-    loading: state.sites.loading,
-    error: state.sites.error
-});
-
-export default connect(mapStateToProps)(UserEditContainer);
 
 const styles = StyleSheet.create({
     edittext: {

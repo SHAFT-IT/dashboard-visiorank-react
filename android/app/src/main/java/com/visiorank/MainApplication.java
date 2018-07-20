@@ -12,6 +12,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.filepicker.FilePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,10 +30,11 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new SQLitePluginPackage(),   // register SQLite Plugin here
         new MainReactPackage(),
-            new MapsPackage(),
-            new MPAndroidChartPackage(),
+        new MapsPackage(),
+        new MPAndroidChartPackage(),
         new RNDefaultPreferencePackage(),
-        new VectorIconsPackage()
+        new VectorIconsPackage(),
+        new FilePickerPackage()
       );
     }
 
