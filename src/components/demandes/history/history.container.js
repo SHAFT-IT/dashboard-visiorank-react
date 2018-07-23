@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     MainContainer :{
      
         flex:1,
-        marginTop: 25
+        marginTop: 10
     },
     
     GridViewBlockStyle: {
