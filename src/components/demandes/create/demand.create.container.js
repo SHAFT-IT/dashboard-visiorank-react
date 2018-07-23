@@ -202,10 +202,6 @@ class DemandCreateContainer extends Component {
         setTimeout(() => this.scroller.scrollTo({x: 0, y: 240}), 1000);
     }
 
-    onBackPressed = () => {
-        this.props.navigation.goBack();
-    }
-
     onCreateDemand = () => {
         const {userId, titre, description, selectedType, selectedPriority, user} = this.state
         if (titre === '') {
@@ -313,18 +309,7 @@ class DemandCreateContainer extends Component {
             case DEMANDE_STATUT_CLOS_KEY:statusBgColor = '#337ab7';buttonTextColor = '#fff';break;
             default:statusBgColor = '#337ab7';buttonTextColor = '#fff';
         }
-        /*<View style={{height: 60}}>
-            {pageType === NAVIGATION_TYPE_DEMAND_CREATE ?
-                <Text style={styles.bigtitle}>Ajouter une demande</Text> :
-                <Text style={styles.bigtitle}>Modifier la demande</Text>
-            }
-            <TouchableOpacity
-                style={styles.containericontop}
-                underlayColor='transparent'
-                onPress={this.onBackPressed}>
-                <Icon name="chevron-circle-left" style={styles.icontop}/>
-            </TouchableOpacity>
-        </View>*/
+        
         return (
             <View style={styles.allcontent}>
                 
@@ -556,7 +541,11 @@ const styles = StyleSheet.create({
         marginTop: 17,
     },
     icontop: {
-        fontSize: 25,
+        fontSize: 35,
+        color: 'grey',
+    },
+    iconright: {
+        fontSize: 35,
         color: 'grey',
     },
     icontopStatus: {
@@ -566,6 +555,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         left: 25,
+        alignItems: "center",
+        justifyContent: "center",
+        width: 50,
+        height: 50,
+    },
+    containericonright: {
+        position: 'absolute',
+        top: 10,
+        right: 25,
         alignItems: "center",
         justifyContent: "center",
         width: 50,

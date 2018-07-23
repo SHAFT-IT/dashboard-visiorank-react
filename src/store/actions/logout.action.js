@@ -23,24 +23,31 @@ export function logout() {
     getData('user')
         .then(user => {
           console.log('LOGOUT TOKEN=>', user.mobile_token);
-          dispatch(fetchLogoutBegin());
-          return fetch(URL_LOGOUT, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token: user.mobile_token })
-          })
-            .then((res) => res.json())
-            .then(json => {
-              dispatch(deleteUser())
-              setData('user', null);
-              dispatch(fetchLogoutSuccess(json));
+          if(user && user.mobile_token){
+            dispatch(fetchLogoutBegin());
+            fetch(URL_LOGOUT, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ token: user.mobile_token })
             })
-            .catch((e) => {
-              dispatch(fetchLogoutFailure(e));
-            });
+              .then((res) => res.json())
+              .then(json => {
+                dispatch(deleteUser())
+                setData('user', null);
+                dispatch(fetchLogoutSuccess(json));
+              })
+              .catch((e) => {
+                dispatch(fetchLogoutFailure(e));
+              });
+          }else{
+
+            dispatch(deleteUser())
+            setData('user', null);
+            dispatch(fetchLogoutSuccess(json));            
+          }
 
         })
         .catch(error => console.log('cannot get user preference'))
