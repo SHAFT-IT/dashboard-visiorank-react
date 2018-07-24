@@ -25,12 +25,12 @@ import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonGroup} from 'react-native-elements';
-import {fetchUsers} from "../../../store/actions/users.action";
 import LoaderCreate from "../../loader/LoaderCreate";
 import {AlertError} from "../../alert/AlertError";
 import {createDemand} from "../../../store/actions/demands.create.action";
 import demandUpdate from "../../../store/reducers/demands.update.reducer";
 import {updateDemand} from "../../../store/actions/demands.update.action";
+import { fetchDemandDetail } from '../../../store/actions/demands.detail.action';
 
 const componentPriorityNormal = () => <Text style={styles.buttonGroup}>Normal</Text>
 const componentPriorityLow = () => <Text style={styles.buttonGroup}>Basse</Text>
@@ -63,14 +63,16 @@ class DemandCreateContainer extends Component {
             .then(user => {
                 this.setState({user: user});
                 user.type === '1' && (
-                    this.props.dispatch(fetchUsers())
+                    //this.props.dispatch(fetchUsers())
+                    console.log("Admin case")
                 )
                 user.type === '0' && (
                     this.setState({userId: user.id})
                 )
             })
             .catch(error => console.log("error"))
-        this.init()
+
+        this.init();
 
         //alert(JSON.stringify(this.props));
     }
@@ -80,12 +82,12 @@ class DemandCreateContainer extends Component {
                                   demandUpdateResponse,
                                   demandCreateError,
                                   demandUpdateError,
-                                  users
+                                  demandDetailResponse
                               }) {
         if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
-                this.props.navigation.state.params.updateDemands()
+                this.props.updateDemands()
             } else {
                 alert("Une erreur est survenue...")
             }
@@ -106,8 +108,8 @@ class DemandCreateContainer extends Component {
         }
         const {pageType, demand} = this.props
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
-            if (users && users.length > 0) {
-                users.map(user => {
+            if (demandDetailResponse && demandDetailResponse.users && demandDetailResponse.users.length > 0) {
+                demandDetailResponse.users.map(user => {
                     if( demand.demand.user_id === user.id)
                         this.setState({query: user.societe})
 
@@ -170,7 +172,9 @@ class DemandCreateContainer extends Component {
 
     init = () => {
         const {demand, pageType} = this.props;
+        
         if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            this.props.dispatch(fetchDemandDetail(demand.demand.ticket_id));
             this.setState({
                 pageType: pageType,
                 titre: demand.demand.titre,
@@ -193,9 +197,10 @@ class DemandCreateContainer extends Component {
         if (query === '') {
             return [];
         }
-        const {users} = this.props;
+        const {demandDetailResponse} = this.props;
         const regex = new RegExp(`${query.trim()}`, 'i');
-        return users.filter(user => user.societe.search(regex) >= 0);
+        console.log('my response =>', demandDetailResponse);
+        return demandDetailResponse.users.filter(user => user.societe.search(regex) >= 0);
     }
 
     onFocus() {
@@ -279,16 +284,16 @@ class DemandCreateContainer extends Component {
         const {query, pageType, user} = this.state;
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-        const {error, loading, demandCreateLoading, demandUpdateLoading} = this.props;
-        if (error) {
+        const {demandDetailError, demandDetailLoading, demandCreateLoading, demandUpdateLoading} = this.props;
+        if (demandDetailError) {
             return (
                 <View style={styles.errorContainer}>
                     <Text style={styles.errorText}>Erreur !</Text>
                 </View>
             )
         }
-        if (loading || demandCreateLoading || demandUpdateLoading) {
-            return (<Loader loading={loading || demandCreateLoading || demandUpdateLoading}/>)
+        if (demandDetailLoading || demandCreateLoading || demandUpdateLoading) {
+            return (<Loader loading={demandDetailLoading || demandCreateLoading || demandUpdateLoading}/>)
         }
         const buttonsPriority = [
             {element: componentPriorityHigh},
@@ -395,9 +400,9 @@ class DemandCreateContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-        users: state.users.items,
-        loading: state.users.loading,
-        error: state.users.error,
+        demandDetailResponse: state.demandDetail.demandDetailResponse,
+        demandDetailLoading: state.demandDetail.demandDetailLoading,
+        demandDetailError: state.demandDetail.demandDetailError,
         demandCreateResponse: state.demandCreate.response,
         demandCreateLoading: state.demandCreate.loadingOnCreateUser,
         demandCreateError: state.demandCreate.error,
