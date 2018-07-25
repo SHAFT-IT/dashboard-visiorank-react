@@ -6,19 +6,139 @@ import { GRIS_TEXT } from '../../../commons/colors';
 import AttachmentContainer from '../attachment/attachment.container';
 import HistoryContainer from '../history/history.container';
 import DemandCreateContainer from '../create/demand.create.container';
-import { NAVIGATION_TYPE_DEMAND_CREATE } from '../../../commons/constant';
+import {connect} from "react-redux"
+import {withNavigation} from 'react-navigation'
+import {
+    DEMANDE_PRIORITE_BASSE_KEY,
+    DEMANDE_PRIORITE_HAUTE_KEY,
+    DEMANDE_PRIORITE_NORMAL_KEY,
+    DEMANDE_TYPE_CORRECTION_KEY,
+    DEMANDE_TYPE_DEMANDEINFO_KEY,
+    DEMANDE_TYPE_EVOLUTION_KEY,
+    DEMANDE_TYPE_NONE_KEY,
+    DEMANDE_STATUT_BROUILLON_KEY,
+    DEMANDE_STATUT_PRISE_EN_CHARGE_KEY,
+    DEMANDE_STATUT_REFUSE_KEY,
+    DEMANDE_STATUT_LIVRE_KEY,
+    DEMANDE_STATUT_VALIDE_KEY,
+    DEMANDE_STATUT_CLOS_KEY,
+    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE
+} from "../../../commons/constant";
+import {createDemand} from "../../../store/actions/demands.create.action";
+import {updateDemand} from "../../../store/actions/demands.update.action";
 
-export default class DemandeParentContainer extends Component{
+class DemandeParentContainer extends Component{
 
     constructor(props) {
         super(props)
         this.state = {
-            parentState: 'testing testing',
+            user: {},
+            query: '',
+            userId: -1,
+            ticketId: 0,
+            titre: '',
+            description: '',
+            selectedType: -1,
+            selectedPriority: -1,
+            pageType: {},
+            demand: {}
         }
     }
 
     onBackPressed = () => {
         this.props.navigation.goBack();
+    }
+
+    onCreateOrEditDemandPressed = () => {
+        
+        if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
+            this.onCreateDemand()
+        } else {
+            this.onUpdateDemand()
+        }
+
+    }
+
+    onCreateDemand = () => {
+        const {userId, titre, description, selectedType, selectedPriority, user} = this.state
+        if (titre === '') {
+            alert('Veuillez insérer un titre.')
+        } else if (description === '') {
+            alert('Veuillez insérer une description.')
+        } else if (userId === -1 && user.type === '1') {
+            alert('Veuillez choisir un utilisateur.')
+        } else if (selectedType === -1) {
+            alert('Veuillez choisir le type de demande.')
+        } else if (selectedPriority === -1) {
+            alert('Veuillez choisir la priorité de la demande.')
+        } else {
+            const newDemand = {}
+            newDemand.titre = titre
+            newDemand.description = description
+            newDemand.type = this.toType(selectedType)
+            newDemand.priorityId = this.toPriority(selectedPriority)
+            if (user.type === '1') {
+                newDemand.userId = userId
+            } else {
+                newDemand.userId = user.id
+            }
+            this.props.dispatch(createDemand(newDemand))
+        }
+    }
+
+    onUpdateDemand = () => {
+        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.state
+        if (titre === '') {
+            alert('Veuillez insérer un titre.')
+        } else if (description === '') {
+            alert('Veuillez insérer une description.')
+        } else if (userId === -1 && user.type === '1') {
+            alert('Veuillez choisir un utilisateur.')
+        } else if (selectedType === -1) {
+            alert('Veuillez choisir le type de demande.')
+        } else if (selectedPriority === -1) {
+            alert('Veuillez choisir la priorité de la demande.')
+        } else {
+            const newDemand = {}
+            newDemand.ticketId = demand.ticket_id
+            newDemand.titre = titre
+            newDemand.titre = titre
+            newDemand.description = description
+            newDemand.type = this.toType(selectedType)
+            newDemand.priorityId = this.toPriority(selectedPriority)
+            if (user.type === '1') {
+                newDemand.userId = userId
+            } else {
+                newDemand.userId = user.id
+            }
+            this.props.dispatch(updateDemand(newDemand))
+        }
+    }
+
+    toPriority = (priority) => {
+        switch (priority) {
+            case 0:
+                return DEMANDE_PRIORITE_HAUTE_KEY
+            case 1:
+                return DEMANDE_PRIORITE_NORMAL_KEY
+            case 2:
+                return DEMANDE_PRIORITE_BASSE_KEY
+            default:
+                return -1
+        }
+    }
+
+    toType = (type) => {
+        switch (type) {
+            case 0:
+                return DEMANDE_TYPE_EVOLUTION_KEY
+            case 1:
+                return DEMANDE_TYPE_CORRECTION_KEY
+            case 2:
+                return DEMANDE_TYPE_DEMANDEINFO_KEY
+            default:
+                return -1
+        }
     }
 
     render() {
@@ -124,6 +244,18 @@ const tabsDemande = (pageType, demand, updateDemands) => createBottomTabNavigato
         swipeEnabled: false,
     }
 );
+
+const mapStateToProps = state => ({
+    demandCreateResponse: state.demandCreate.response,
+    demandCreateLoading: state.demandCreate.loadingOnCreateUser,
+    demandCreateError: state.demandCreate.error,
+    demandUpdateResponse: state.demandUpdate.response,
+    demandUpdateLoading: state.demandUpdate.loadingOnUpdateUser,
+    demandUpdateError: state.demandUpdate.error,
+});
+
+export default withNavigation (connect(mapStateToProps)(DemandeParentContainer));
+//export default connect(mapStateToProps)(DemandeParentContainer);
 
 const styles = StyleSheet.create({
     containericontop: {

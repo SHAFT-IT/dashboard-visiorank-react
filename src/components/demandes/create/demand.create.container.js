@@ -64,7 +64,7 @@ class DemandCreateContainer extends Component {
                 this.setState({user: user});
                 user.type === '1' && (
                     //this.props.dispatch(fetchUsers())
-                    console.log("Admin case")
+                    this.props.dispatch(fetchDemandDetail(0))
                 )
                 user.type === '0' && (
                     this.setState({userId: user.id})
@@ -74,7 +74,6 @@ class DemandCreateContainer extends Component {
 
         this.init();
 
-        //alert(JSON.stringify(this.props));
     }
 
     componentWillReceiveProps({
@@ -185,7 +184,8 @@ class DemandCreateContainer extends Component {
                 ticketId: demand.demand.ticket_id,
                 demand: demand.demand
             });
-        } else {
+        } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE){
+            
             this.setState({
                 pageType: pageType,
                 selectedType: 1
@@ -330,7 +330,11 @@ class DemandCreateContainer extends Component {
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
                                value={this.state.titre}
-                               onChangeText={text => this.setState({titre: text})}
+                               onChangeText={text => {
+                                        this.setState({titre: text});
+                                        this.props.updateUi(text);
+                                    }
+                                }
                     />
                     <TextInput style={styles.textArea}
                                placeholder="Description"
@@ -388,11 +392,7 @@ class DemandCreateContainer extends Component {
                         buttons={buttonsPriority}
                         buttonStyle={styles.buttonGroupBackground}
                         containerStyle={{height: 35}}/>
-                    <TouchableOpacity
-                        style={styles.buttonSubmit}
-                        onPress={this.onCreateOrEditDemandPressed}>
-                        <Text style={styles.buttonSubmitText}>Enregistrer</Text>
-                    </TouchableOpacity>
+                    
                 </ScrollView>
             </View>
         )
