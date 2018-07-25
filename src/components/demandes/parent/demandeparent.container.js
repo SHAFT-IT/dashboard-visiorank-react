@@ -45,6 +45,23 @@ class DemandeParentContainer extends Component{
         }
     }
 
+    componentDidMount() {
+
+        const {pageType, demand, updateDemands} = this.props.navigation.state.params;
+        this.setState(
+            {   
+                pageType: pageType,
+                demand: demand
+            }
+        );
+    }
+
+    updateUI  = (data) => {
+        
+        alert(`update UI cLICKED with data ${data}`);
+
+    };
+
     onBackPressed = () => {
         this.props.navigation.goBack();
     }
@@ -144,7 +161,7 @@ class DemandeParentContainer extends Component{
     render() {
         const {pageType, demand, updateDemands} = this.props.navigation.state.params;
 
-        const TabsDemande = tabsDemande(pageType, demand, updateDemands);
+        const TabsDemande = tabsDemande(pageType, demand, updateDemands, this.updateUI);
         return (
             
             <View style={{flex: 1}}>
@@ -166,7 +183,7 @@ class DemandeParentContainer extends Component{
                     <TouchableOpacity
                         style={styles.containericonright}
                         underlayColor='transparent'
-                        onPress={this.onBackPressed}>
+                        onPress={this.onCreateOrEditDemandPressed}>
                         <Icon name="check-circle" style={styles.iconright}/>
                     </TouchableOpacity>
 
@@ -181,10 +198,10 @@ class DemandeParentContainer extends Component{
     }
 
 }
-const tabsDemande = (pageType, demand, updateDemands) => createBottomTabNavigator(
+const tabsDemande = (pageType, demand, updateDemands, updateUi) => createBottomTabNavigator(
     { 
         DemandeCreateTab: {
-            screen: props => <DemandCreateContainer {...props} pageType={pageType} demand={demand} updateDemands={updateDemands} />,
+            screen: props => <DemandCreateContainer {...props} pageType={pageType} demand={demand} updateDemands={updateDemands} updateUi={updateUi} />,
             navigationOptions: {
                 title: '',  
             }
@@ -255,7 +272,6 @@ const mapStateToProps = state => ({
 });
 
 export default withNavigation (connect(mapStateToProps)(DemandeParentContainer));
-//export default connect(mapStateToProps)(DemandeParentContainer);
 
 const styles = StyleSheet.create({
     containericontop: {
