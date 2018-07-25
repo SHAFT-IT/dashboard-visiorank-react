@@ -45,7 +45,8 @@ class DemandeParentContainer extends Component {
             description: '',
             selectedType: -1,
             selectedPriority: -1,
-            demand: {}
+            demand: {},
+            uploads: []
         };
     }
 
@@ -131,6 +132,10 @@ class DemandeParentContainer extends Component {
                 this.result.selectedPriority = data;
                 break;
 
+            case 'uploads':
+                this.result.uploads = data;
+                break;
+
             default:
                 break;
         }
@@ -155,7 +160,7 @@ class DemandeParentContainer extends Component {
     }
 
     onCreateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user} = this.result
+        const {userId, titre, description, selectedType, selectedPriority, user, uploads} = this.result
         if (titre === '') {
             alert('Veuillez insérer un titre.')
         } else if (description === '') {
@@ -177,6 +182,7 @@ class DemandeParentContainer extends Component {
             } else {
                 newDemand.userId = user.id
             }
+            newDemand.uploads = uploads;
             this.props.dispatch(createDemand(newDemand))
         }
     }
@@ -294,7 +300,7 @@ const tabsDemande = (pageType, demand, updateDemands, updateUi) => createBottomT
             }
         },
         DemandeAttachmentTab: {
-            screen: props => <AttachmentContainer {...props} pageType={pageType} />,
+            screen: props => <AttachmentContainer {...props} pageType={pageType} updateUi={updateUi} />,
             navigationOptions: {
                 title: '',
             }

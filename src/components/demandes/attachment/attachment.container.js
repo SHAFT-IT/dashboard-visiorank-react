@@ -27,6 +27,20 @@ export default class AttachmentContainer extends Component{
         
     }
 
+    filterNewFile = () => {
+
+        let arrvalues = [];
+        this.state.AttachmentItems.map(attach => {
+            if( attach.key){
+                if(attach.key === 'NEW'){
+                    arrvalues.push(attach);
+                }  
+            }
+        })
+        return arrvalues;
+
+    }
+
     selectFileTapped = () => {
 
         if (Platform.OS === 'android') {
@@ -67,7 +81,7 @@ export default class AttachmentContainer extends Component{
         if(item && item.key){  
             if(item.key === 'ADD'){
                 this.selectFileTapped();
-            }if(item.key === 'UPDATE'){
+            }else if(item.key === 'NEW'){
                 let newlist = this.state.AttachmentItems.filter(x => x.index !== item.index)
                 if(newlist.length %2 != 0)
                     newlist.push({key: 'EMPTY'}); 
@@ -122,7 +136,7 @@ export default class AttachmentContainer extends Component{
             }
 
         })
-        arrvalues.push({key: 'UPDATE', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri});
+        arrvalues.push({key: 'NEW', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri});
         arrvalues.push({key: 'ADD'});
         if(arrvalues.length %2 != 0)
             arrvalues.push({key: 'EMPTY'});
@@ -131,6 +145,9 @@ export default class AttachmentContainer extends Component{
             AttachmentItems: arrvalues,
             addedIndex: incrementedIndex+1,
         });
+
+        setTimeout(() => this.props.updateUi('uploads', this.filterNewFile()), 150);
+        
 
     }
 
