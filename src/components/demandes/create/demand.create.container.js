@@ -19,7 +19,7 @@ import {
     DEMANDE_STATUT_LIVRE_KEY,
     DEMANDE_STATUT_VALIDE_KEY,
     DEMANDE_STATUT_CLOS_KEY,
-    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE
+    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE, DEMANDE_STATUT_BROUILLON_VALUE
 } from "../../../commons/constant";
 import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -92,7 +92,7 @@ class DemandCreateContainer extends Component {
                                   demandUpdateError,
                                   demandDetailResponse
                               }) {
-        if (demandCreateResponse) {
+        /*if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.updateDemands()
@@ -113,7 +113,7 @@ class DemandCreateContainer extends Component {
         }
         if (demandUpdateError) {
             alert("Une erreur est survenue...")
-        }
+        }*/
         const {pageType, demand} = this.props
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             if (demandDetailResponse && demandDetailResponse.users && demandDetailResponse.users.length > 0) {
@@ -195,11 +195,13 @@ class DemandCreateContainer extends Component {
                 demand: demand.demand
             });
             this.props.updateUi('demand', demand.demand);
+            
         } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE){
             
             this.setState({
                 pageType: pageType,
-                selectedType: -1
+                selectedType: -1,
+                demand:{status: DEMANDE_STATUT_BROUILLON_VALUE, statut_id: DEMANDE_STATUT_BROUILLON_KEY}
             });
         }
     }
@@ -218,7 +220,7 @@ class DemandCreateContainer extends Component {
         setTimeout(() => this.scroller.scrollTo({x: 0, y: 240}), 1000);
     }
 
-    onCreateDemand = () => {
+    /*onCreateDemand = () => {
         const {userId, titre, description, selectedType, selectedPriority, user} = this.state
         if (titre === '') {
             alert('Veuillez insérer un titre.')
@@ -261,7 +263,6 @@ class DemandCreateContainer extends Component {
             const newDemand = {}
             newDemand.ticketId = demand.ticket_id
             newDemand.titre = titre
-            newDemand.titre = titre
             newDemand.description = description
             newDemand.type = this.toType(selectedType)
             newDemand.priorityId = this.toPriority(selectedPriority)
@@ -281,7 +282,7 @@ class DemandCreateContainer extends Component {
         } else {
             this.onUpdateDemand()
         }
-    }
+    }*/
 
     updatePriority = (selectedPriority) => {
         this.setState({selectedPriority: selectedPriority});
@@ -289,15 +290,17 @@ class DemandCreateContainer extends Component {
     }
 
     updateType = (selectedType) => {
-        this.setState({selectedType: selectedType});
-        this.props.updateUi('selectedType', selectedType);
+        if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE){
+            this.setState({selectedType: selectedType});
+            this.props.updateUi('selectedType', selectedType);
+        }
     }
 
     render() {
         const {query, pageType, user} = this.state;
         const filteredUser = this.findUser(query);
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-        const {demandDetailError, demandDetailLoading, demandCreateLoading, demandUpdateLoading} = this.props;
+        const {demandDetailError, demandDetailLoading} = this.props;
         if (demandDetailError) {
             return (
                 <View style={styles.errorContainer}>
@@ -305,8 +308,8 @@ class DemandCreateContainer extends Component {
                 </View>
             )
         }
-        if (demandDetailLoading || demandCreateLoading || demandUpdateLoading) {
-            return (<Loader loading={demandDetailLoading || demandCreateLoading || demandUpdateLoading}/>)
+        if (demandDetailLoading) {
+            return (<Loader loading={demandDetailLoading}/>)
         }
         const buttonsPriority = [
             {element: componentPriorityHigh},

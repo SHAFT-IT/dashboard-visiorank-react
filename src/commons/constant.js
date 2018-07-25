@@ -22,13 +22,21 @@ export const NAVIGATION_TYPE_USER_UPDATE = 'NAVIGATION_TYPE_USER_UPDATE';
 export const NAVIGATION_TYPE_DEMAND_CREATE = 'NAVIGATION_TYPE_DEMAND_CREATE';
 export const NAVIGATION_TYPE_DEMAND_UPDATE = 'NAVIGATION_TYPE_DEMAND_UPDATE';
 
-// Statut des demandes 
+// Statut des demandes key
 export const DEMANDE_STATUT_BROUILLON_KEY = 1;
 export const DEMANDE_STATUT_PRISE_EN_CHARGE_KEY = 2;  
 export const DEMANDE_STATUT_REFUSE_KEY = 3; 
 export const DEMANDE_STATUT_LIVRE_KEY = 4; 
 export const DEMANDE_STATUT_VALIDE_KEY = 5; 
 export const DEMANDE_STATUT_CLOS_KEY = 6;
+
+// Statut des demandes valeur
+export const DEMANDE_STATUT_BROUILLON_VALUE = 'Brouillon';
+export const DEMANDE_STATUT_PRISE_EN_CHARGE_VALUE = 'Prise en charge';  
+export const DEMANDE_STATUT_REFUSE_VALUE = 'Refusé'; 
+export const DEMANDE_STATUT_LIVRE_VALUE = 'Livré'; 
+export const DEMANDE_STATUT_VALIDE_VALUE = 'Validé'; 
+export const DEMANDE_STATUT_CLOS_VALUE = 'Clos';
 
 // Type de priorité
 export const DEMANDE_PRIORITE_HAUTE_KEY = 1; 

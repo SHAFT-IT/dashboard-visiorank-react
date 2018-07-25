@@ -30,7 +30,7 @@ export function updateDemand(demand) {
     data.append('description', demand.description)
     data.append('priorityId', demand.priorityId)
     data.append('userId', demand.userId)
-    data.append('type', demand.type)
+    //data.append('type', demand.type) => cannot modify type when update
     data.append('ticketId', demand.ticketId)
     /*
     data.append('photo', {

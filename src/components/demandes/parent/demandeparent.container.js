@@ -8,6 +8,7 @@ import HistoryContainer from '../history/history.container';
 import DemandCreateContainer from '../create/demand.create.container';
 import {connect} from "react-redux"
 import {withNavigation} from 'react-navigation'
+import Loader from '../../loader/Loader'
 import {
     DEMANDE_PRIORITE_BASSE_KEY,
     DEMANDE_PRIORITE_HAUTE_KEY,
@@ -26,8 +27,9 @@ import {
 } from "../../../commons/constant";
 import {createDemand} from "../../../store/actions/demands.create.action";
 import {updateDemand} from "../../../store/actions/demands.update.action";
+import LoaderDelete from '../../loader/LoaderDelete';
 
-class DemandeParentContainer extends Component{
+class DemandeParentContainer extends Component {
 
     constructor(props) {
         super(props)
@@ -57,17 +59,51 @@ class DemandeParentContainer extends Component{
         );
     }
 
+    componentWillReceiveProps({
+        demandCreateResponse,
+        demandUpdateResponse,
+        demandCreateError,
+        demandUpdateError,
+    })
+    {
+        
+        if (demandCreateResponse) {
+            if (demandCreateResponse.code == 200) {
+                this.props.navigation.goBack()
+                this.props.navigation.state.params.updateDemands()
+            } else {
+                alert("Erreur ajout ...")
+            }
+        }
+
+        if (demandUpdateResponse) {
+            if (demandUpdateResponse.code == 200) {
+                this.props.navigation.goBack();
+                this.props.navigation.state.params.updateDemands()
+            } else {
+                alert("Erreur modification ...")
+            }
+        }
+
+        if (demandCreateError) {
+            alert("Erreur ajout ...")
+        }
+
+        if (demandUpdateError) {
+            alert("Erreur modification ...")
+        }
+        
+    }
+
     updateUI  = (key, data) => {
         
         switch (key) {
             case 'titre':
                 this.result.titre = data;
-                //alert(`TITRE with data ${data}`);
                 break;
         
             case 'description':
                 this.result.description = data;
-                //alert(`DESCRIPTION with data ${data}`);
                 break;
 
             case 'user':
@@ -80,6 +116,11 @@ class DemandeParentContainer extends Component{
 
             case 'demand':
                 this.result.demand = data;
+                this.result.titre = data.titre;
+                this.result.description = data.description;
+                this.result.selectedType = data.type_id-1;
+                this.result.selectedPriority = data.priorite_id-1;
+                this.result.userId = data.user_id;
                 break;
 
             case 'selectedType':
@@ -104,11 +145,11 @@ class DemandeParentContainer extends Component{
     onCreateOrEditDemandPressed = () => {
         
         if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            //this.onCreateDemand()
-            alert(`CREATE with data ${JSON.stringify(this.result)}`);
+            this.onCreateDemand()
+            //alert(`CREATE with data ${JSON.stringify(this.result)}`);
         } else {
-            //this.onUpdateDemand()
-            alert(`UPDATE with data ${JSON.stringify(this.result)}`);
+            this.onUpdateDemand()
+            //alert(`UPDATE with data ${JSON.stringify(this.result)}`);
         }
 
     }
@@ -195,12 +236,22 @@ class DemandeParentContainer extends Component{
     }
 
     render() {
+
+        const { demandCreateLoading, demandUpdateLoading, demandCreateError, demandUpdateError } = this.props;
         const {pageType, demand, updateDemands} = this.props.navigation.state.params;
 
         const TabsDemande = tabsDemande(pageType, demand, updateDemands, this.updateUI);
         return (
             
             <View style={{flex: 1}}>
+
+                {(demandCreateError || demandUpdateError) && (
+                    <LoaderDelete loading={loadingdelete} textvalue='Erreur lors du traitement' />
+                )} 
+
+                {(demandCreateLoading || demandUpdateLoading) && (
+                    <Loader loading={demandCreateLoading}/>)
+                }
 
                 <View style={{height: 40, marginTop: 0}}> 
                     
