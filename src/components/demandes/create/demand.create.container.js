@@ -62,13 +62,22 @@ class DemandCreateContainer extends Component {
         getData('user')
             .then(user => {
                 this.setState({user: user});
-                user.type === '1' && (
+                this.props.updateUi('user', user);
+                if(user.type === '1'){
+                    //this.props.dispatch(fetchUsers())
+                    this.props.dispatch(fetchDemandDetail(0))
+                }else if(user.type === '0'){
+                    this.setState({userId: user.id});
+                    this.props.updateUi('userId', user.id);
+                }
+
+                /*user.type === '1' && (
                     //this.props.dispatch(fetchUsers())
                     this.props.dispatch(fetchDemandDetail(0))
                 )
                 user.type === '0' && (
                     this.setState({userId: user.id})
-                )
+                )*/
             })
             .catch(error => console.log("error"))
 
@@ -109,9 +118,10 @@ class DemandCreateContainer extends Component {
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             if (demandDetailResponse && demandDetailResponse.users && demandDetailResponse.users.length > 0) {
                 demandDetailResponse.users.map(user => {
-                    if( demand.demand.user_id === user.id)
-                        this.setState({query: user.societe})
-
+                    if( demand.demand.user_id === user.id){
+                        this.setState({query: user.societe});
+                        this.props.updateUi('user', user);
+                    }
                 })
             }
         }
@@ -184,11 +194,12 @@ class DemandCreateContainer extends Component {
                 ticketId: demand.demand.ticket_id,
                 demand: demand.demand
             });
+            this.props.updateUi('demand', demand.demand);
         } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE){
             
             this.setState({
                 pageType: pageType,
-                selectedType: 1
+                selectedType: -1
             });
         }
     }
@@ -273,11 +284,13 @@ class DemandCreateContainer extends Component {
     }
 
     updatePriority = (selectedPriority) => {
-        this.setState({selectedPriority: selectedPriority})
+        this.setState({selectedPriority: selectedPriority});
+        this.props.updateUi('selectedPriority', selectedPriority);
     }
 
     updateType = (selectedType) => {
-        this.setState({selectedType: selectedType})
+        this.setState({selectedType: selectedType});
+        this.props.updateUi('selectedType', selectedType);
     }
 
     render() {
@@ -332,7 +345,7 @@ class DemandCreateContainer extends Component {
                                value={this.state.titre}
                                onChangeText={text => {
                                         this.setState({titre: text});
-                                        this.props.updateUi(text);
+                                        this.props.updateUi('titre', text);
                                     }
                                 }
                     />
@@ -341,7 +354,11 @@ class DemandCreateContainer extends Component {
                                underlineColorAndroid='transparent'
                                multiline={true}
                                value={this.state.description}
-                               onChangeText={text => this.setState({description: text})}
+                               onChangeText={text => {
+                                        this.setState({description: text});
+                                        this.props.updateUi('description', text);
+                                    }
+                                }
                     />
                     {
                         user.type === '1' && (
@@ -352,12 +369,22 @@ class DemandCreateContainer extends Component {
                                 containerStyle={styles.autocompleteContainer}
                                 data={filteredUser.length === 1 && comp(query, filteredUser[0].societe) ? [] : filteredUser}
                                 defaultValue={query}
-                                onChangeText={text => this.setState({query: text})}
+                                onChangeText={text => {
+                                        this.setState({query: text});
+                                    }
+                                }
                                 placeholder="Choisir un utilisateur"
-                                renderItem={({societe, prenom, nom, id}) => (
+                                renderItem={({societe, prenom, nom, id, type}) => (
                                     <TouchableOpacity onPress={() => {
-                                        this.setState({query: societe, userId: id})
-                                        Keyboard.dismiss()
+                                        this.setState({query: societe, userId: id});
+                                        this.props.updateUi('user', {
+                                            id: id,
+                                            nom: nom,
+                                            prenom: prenom,
+                                            societe: societe,
+                                            type: type
+                                        });
+                                        Keyboard.dismiss();
                                     }}>
                                         <Text style={styles.itemText}>
                                             {societe + " - " + prenom + " " + nom}

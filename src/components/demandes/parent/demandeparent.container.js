@@ -32,34 +32,69 @@ class DemandeParentContainer extends Component{
     constructor(props) {
         super(props)
         this.state = {
+            pageType: null,
+            
+        }
+
+        this.result = {
             user: {},
-            query: '',
             userId: -1,
-            ticketId: 0,
             titre: '',
             description: '',
             selectedType: -1,
             selectedPriority: -1,
-            pageType: {},
             demand: {}
-        }
+        };
     }
 
     componentDidMount() {
 
-        const {pageType, demand, updateDemands} = this.props.navigation.state.params;
+        const {pageType, demand} = this.props.navigation.state.params;
         this.setState(
             {   
                 pageType: pageType,
-                demand: demand
             }
         );
     }
 
-    updateUI  = (data) => {
+    updateUI  = (key, data) => {
         
-        alert(`update UI cLICKED with data ${data}`);
+        switch (key) {
+            case 'titre':
+                this.result.titre = data;
+                //alert(`TITRE with data ${data}`);
+                break;
+        
+            case 'description':
+                this.result.description = data;
+                //alert(`DESCRIPTION with data ${data}`);
+                break;
 
+            case 'user':
+                this.result.user = data;
+                break;
+
+            case 'userId':
+                this.result.userId = data;
+                break;
+
+            case 'demand':
+                this.result.demand = data;
+                break;
+
+            case 'selectedType':
+                this.result.selectedType = data;
+                break;
+
+            case 'selectedPriority':
+                this.result.selectedPriority = data;
+                break;
+
+            default:
+                break;
+        }
+        
+            
     };
 
     onBackPressed = () => {
@@ -69,15 +104,17 @@ class DemandeParentContainer extends Component{
     onCreateOrEditDemandPressed = () => {
         
         if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            this.onCreateDemand()
+            //this.onCreateDemand()
+            alert(`CREATE with data ${JSON.stringify(this.result)}`);
         } else {
-            this.onUpdateDemand()
+            //this.onUpdateDemand()
+            alert(`UPDATE with data ${JSON.stringify(this.result)}`);
         }
 
     }
 
     onCreateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user} = this.state
+        const {userId, titre, description, selectedType, selectedPriority, user} = this.result
         if (titre === '') {
             alert('Veuillez insérer un titre.')
         } else if (description === '') {
@@ -104,7 +141,7 @@ class DemandeParentContainer extends Component{
     }
 
     onUpdateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.state
+        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.result
         if (titre === '') {
             alert('Veuillez insérer un titre.')
         } else if (description === '') {
@@ -118,7 +155,6 @@ class DemandeParentContainer extends Component{
         } else {
             const newDemand = {}
             newDemand.ticketId = demand.ticket_id
-            newDemand.titre = titre
             newDemand.titre = titre
             newDemand.description = description
             newDemand.type = this.toType(selectedType)
