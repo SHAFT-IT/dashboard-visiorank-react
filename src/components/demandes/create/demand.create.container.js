@@ -19,18 +19,19 @@ import {
     DEMANDE_STATUT_LIVRE_KEY,
     DEMANDE_STATUT_VALIDE_KEY,
     DEMANDE_STATUT_CLOS_KEY,
-    NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE, DEMANDE_STATUT_BROUILLON_VALUE
+    NAVIGATION_TYPE_DEMAND_CREATE,
+    NAVIGATION_TYPE_DEMAND_UPDATE,
+    NAVIGATION_TYPE_USER_UPDATE,
+    DEMANDE_STATUT_BROUILLON_VALUE
 } from "../../../commons/constant";
 import {getData} from '../../../commons/preferences';
 import Autocomplete from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonGroup} from 'react-native-elements';
-import LoaderCreate from "../../loader/LoaderCreate";
-import {AlertError} from "../../alert/AlertError";
-import {createDemand} from "../../../store/actions/demands.create.action";
-import demandUpdate from "../../../store/reducers/demands.update.reducer";
-import {updateDemand} from "../../../store/actions/demands.update.action";
-import { fetchDemandDetail } from '../../../store/actions/demands.detail.action';
+import {fetchDemandDetail} from '../../../store/actions/demands.detail.action';
+import {changePriorityDemande, changeStatusDemande} from "../../../store/actions/demandes.actions";
+import Modal from "react-native-modal"
+import StatusListWithComments from '../../status/statusWithComment.list.component'
 
 const componentPriorityNormal = () => <Text style={styles.buttonGroup}>Normal</Text>
 const componentPriorityLow = () => <Text style={styles.buttonGroup}>Basse</Text>
@@ -54,7 +55,10 @@ class DemandCreateContainer extends Component {
             selectedType: -1,
             selectedPriority: -1,
             pageType: {},
-            demand: {}
+            demand: {},
+            isModalVisible: false,
+            status: false,
+            comment: '',
         }
     }
 
@@ -63,21 +67,12 @@ class DemandCreateContainer extends Component {
             .then(user => {
                 this.setState({user: user});
                 this.props.updateUi('user', user);
-                if(user.type === '1'){
-                    //this.props.dispatch(fetchUsers())
+                if (user.type === '1') {
                     this.props.dispatch(fetchDemandDetail(0))
-                }else if(user.type === '0'){
+                } else if (user.type === '0') {
                     this.setState({userId: user.id});
                     this.props.updateUi('userId', user.id);
                 }
-
-                /*user.type === '1' && (
-                    //this.props.dispatch(fetchUsers())
-                    this.props.dispatch(fetchDemandDetail(0))
-                )
-                user.type === '0' && (
-                    this.setState({userId: user.id})
-                )*/
             })
             .catch(error => console.log("error"))
 
@@ -92,38 +87,39 @@ class DemandCreateContainer extends Component {
                                   demandUpdateError,
                                   demandDetailResponse
                               }) {
-        /*if (demandCreateResponse) {
-            if (demandCreateResponse.code == 200) {
-                this.props.navigation.goBack()
-                this.props.updateDemands()
-            } else {
-                alert("Une erreur est survenue...")
-            }
-        }
-        if (demandUpdateResponse) {
-            if (demandUpdateResponse.code == 200) {
-                this.props.navigation.goBack()
-                this.props.updateDemands()
-            } else {
-                alert("Une erreur est survenue...")
-            }
-        }
-        if (demandCreateError) {
-            alert("Une erreur est survenue...")
-        }
-        if (demandUpdateError) {
-            alert("Une erreur est survenue...")
-        }*/
         const {pageType, demand} = this.props
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             if (demandDetailResponse && demandDetailResponse.users && demandDetailResponse.users.length > 0) {
                 demandDetailResponse.users.map(user => {
-                    if( demand.demand.user_id === user.id){
+                    if (demand.demand.user_id === user.id) {
                         this.setState({query: user.societe});
                         this.props.updateUi('user', user);
                     }
                 })
             }
+        }
+    }
+
+    onUpdateStatus = () => {
+        const {pageType, demand} = this.props
+        if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            this.showModal(true, {status: true})
+        }
+    }
+
+    getComment = (comment) => {
+        this.setState({comment: comment})
+    }
+
+    showModal = (visibility, state = {status: false, statusId: 0}) => {
+        const {demand} = this.props
+        this.setState({
+            isModalVisible: visibility,
+            status: state.status,
+            priority: state.priority,
+        });
+        if (!visibility) {
+            if (state.status && state.statusId) this.props.dispatch(changeStatusDemande(state.statusId, demand.demand.ticket_id, this.state.comment))
         }
     }
 
@@ -181,7 +177,6 @@ class DemandCreateContainer extends Component {
 
     init = () => {
         const {demand, pageType} = this.props;
-        
         if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
             this.props.dispatch(fetchDemandDetail(demand.demand.ticket_id));
             this.setState({
@@ -195,13 +190,13 @@ class DemandCreateContainer extends Component {
                 demand: demand.demand
             });
             this.props.updateUi('demand', demand.demand);
-            
-        } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE){
-            
+
+        } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
+
             this.setState({
                 pageType: pageType,
                 selectedType: -1,
-                demand:{status: DEMANDE_STATUT_BROUILLON_VALUE, statut_id: DEMANDE_STATUT_BROUILLON_KEY}
+                demand: {status: DEMANDE_STATUT_BROUILLON_VALUE, statut_id: DEMANDE_STATUT_BROUILLON_KEY}
             });
         }
     }
@@ -220,77 +215,13 @@ class DemandCreateContainer extends Component {
         setTimeout(() => this.scroller.scrollTo({x: 0, y: 240}), 1000);
     }
 
-    /*onCreateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user} = this.state
-        if (titre === '') {
-            alert('Veuillez insérer un titre.')
-        } else if (description === '') {
-            alert('Veuillez insérer une description.')
-        } else if (userId === -1 && user.type === '1') {
-            alert('Veuillez choisir un utilisateur.')
-        } else if (selectedType === -1) {
-            alert('Veuillez choisir le type de demande.')
-        } else if (selectedPriority === -1) {
-            alert('Veuillez choisir la priorité de la demande.')
-        } else {
-            const newDemand = {}
-            newDemand.titre = titre
-            newDemand.description = description
-            newDemand.type = this.toType(selectedType)
-            newDemand.priorityId = this.toPriority(selectedPriority)
-            if (user.type === '1') {
-                newDemand.userId = userId
-            } else {
-                newDemand.userId = user.id
-            }
-            this.props.dispatch(createDemand(newDemand))
-        }
-    }
-
-    onUpdateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.state
-        if (titre === '') {
-            alert('Veuillez insérer un titre.')
-        } else if (description === '') {
-            alert('Veuillez insérer une description.')
-        } else if (userId === -1 && user.type === '1') {
-            alert('Veuillez choisir un utilisateur.')
-        } else if (selectedType === -1) {
-            alert('Veuillez choisir le type de demande.')
-        } else if (selectedPriority === -1) {
-            alert('Veuillez choisir la priorité de la demande.')
-        } else {
-            const newDemand = {}
-            newDemand.ticketId = demand.ticket_id
-            newDemand.titre = titre
-            newDemand.description = description
-            newDemand.type = this.toType(selectedType)
-            newDemand.priorityId = this.toPriority(selectedPriority)
-            if (user.type === '1') {
-                newDemand.userId = userId
-            } else {
-                newDemand.userId = user.id
-            }
-            this.props.dispatch(updateDemand(newDemand))
-        }
-    }
-
-    onCreateOrEditDemandPressed = () => {
-        const {pageType} = this.props;
-        if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            this.onCreateDemand()
-        } else {
-            this.onUpdateDemand()
-        }
-    }*/
-
     updatePriority = (selectedPriority) => {
         this.setState({selectedPriority: selectedPriority});
         this.props.updateUi('selectedPriority', selectedPriority);
     }
 
     updateType = (selectedType) => {
-        if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE){
+        if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
             this.setState({selectedType: selectedType});
             this.props.updateUi('selectedType', selectedType);
         }
@@ -322,35 +253,75 @@ class DemandCreateContainer extends Component {
         const {selectedType, selectedPriority} = this.state
 
         switch (parseInt(this.state.demand.statut_id)) {
-            case DEMANDE_STATUT_BROUILLON_KEY:statusBgColor = '#fff';buttonTextColor = '#000';break;
-            case DEMANDE_STATUT_PRISE_EN_CHARGE_KEY:statusBgColor = '#f0ad4e';buttonTextColor = '#fff';break;
-            case DEMANDE_STATUT_REFUSE_KEY:statusBgColor = '#d9534f';buttonTextColor = '#fff';break;
-            case DEMANDE_STATUT_LIVRE_KEY:statusBgColor = '#5bc0de';buttonTextColor = '#fff';break;
-            case DEMANDE_STATUT_VALIDE_KEY:statusBgColor = '#5cb85c';buttonTextColor = '#fff';break;
-            case DEMANDE_STATUT_CLOS_KEY:statusBgColor = '#337ab7';buttonTextColor = '#fff';break;
-            default:statusBgColor = '#337ab7';buttonTextColor = '#fff';
+            case DEMANDE_STATUT_BROUILLON_KEY:
+                statusBgColor = '#fff';
+                buttonTextColor = '#000';
+                break;
+            case DEMANDE_STATUT_PRISE_EN_CHARGE_KEY:
+                statusBgColor = '#f0ad4e';
+                buttonTextColor = '#fff';
+                break;
+            case DEMANDE_STATUT_REFUSE_KEY:
+                statusBgColor = '#d9534f';
+                buttonTextColor = '#fff';
+                break;
+            case DEMANDE_STATUT_LIVRE_KEY:
+                statusBgColor = '#5bc0de';
+                buttonTextColor = '#fff';
+                break;
+            case DEMANDE_STATUT_VALIDE_KEY:
+                statusBgColor = '#5cb85c';
+                buttonTextColor = '#fff';
+                break;
+            case DEMANDE_STATUT_CLOS_KEY:
+                statusBgColor = '#337ab7';
+                buttonTextColor = '#fff';
+                break;
+            default:
+                statusBgColor = '#337ab7';
+                buttonTextColor = '#fff';
         }
-        
+
         return (
             <View style={styles.allcontent}>
-                
-                <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => { this.scroller = scroller }}>
+                <ScrollView keyboardShouldPersistTaps={'handled'} ref={(scroller) => {
+                    this.scroller = scroller
+                }}>
                     <View>
-                        <TouchableHighlight style={[styles.bsubmit1, {backgroundColor: statusBgColor, marginTop:20}]}>
+                        <Modal isVisible={this.state.isModalVisible} transparent={true}>
+                            <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
+                                <View style={{
+                                    flex: 1,
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    borderRadius: 10
+                                }}>
+                                    {this.state.status &&
+                                    <StatusListWithComments showModal={this.showModal}
+                                                            getComment={this.getComment}
+                                                            demand={this.props.demand}/>}
+                                </View>
+                            </TouchableOpacity>
+                        </Modal>
+                        <TouchableHighlight onPress={this.onUpdateStatus}
+                                            style={[styles.bsubmit1, {backgroundColor: statusBgColor, marginTop: 20}]}>
                             <Text style={[styles.buttonText, {color: buttonTextColor}]}>
-                                Statut de la demande :  {this.state.demand.status}  <Icon name="chevron-down" style={[styles.icontopStatus, {color: buttonTextColor}]}/>
+                                Statut de la demande : {this.state.demand.status}
+                                <Icon name="chevron-down"
+                                      style={[styles.icontopStatus, {color: buttonTextColor}]}/>
                             </Text>
                         </TouchableHighlight>
-                    </View>                    
+                    </View>
                     <TextInput style={styles.edittext}
                                placeholder="Titre"
                                underlineColorAndroid='transparent'
                                value={this.state.titre}
                                onChangeText={text => {
-                                        this.setState({titre: text});
-                                        this.props.updateUi('titre', text);
-                                    }
-                                }
+                                   this.setState({titre: text});
+                                   this.props.updateUi('titre', text);
+                               }
+                               }
                     />
                     <TextInput style={styles.textArea}
                                placeholder="Description"
@@ -358,10 +329,10 @@ class DemandCreateContainer extends Component {
                                multiline={true}
                                value={this.state.description}
                                onChangeText={text => {
-                                        this.setState({description: text});
-                                        this.props.updateUi('description', text);
-                                    }
-                                }
+                                   this.setState({description: text});
+                                   this.props.updateUi('description', text);
+                               }
+                               }
                     />
                     {
                         user.type === '1' && (
@@ -373,8 +344,8 @@ class DemandCreateContainer extends Component {
                                 data={filteredUser.length === 1 && comp(query, filteredUser[0].societe) ? [] : filteredUser}
                                 defaultValue={query}
                                 onChangeText={text => {
-                                        this.setState({query: text});
-                                    }
+                                    this.setState({query: text});
+                                }
                                 }
                                 placeholder="Choisir un utilisateur"
                                 renderItem={({societe, prenom, nom, id, type}) => (
@@ -422,7 +393,7 @@ class DemandCreateContainer extends Component {
                         buttons={buttonsPriority}
                         buttonStyle={styles.buttonGroupBackground}
                         containerStyle={{height: 35}}/>
-                    
+
                 </ScrollView>
             </View>
         )
@@ -442,7 +413,7 @@ const mapStateToProps = state => ({
     })
 ;
 
-export default withNavigation (connect(mapStateToProps)(DemandCreateContainer));
+export default withNavigation(connect(mapStateToProps)(DemandCreateContainer));
 
 const styles = StyleSheet.create({
     richText: {
@@ -628,7 +599,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    bigtitle: { 
+    bigtitle: {
         textAlign: 'left',
         color: '#939393',
         fontSize: 14,
