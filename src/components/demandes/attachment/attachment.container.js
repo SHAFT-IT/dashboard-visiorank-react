@@ -3,6 +3,7 @@ import {View, Text, FlatList, StyleSheet, Alert, Platform, TouchableOpacity} fro
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE } from '../../../commons/constant';
 import { GRIS_BACKGROUND, GRIS_TEXT } from '../../../commons/colors';
+import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
 
 export default class AttachmentContainer extends Component{ 
@@ -211,59 +212,3 @@ export default class AttachmentContainer extends Component{
     }
  
 }
-
-const styles = StyleSheet.create({
- 
-    MainContainer :{
-     
-        justifyContent: 'center',
-        flex:1,
-        margin: 10,
-        paddingTop: 0
-     
-    },
-     
-    GridViewBlockStyle: {
-      
-        justifyContent: 'center',
-        flex:1,
-        alignItems: 'center',
-        height: 100,
-        margin: 5,
-        backgroundColor: GRIS_TEXT,
-        borderRadius: 7
-    },
-     
-    GridViewBlockStyleInside: {
-        justifyContent: 'center',
-        flex:1,
-        alignItems: 'center',
-        height: 100, 
-        margin: 5, 
-        backgroundColor: GRIS_TEXT,
-        borderRadius: 7
-    },
-
-    GridViewInsideTextItemStyle: {
-     
-        color: '#fff',
-        padding: 10,
-        fontSize: 13,
-        justifyContent: 'center',
-       
-    },
-
-    iconadd: {
-        fontSize: 28,
-        color: 'white',
-        justifyContent: 'center',
-        
-    },
-
-    icondelete: {
-        fontSize: 20,
-        color: 'white',
-        justifyContent: 'center',
-    }
-     
-});

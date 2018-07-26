@@ -28,6 +28,7 @@ import {
 import {createDemand} from "../../../store/actions/demands.create.action";
 import {updateDemand} from "../../../store/actions/demands.update.action";
 import LoaderDelete from '../../loader/LoaderDelete';
+import styles from './demandeparent.style';
 
 class DemandeParentContainer extends Component {
 
@@ -366,38 +367,3 @@ const mapStateToProps = state => ({
 
 export default withNavigation (connect(mapStateToProps)(DemandeParentContainer));
 
-const styles = StyleSheet.create({
-    containericontop: {
-        position: 'absolute',
-        top: 5,
-        left: 25,
-        alignItems: "center",
-        justifyContent: "center",
-        width: 40,
-        height: 40, 
-    },
-    containericonright: {
-        position: 'absolute',
-        top: 5,
-        right: 25,
-        alignItems: "center",
-        justifyContent: "center",
-        width: 40,
-        height: 40,
-    },
-    icontop: {
-        fontSize: 35,
-        color: 'grey',
-    },
-    iconright: {
-        fontSize: 35,
-        color: 'grey',
-    },
-    bigtitle: { 
-        textAlign: 'center',
-        color: '#939393',
-        fontSize: 14,  
-        fontWeight: 'bold',
-        marginTop: 15
-    }
-});
