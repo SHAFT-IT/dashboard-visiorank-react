@@ -159,7 +159,7 @@ class AttachmentContainer extends Component{
                 />
                 
                 <View style={styles.GridViewBlockStyleInside}>
-                    <Icon name="file" style={styles.iconmiddle}/> 
+                    <Icon name={item.pj_icon} style={styles.iconmiddle}/> 
                 </View>
 
                 <TouchableOpacity underlayColor='transparent' onPress={() => this.getGridViewAction(item)} style={{position: 'absolute', top:11, right:7, width:28, height: 28}}>
