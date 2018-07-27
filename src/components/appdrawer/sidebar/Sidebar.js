@@ -19,7 +19,9 @@ class DrawerContent extends Component {
     }
 
     componentWillReceiveProps({selectedMenuIndex}) {
-        this.setState({activeIndex: selectedMenuIndex})
+        if (this.state.activeIndex !== selectedMenuIndex) {
+            this.setState({activeIndex: selectedMenuIndex})
+        }
     }
 
     componentDidMount() {
@@ -35,12 +37,13 @@ class DrawerContent extends Component {
     }
 
     navigateToScreen = (route, activeIndex) => () => {
+        this.setState({activeIndex: activeIndex})
         const navigateAction = NavigationActions.navigate({
             routeName: route
         });
         this.props.navigation.dispatch(navigateAction);
         this.props.navigation.dispatch(DrawerActions.closeDrawer());
-        this.setState({activeIndex: activeIndex});
+
     }
 
     render() {
