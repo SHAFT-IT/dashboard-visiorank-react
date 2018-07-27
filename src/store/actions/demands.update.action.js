@@ -1,7 +1,8 @@
 import {
     UPDATE_DEMAND,
     UPDATE_DEMAND_FAILURE,
-    UPDATE_DEMAND_SUCCESS
+    UPDATE_DEMAND_SUCCESS,
+    UPDATE_DEMAND_RESET
 } from "../types/demandes.types";
 import {getData} from "../../commons/preferences";
 import {URL_DEMAND_EDIT} from "../../commons/urls";
@@ -21,6 +22,12 @@ function updateDemandSuccess(onUpdateDemandSuccess) {
 function updateDemandFailure(onUpdateDemandError) {
     return function (dispatch) {
         dispatch({type: UPDATE_DEMAND_FAILURE, payload: onUpdateDemandError})
+    }
+}
+
+export function updateDemandReset(){
+    return function (dispatch) {
+        dispatch({type: UPDATE_DEMAND_RESET})
     }
 }
 

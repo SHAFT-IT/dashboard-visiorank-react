@@ -1,7 +1,8 @@
 import {
     UPDATE_DEMAND,
     UPDATE_DEMAND_FAILURE,
-    UPDATE_DEMAND_SUCCESS
+    UPDATE_DEMAND_SUCCESS,
+    UPDATE_DEMAND_RESET
 } from "../types/demandes.types";
 
 const initialState = {
@@ -29,6 +30,13 @@ export default function demandUpdateReducer(state = initialState, action) {
                 ...state,
                 loadingOnUpdateUser: false,
                 error: action.payload,
+                response: null
+            };
+        case UPDATE_DEMAND_RESET:
+            return {
+                ...state,
+                loadingOnUpdateUser: false,
+                error: null,
                 response: null
             };
         default:

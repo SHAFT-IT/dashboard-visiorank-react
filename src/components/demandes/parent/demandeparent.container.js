@@ -30,6 +30,7 @@ import {updateDemand} from "../../../store/actions/demands.update.action";
 import LoaderDelete from '../../loader/LoaderDelete';
 import {fetchDemandDetail} from '../../../store/actions/demands.detail.action';
 import {getData} from '../../../commons/preferences';
+import {updateDemandReset} from "../../../store/actions/demands.update.action";
 import styles from './demandeparent.style';
 
 class DemandeParentContainer extends Component {
@@ -111,6 +112,7 @@ class DemandeParentContainer extends Component {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
+                
             } else {
                 alert("Erreur ajout ...")
             }
@@ -120,6 +122,7 @@ class DemandeParentContainer extends Component {
             if (demandUpdateResponse.code == 200) {
                 this.props.navigation.goBack();
                 this.props.navigation.state.params.updateDemands()
+                this.props.dispatch(updateDemandReset())
             } else {
                 alert("Erreur modification ...")
             }
@@ -189,11 +192,11 @@ class DemandeParentContainer extends Component {
     onCreateOrEditDemandPressed = () => {
         
         if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            //this.onCreateDemand()
-            alert(`CREATE with data ${JSON.stringify(this.result)}`);
-        } else {
-            //this.onUpdateDemand()
-            alert(`UPDATE with data ${JSON.stringify(this.result)}`);
+            this.onCreateDemand()
+            //alert(`CREATE with data ${JSON.stringify(this.result)}`);
+        } else if (this.state.pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            this.onUpdateDemand()
+            //alert(`UPDATE with data ${JSON.stringify(this.result)}`);
         }
 
     }
@@ -291,7 +294,7 @@ class DemandeParentContainer extends Component {
             <View style={{flex: 1}}>
 
                 {(demandDetailError || demandCreateError || demandUpdateError) && (
-                    <LoaderDelete loading={demandDetailError || demandCreateError || demandUpdateError} textvalue='Erreur lors du traitement' />
+                    alert("Erreur lor du traitement !")
                 )} 
 
                 {(demandCreateLoading || demandUpdateLoading || demandDetailLoading) && (

@@ -25,37 +25,52 @@ class AttachmentContainer extends Component{
 
     componentDidMount() {
         
-        this.init([])
-        
-    }
-
-    /*componentWillReceiveProps({ demandDetailResponse }) {
-        alert('mandalo 0');
-        const {pageType} = this.props
+        const {pageType, detailResponse} = this.props;
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
-            alert('mandalo 1');
-            if (demandDetailResponse && demandDetailResponse.ticket && demandDetailResponse.ticket.attachments.length > 0) {
-                alert('mandalo 2');
-                let arrvalues = [];
-                demandDetailResponse.ticket.attachments.map(attach => {
+            let arrvalues = [];
+
+            if (detailResponse && detailResponse.ticket && detailResponse.ticket.attachments.length > 0) {
+                
+                detailResponse.ticket.attachments.map(attach => {
+                    
+                    urlSplitted = attach.pj_file.split('/');
                     
                     arrvalue = {
                         key: 'UPDATE',
-                        pj_id: attach.pj_id,
                         pj_ticket: attach.pj_ticket,
-                        pj_file: attach.pj_file,
+                        pj_url: attach.pj_file,
                         pj_date: attach.pj_date,
                         pj_visibilite: attach.pj_visibilite,
-                        icon: attach.icon
+                        pj_icon: attach.pj_icon,
+                        index: attach.pj_id,
+                        fileName: urlSplitted[urlSplitted.length - 1],
+                        type: attach.pj_type,
+                        path: null,
+                        uri: null
+
                     };
                     arrvalues.push(arrvalue);
 
                 })
-                this.init(arrvalues);
                 
             }
+
+            arrvalues.push({key: 'ADD'});
+            if(arrvalues.length %2 != 0)
+                arrvalues.push({key: 'EMPTY'});
+            this.setState({
+                AttachmentItems: arrvalues,
+            });
+
+        } else if (pageType === NAVIGATION_TYPE_DEMAND_CREATE){
+            
+            this.setState({
+                AttachmentItems: [{key: 'ADD'}, {key: 'EMPTY'}],
+            });
+
         }
-    }*/
+        
+    }
 
     filterNewFile = () => {
 
@@ -181,24 +196,6 @@ class AttachmentContainer extends Component{
 
     }
 
-    init = (updateAttachs) => {
-        const {pageType} = this.props;
-        if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
-            let arrvalues = updateAttachs;
-            arrvalues.push({key: 'ADD'});
-            if(arrvalues.length %2 != 0)
-                arrvalues.push({key: 'EMPTY'});
-            this.setState({
-                AttachmentItems: arrvalues,
-            });
-        } else if (pageType === NAVIGATION_TYPE_DEMAND_CREATE){
-            
-            this.setState({
-                AttachmentItems: [{key: 'ADD'}, {key: 'EMPTY'}],
-            });
-        }
-    }
-
     render() {
 
         return (
@@ -223,15 +220,6 @@ class AttachmentContainer extends Component{
 
                     numColumns={2}
                 />
-
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-
-                    {this.state.file && typeof this.state.file === 'object' ? 
-                        <Text>{JSON.stringify(this.state.file)}</Text> :
-                        <Text>Your file detail appear here</Text> 
-                    }
-                     
-                </View>
 
    
             </View>
