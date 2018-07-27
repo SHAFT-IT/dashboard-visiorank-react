@@ -1,28 +1,19 @@
 export default  {
-
-    MainContainer :{
-     
+    mainContainer :{
         flex:1,
         marginTop: 10
     },
-    
-    GridViewBlockStyle: {
-      
+    gridViewBlockStyle: {
         backgroundColor: '#DCDCDC',
         flexDirection: 'column',
         paddingVertical: 1,
         marginVertical: 1,
         height: 99
-        
     },
-     
-    GridViewInsideTextItemStyle: {
-     
+    gridViewInsideTextItemStyle: {
         color: '#fff',
         padding: 10,
         fontSize: 13,
         justifyContent: 'center',
-       
     },
-
 };

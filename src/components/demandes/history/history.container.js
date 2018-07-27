@@ -12,35 +12,21 @@ export default class HistoryContainer extends Component{
       }
     }
 
-
     render() {
-
         return (
-
-            <View style={styles.MainContainer}>
- 
+            <View style={styles.mainContainer}>
                 <FlatList
-                
                     data={ this.state.historyItems }
-            
                     renderItem={({item}) =>
-                    
                     <View style={{flex: 1, height: 100}}>
-                        <View style={styles.GridViewBlockStyle}>
-                            <Text style={styles.GridViewInsideTextItemStyle}> {item.date} </Text>
+                        <View style={styles.gridViewBlockStyle}>
+                            <Text style={styles.gridViewInsideTextItemStyle}> {item.date} </Text>
                         </View>
-                        
                     </View>
-
                     }
-
                 />
-   
             </View>
-
         );
-
     }
-  
 }
 
