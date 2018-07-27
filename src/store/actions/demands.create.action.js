@@ -1,4 +1,4 @@
-import {CREATE_DEMAND, CREATE_DEMAND_FAILURE, CREATE_DEMAND_SUCCESS} from "../types/demandes.types";
+import {CREATE_DEMAND, CREATE_DEMAND_FAILURE, CREATE_DEMAND_SUCCESS, CREATE_DEMAND_RESET} from "../types/demandes.types";
 import {getData} from "../../commons/preferences";
 import {URL_DEMAND_CREATE} from "../../commons/urls";
 
@@ -17,6 +17,12 @@ function createDemandSuccess(onCreateDemandSuccess) {
 function createDemandFailure(onCreateDemandError) {
     return function (dispatch) {
         dispatch({type: CREATE_DEMAND_FAILURE, payload: onCreateDemandError})
+    }
+}
+
+export function createDemandReset(){
+    return function (dispatch) {
+        dispatch({type: CREATE_DEMAND_RESET})
     }
 }
 

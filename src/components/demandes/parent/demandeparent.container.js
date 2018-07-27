@@ -25,7 +25,7 @@ import {
     DEMANDE_STATUT_CLOS_KEY,
     NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_USER_UPDATE
 } from "../../../commons/constant";
-import {createDemand} from "../../../store/actions/demands.create.action";
+import {createDemand, createDemandReset} from "../../../store/actions/demands.create.action";
 import {updateDemand} from "../../../store/actions/demands.update.action";
 import LoaderDelete from '../../loader/LoaderDelete';
 import {fetchDemandDetail} from '../../../store/actions/demands.detail.action';
@@ -112,7 +112,7 @@ class DemandeParentContainer extends Component {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
-                
+                this.props.dispatch(createDemandReset())
             } else {
                 alert("Erreur ajout ...")
             }

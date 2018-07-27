@@ -1,4 +1,4 @@
-import {CREATE_DEMAND, CREATE_DEMAND_FAILURE, CREATE_DEMAND_SUCCESS} from "../types/demandes.types";
+import {CREATE_DEMAND, CREATE_DEMAND_FAILURE, CREATE_DEMAND_SUCCESS, CREATE_DEMAND_RESET} from "../types/demandes.types";
 
 const initialState = {
     response: null,
@@ -25,6 +25,13 @@ export default function demandCreateReducer(state = initialState, action) {
                 ...state,
                 loadingOnCreateUser: false,
                 error: action.payload,
+                response: null
+            };
+        case CREATE_DEMAND_RESET:
+            return {
+                ...state,
+                loadingOnCreateUser: false,
+                error: null,
                 response: null
             };
         default:
