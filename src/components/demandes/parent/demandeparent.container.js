@@ -28,6 +28,8 @@ import {
 import {createDemand} from "../../../store/actions/demands.create.action";
 import {updateDemand} from "../../../store/actions/demands.update.action";
 import LoaderDelete from '../../loader/LoaderDelete';
+import {fetchDemandDetail} from '../../../store/actions/demands.detail.action';
+import {getData} from '../../../commons/preferences';
 import styles from './demandeparent.style';
 
 class DemandeParentContainer extends Component {
@@ -36,7 +38,8 @@ class DemandeParentContainer extends Component {
         super(props)
         this.state = {
             pageType: null,
-            
+            detailResponse: {},
+            demand: {},
         }
 
         this.result = {
@@ -57,17 +60,52 @@ class DemandeParentContainer extends Component {
         this.setState(
             {   
                 pageType: pageType,
+                demand: demand
             }
         );
+
+        this.init(pageType, demand);
+
+    }
+
+    init = (pageType, demand) => {
+        
+        if (demand && pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            
+            this.props.dispatch(fetchDemandDetail(demand.demand.ticket_id));
+            
+        } else if (!demand || pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
+
+            getData('user')
+            .then(user => {
+                if (user.type === '1') {
+                    this.props.dispatch(fetchDemandDetail(0))
+                } 
+            })
+            .catch(error => console.log("error getting user"))
+
+        }
     }
 
     componentWillReceiveProps({
+        demandDetailResponse,
         demandCreateResponse,
         demandUpdateResponse,
         demandCreateError,
         demandUpdateError,
     })
     {
+
+        
+        if (demandDetailResponse && demandDetailResponse !== this.props.demandDetailResponse) {
+        
+            this.setState(
+                {
+                    detailResponse: demandDetailResponse
+                }
+            );
+            
+        }
         
         if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
@@ -151,11 +189,11 @@ class DemandeParentContainer extends Component {
     onCreateOrEditDemandPressed = () => {
         
         if (this.state.pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
-            this.onCreateDemand()
-            //alert(`CREATE with data ${JSON.stringify(this.result)}`);
+            //this.onCreateDemand()
+            alert(`CREATE with data ${JSON.stringify(this.result)}`);
         } else {
-            this.onUpdateDemand()
-            //alert(`UPDATE with data ${JSON.stringify(this.result)}`);
+            //this.onUpdateDemand()
+            alert(`UPDATE with data ${JSON.stringify(this.result)}`);
         }
 
     }
@@ -244,20 +282,20 @@ class DemandeParentContainer extends Component {
 
     render() {
 
-        const { demandCreateLoading, demandUpdateLoading, demandCreateError, demandUpdateError } = this.props;
+        const { demandDetailLoading, demandDetailError, demandCreateLoading, demandUpdateLoading, demandCreateError, demandUpdateError } = this.props;
         const {pageType, demand, updateDemands} = this.props.navigation.state.params;
 
-        const TabsDemande = tabsDemande(pageType, demand, updateDemands, this.updateUI);
+        const TabsDemande = tabsDemande(pageType, demand, updateDemands, this.updateUI, this.state.detailResponse);
         return (
             
             <View style={{flex: 1}}>
 
-                {(demandCreateError || demandUpdateError) && (
-                    <LoaderDelete loading={loadingdelete} textvalue='Erreur lors du traitement' />
+                {(demandDetailError || demandCreateError || demandUpdateError) && (
+                    <LoaderDelete loading={demandDetailError || demandCreateError || demandUpdateError} textvalue='Erreur lors du traitement' />
                 )} 
 
-                {(demandCreateLoading || demandUpdateLoading) && (
-                    <Loader loading={demandCreateLoading}/>)
+                {(demandCreateLoading || demandUpdateLoading || demandDetailLoading) && (
+                    <Loader loading={demandCreateLoading || demandUpdateLoading || demandDetailLoading}/>)
                 }
 
                 <View style={{height: 40, marginTop: 0}}> 
@@ -292,22 +330,22 @@ class DemandeParentContainer extends Component {
     }
 
 }
-const tabsDemande = (pageType, demand, updateDemands, updateUi) => createBottomTabNavigator(
+const tabsDemande = (pageType, demand, updateDemands, updateUi, detailResponse) => createBottomTabNavigator(
     { 
         DemandeCreateTab: {
-            screen: props => <DemandCreateContainer {...props} pageType={pageType} demand={demand} updateDemands={updateDemands} updateUi={updateUi} />,
+            screen: props => <DemandCreateContainer {...props} pageType={pageType} demand={demand} updateDemands={updateDemands} updateUi={updateUi} detailResponse={detailResponse} />,
             navigationOptions: {
                 title: '',  
             }
         },
         DemandeAttachmentTab: {
-            screen: props => <AttachmentContainer {...props} pageType={pageType} updateUi={updateUi} />,
+            screen: props => <AttachmentContainer {...props} pageType={pageType} updateUi={updateUi} detailResponse={detailResponse} />,
             navigationOptions: {
                 title: '',
             }
         },
         DemandeHistoryTab: {
-            screen: HistoryContainer,
+            screen: props => <HistoryContainer {...props} pageType={pageType} detailResponse={detailResponse} />,
             navigationOptions: {
                 title: '',
             }
@@ -357,6 +395,9 @@ const tabsDemande = (pageType, demand, updateDemands, updateUi) => createBottomT
 );
 
 const mapStateToProps = state => ({
+    demandDetailResponse: state.demandDetail.demandDetailResponse,
+    demandDetailLoading: state.demandDetail.demandDetailLoading,
+    demandDetailError: state.demandDetail.demandDetailError,
     demandCreateResponse: state.demandCreate.response,
     demandCreateLoading: state.demandCreate.loadingOnCreateUser,
     demandCreateError: state.demandCreate.error,

@@ -12,21 +12,41 @@ export default class HistoryContainer extends Component{
       }
     }
 
+    componentDidMount() {
+
+        const {pageType, detailResponse} = this.props
+        alert(`HISTORIQUES: ${detailResponse.histories}`);
+
+    }
+
     render() {
+
         return (
+
             <View style={styles.mainContainer}>
+ 
                 <FlatList
+                
                     data={ this.state.historyItems }
+            
                     renderItem={({item}) =>
+                    
                     <View style={{flex: 1, height: 100}}>
                         <View style={styles.gridViewBlockStyle}>
                             <Text style={styles.gridViewInsideTextItemStyle}> {item.date} </Text>
                         </View>
+                        
                     </View>
+
                     }
+
                 />
+   
             </View>
+
         );
+
     }
+  
 }
 

@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import {View, Text, FlatList, StyleSheet, Alert, Platform, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE } from '../../../commons/constant';
-import { GRIS_BACKGROUND, GRIS_TEXT } from '../../../commons/colors';
+import {connect} from "react-redux";
 import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
+import {withNavigation} from 'react-navigation'
 
-export default class AttachmentContainer extends Component{ 
+class AttachmentContainer extends Component{ 
 
     constructor(props)
     {
@@ -24,9 +25,37 @@ export default class AttachmentContainer extends Component{
 
     componentDidMount() {
         
-        this.init()
+        this.init([])
         
     }
+
+    /*componentWillReceiveProps({ demandDetailResponse }) {
+        alert('mandalo 0');
+        const {pageType} = this.props
+        if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
+            alert('mandalo 1');
+            if (demandDetailResponse && demandDetailResponse.ticket && demandDetailResponse.ticket.attachments.length > 0) {
+                alert('mandalo 2');
+                let arrvalues = [];
+                demandDetailResponse.ticket.attachments.map(attach => {
+                    
+                    arrvalue = {
+                        key: 'UPDATE',
+                        pj_id: attach.pj_id,
+                        pj_ticket: attach.pj_ticket,
+                        pj_file: attach.pj_file,
+                        pj_date: attach.pj_date,
+                        pj_visibilite: attach.pj_visibilite,
+                        icon: attach.icon
+                    };
+                    arrvalues.push(arrvalue);
+
+                })
+                this.init(arrvalues);
+                
+            }
+        }
+    }*/
 
     filterNewFile = () => {
 
@@ -152,10 +181,10 @@ export default class AttachmentContainer extends Component{
 
     }
 
-    init = () => {
+    init = (updateAttachs) => {
         const {pageType} = this.props;
         if (pageType === NAVIGATION_TYPE_DEMAND_UPDATE) {
-            let arrvalues = [];
+            let arrvalues = updateAttachs;
             arrvalues.push({key: 'ADD'});
             if(arrvalues.length %2 != 0)
                 arrvalues.push({key: 'EMPTY'});
@@ -212,3 +241,12 @@ export default class AttachmentContainer extends Component{
     }
  
 }
+
+const mapStateToProps = state => ({
+    demandDetailResponse: state.demandDetail.demandDetailResponse,
+    demandDetailLoading: state.demandDetail.demandDetailLoading,
+    demandDetailError: state.demandDetail.demandDetailError,
+})
+  
+export default withNavigation (connect(mapStateToProps)(AttachmentContainer));
+
