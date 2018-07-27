@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
 import {withNavigation} from 'react-navigation'
+import AsyncImage from '../../../commons/asyncImage';
+import { GRIS_TEXT } from '../../../commons/colors';
 
 class AttachmentContainer extends Component{ 
 
@@ -141,14 +143,29 @@ class AttachmentContainer extends Component{
     getGridViewItem = (item) => {
   
         let responseJsx = 
-            <View style={{flex: 1, height: 100, backgroundColor: 'transparent'}}>
+            <View style={{height: 115, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center'}}>
+                  
+                <AsyncImage
+                    style={{
+                        borderRadius: 0,
+                        height: 90, 
+                        width: 110,
                         
+                    }}
+                    source={{
+                        uri: `http://${item.pj_url}`
+                    }}
+                    placeholderColor='transparent'
+                />
+                
                 <View style={styles.GridViewBlockStyleInside}>
-                    <Text style={styles.GridViewInsideTextItemStyle}> {item.fileName} </Text>
+                    <Icon name="file" style={styles.iconmiddle}/> 
                 </View>
+
                 <TouchableOpacity underlayColor='transparent' onPress={() => this.getGridViewAction(item)} style={{position: 'absolute', top:11, right:7, width:28, height: 28}}>
                     <Icon name="trash" style={styles.icondelete}/> 
                 </TouchableOpacity>
+
             </View>;
         if(item && item.key){
             
@@ -229,6 +246,8 @@ class AttachmentContainer extends Component{
     }
  
 }
+
+//<Text style={styles.GridViewInsideTextItemStyle}> {item.fileName} </Text>
 
 const mapStateToProps = state => ({
     demandDetailResponse: state.demandDetail.demandDetailResponse,
