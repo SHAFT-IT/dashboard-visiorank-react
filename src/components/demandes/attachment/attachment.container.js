@@ -8,6 +8,8 @@ var FilePickerManager = require('NativeModules').FilePickerManager;
 import {withNavigation} from 'react-navigation'
 import AsyncImage from '../../../commons/asyncImage';
 import { GRIS_TEXT } from '../../../commons/colors';
+import { deleteAttachment, deleteAttachmentReset } from '../../../store/actions/demands.attachment.action';
+import Loader from '../../loader/Loader';
 
 class AttachmentContainer extends Component{ 
 
@@ -23,6 +25,9 @@ class AttachmentContainer extends Component{
         file: null,
         addedIndex: 0
       }
+
+      this.selectedItem = {};
+
     }
 
     componentDidMount() {
@@ -72,6 +77,26 @@ class AttachmentContainer extends Component{
 
         }
         
+    }
+
+    componentWillReceiveProps({ response })
+    {
+
+        if (response && response !== this.props.response) {
+            if (response.code == 200) {
+                let newlist = this.state.AttachmentItems.filter(x => x.fileName !== this.selectedItem.fileName)
+                if(newlist.length %2 != 0)
+                    newlist.push({key: 'EMPTY'}); 
+                
+                setTimeout(() =>this.setState({AttachmentItems: newlist}), 400);
+                
+            } else {
+                alert("Erreur lors du traitement !")
+            }
+
+            this.props.dispatch(deleteAttachmentReset());
+        }
+
     }
 
     filterNewFile = () => {
@@ -129,10 +154,14 @@ class AttachmentContainer extends Component{
             if(item.key === 'ADD'){
                 this.selectFileTapped();
             }else if(item.key === 'NEW'){
-                let newlist = this.state.AttachmentItems.filter(x => x.index !== item.index)
+                let newlist = this.state.AttachmentItems.filter(x => x.fileName !== item.fileName)
                 if(newlist.length %2 != 0)
                     newlist.push({key: 'EMPTY'}); 
                 setTimeout(() =>this.setState({AttachmentItems: newlist}), 400);
+            }else if(item.key === 'UPDATE'){
+                console.log('filename in remove =>', item.fileName);
+                this.selectedItem = item;
+                this.props.dispatch(deleteAttachment(item.fileName));
             }
         }else{
             Alert.alert(JSON.stringify(item));
@@ -252,11 +281,19 @@ class AttachmentContainer extends Component{
     }
 
     render() {
-
+        const { error, loading } = this.props;
         return (
 
             <View style={styles.MainContainer}>
  
+                {
+                    loading && (<Loader loading={loading}/>)
+                }
+
+                {
+                    error && (alert('Erreur lors du traitement !'))
+                }
+
                 <FlatList
                 
                     data={ this.state.AttachmentItems }
@@ -288,9 +325,9 @@ class AttachmentContainer extends Component{
 //<Text style={styles.GridViewInsideTextItemStyle}> {item.fileName} </Text>
 
 const mapStateToProps = state => ({
-    demandDetailResponse: state.demandDetail.demandDetailResponse,
-    demandDetailLoading: state.demandDetail.demandDetailLoading,
-    demandDetailError: state.demandDetail.demandDetailError,
+    response: state.attachment.response,
+    loading: state.attachment.loading,
+    error: state.attachment.error,
 })
   
 export default withNavigation (connect(mapStateToProps)(AttachmentContainer));

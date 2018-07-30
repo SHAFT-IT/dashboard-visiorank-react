@@ -16,6 +16,7 @@ import demandCreate from './demands.create.reducer'
 import demandUpdate from './demands.update.reducer'
 import demandDetail from './demands.detail.reducer'
 import menu from './menu.reducer'
+import attachment from './demands.attachment.reducer'
 
 export default combineReducers({
     users,
@@ -34,5 +35,7 @@ export default combineReducers({
     status,
     priorite,
     demandDetail,
-    menu
+    menu,
+    attachment
+
 });
