@@ -230,7 +230,7 @@ class DemandeParentContainer extends Component {
     }
 
     onUpdateDemand = () => {
-        const {userId, titre, description, selectedType, selectedPriority, user, demand} = this.result
+        const {userId, titre, description, selectedType, selectedPriority, user, demand, uploads} = this.result
         if (titre === '') {
             alert('Veuillez insérer un titre.')
         } else if (description === '') {
@@ -253,6 +253,7 @@ class DemandeParentContainer extends Component {
             } else {
                 newDemand.userId = user.id
             }
+            newDemand.uploads = uploads;
             this.props.dispatch(updateDemand(newDemand))
         }
     }

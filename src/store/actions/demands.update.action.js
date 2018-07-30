@@ -39,12 +39,16 @@ export function updateDemand(demand) {
     data.append('userId', demand.userId)
     //data.append('type', demand.type) => cannot modify type when update
     data.append('ticketId', demand.ticketId)
-    /*
-    data.append('photo', {
-        uri: photo.uri,
-        type: 'image/jpeg', // or photo.type
-        name: 'testPhotoName'
-    });*/
+    
+    const files = demand.uploads;
+    files.forEach((file) => {
+            data.append('uploads[]', {
+            uri: file.uri,
+            type: file.type, 
+            name: file.fileName
+        });  
+    });
+    
     return dispatch => {
         getData('user')
             .then(user => {
