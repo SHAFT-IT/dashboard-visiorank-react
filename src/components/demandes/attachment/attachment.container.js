@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {View, Text, FlatList, StyleSheet, Alert, Platform, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE, FILE_TYPE_IMAGE, FILE_TYPE_PDF, FILE_TYPE_POWERPOINT, FILE_TYPE_WORD, FILE_TYPE_EXCEL, FILE_TYPE_JSON, FILE_TYPE_HTML } from '../../../commons/constant';
+import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE, FILE_TYPE_IMAGE, FILE_TYPE_PDF, FILE_TYPE_POWERPOINT, FILE_TYPE_WORD, FILE_TYPE_EXCEL, FILE_TYPE_JSON, FILE_TYPE_HTML, FILE_TYPE_VIDEO, FILE_TYPE_AUDIO } from '../../../commons/constant';
 import {connect} from "react-redux";
 import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
@@ -148,9 +148,9 @@ class AttachmentContainer extends Component{
         else if(type.contains('pdf'))
             placeholder = FILE_TYPE_PDF;
         else if(type.contains('audio'))
-            placeholder = FILE_TYPE_PDF;
+            placeholder = FILE_TYPE_AUDIO;
         else if(type.contains('video'))
-            placeholder = FILE_TYPE_PDF;
+            placeholder = FILE_TYPE_VIDEO;
         else if(type.contains('powerpoint'))
             placeholder = FILE_TYPE_POWERPOINT;
         else if(type.contains('word'))
@@ -190,7 +190,7 @@ class AttachmentContainer extends Component{
                     }}
                     source={{
                         uri: this.getUriByKey(item)
-                        //uri: `http://${item.pj_url}`
+                        
                     }}
                     placeholderColor='transparent'
                 />
