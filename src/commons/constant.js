@@ -47,3 +47,14 @@ export const DEMANDE_PRIORITE_BASSE_KEY = 3;
 export const DEMANDE_TYPE_EVOLUTION_KEY = 1; 
 export const DEMANDE_TYPE_CORRECTION_KEY = 2; 
 export const DEMANDE_TYPE_DEMANDEINFO_KEY = 3;
+
+// File type
+export const FILE_TYPE_IMAGE = 'file-image-o';
+export const FILE_TYPE_PDF = 'file-pdf-o';
+export const FILE_TYPE_AUDIO = 'file-audio-o';
+export const FILE_TYPE_VIDEO = 'file-video-o';
+export const FILE_TYPE_POWERPOINT = 'file-powerpoint-o';
+export const FILE_TYPE_WORD = 'file-word-o';
+export const FILE_TYPE_EXCEL = 'file-excel-o';
+export const FILE_TYPE_JSON = 'file-code-o';
+export const FILE_TYPE_HTML = 'file-code-o';

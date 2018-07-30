@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {View, Text, FlatList, StyleSheet, Alert, Platform, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE } from '../../../commons/constant';
+import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE, FILE_TYPE_IMAGE, FILE_TYPE_PDF, FILE_TYPE_POWERPOINT, FILE_TYPE_WORD, FILE_TYPE_EXCEL, FILE_TYPE_JSON, FILE_TYPE_HTML } from '../../../commons/constant';
 import {connect} from "react-redux";
 import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
@@ -109,9 +109,9 @@ class AttachmentContainer extends Component{
                     console.log('User tapped custom button: ', response.customButton);
                 }
                 else {
-                    this.setState({
+                    /*this.setState({
                         file: response
-                    });
+                    });*/
                     this.addSelectedFile(response); 
 
                 }
@@ -140,6 +140,42 @@ class AttachmentContainer extends Component{
         
     }
 
+    getLocalIconMiddleByType = (type) => {
+        
+        let placeholder = 'file';
+        if(type.contains('image'))
+            placeholder = FILE_TYPE_IMAGE;
+        else if(type.contains('pdf'))
+            placeholder = FILE_TYPE_PDF;
+        else if(type.contains('audio'))
+            placeholder = FILE_TYPE_PDF;
+        else if(type.contains('video'))
+            placeholder = FILE_TYPE_PDF;
+        else if(type.contains('powerpoint'))
+            placeholder = FILE_TYPE_POWERPOINT;
+        else if(type.contains('word'))
+            placeholder = FILE_TYPE_WORD;
+        else if(type.contains('excel'))
+            placeholder = FILE_TYPE_EXCEL;
+        else if(type.contains('json'))
+            placeholder = FILE_TYPE_JSON;
+        else if(type.contains('html'))
+            placeholder = FILE_TYPE_HTML;
+
+        return placeholder;
+    }
+
+    getUriByKey = (item) => {
+        
+        let mUri = 'default';
+        if(item.key === 'NEW'){
+            mUri = item.uri;
+        }else if(item.key === 'UPDATE'){
+            mUri = `http://${item.pj_url}`;
+        }
+        return mUri;
+    }
+
     getGridViewItem = (item) => {
   
         let responseJsx = 
@@ -153,7 +189,8 @@ class AttachmentContainer extends Component{
                         
                     }}
                     source={{
-                        uri: `http://${item.pj_url}`
+                        uri: this.getUriByKey(item)
+                        //uri: `http://${item.pj_url}`
                     }}
                     placeholderColor='transparent'
                 />
@@ -198,7 +235,7 @@ class AttachmentContainer extends Component{
             }
 
         })
-        arrvalues.push({key: 'NEW', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri});
+        arrvalues.push({key: 'NEW', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri, pj_icon: this.getLocalIconMiddleByType(file.type)});
         arrvalues.push({key: 'ADD'});
         if(arrvalues.length %2 != 0)
             arrvalues.push({key: 'EMPTY'});
@@ -206,6 +243,7 @@ class AttachmentContainer extends Component{
         this.setState({
             AttachmentItems: arrvalues,
             addedIndex: incrementedIndex+1,
+            file: file
         });
 
         setTimeout(() => this.props.updateUi('uploads', this.filterNewFile()), 150);
