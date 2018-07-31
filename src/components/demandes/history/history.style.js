@@ -52,5 +52,47 @@ export default {
         fontWeight: 'bold',
         alignItems:'center'
     },
+    headerText: {
+        textAlign: 'left',
+        marginLeft: 5,
+        fontSize: 14,
+        fontWeight: '500',
+        marginBottom:10
+    },
+    btnStatus: {
+        marginRight: 5,
+        marginTop: 1,
+        marginBottom: 5,
+        height: 20,
+        borderRadius: 3,
+        width: 100,
+        padding: 5,
+        marginLeft: 30,
+        backgroundColor: '#5bc0de',
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: 'center'
+    },
+    buttonText: {
+        color: '#DCDCDC',
+        fontSize: 10,
+        textAlign: 'center',
+    },
+    iconMore: {
+        color: 'grey',
+        fontSize: 15,
+        marginRight: 15,
+    },
+    separator: {
+        color: 'red',
+        height: 1,
+        width: 200
+    },
+    itemHeader: {
+        backgroundColor: '#DCDCDC',
+        padding: 10,
+        flex: 1,
+        flexDirection: 'column'
+    },
 
 };
