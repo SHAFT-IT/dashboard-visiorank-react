@@ -1,6 +1,6 @@
 import {getData} from "../../commons/preferences";
 import {URL_DEMANDES} from "../../commons/urls";
-import { FETCH_DEMANDE_DETAIL, FETCH_DEMANDE_DETAIL_SUCCESS, FETCH_DEMANDE_DETAIL_FAILURE } from "../types/demandes.types";
+import { FETCH_DEMANDE_DETAIL, FETCH_DEMANDE_DETAIL_SUCCESS, FETCH_DEMANDE_DETAIL_FAILURE, FETCH_DEMANDE_DETAIL_RESET } from "../types/demandes.types";
 
 function fetchDemandDetailBegin() {
     return function (dispatch) {
@@ -17,6 +17,12 @@ function fetchDemandDetailSuccess(data) {
 function fetchDemandDetailFailure(error) {
     return function (dispatch) {
         dispatch({type: FETCH_DEMANDE_DETAIL_FAILURE, payload: {error} })
+    }
+}
+
+export function fetchDemandDetailReset(){
+    return function (dispatch) {
+        dispatch({type: FETCH_DEMANDE_DETAIL_RESET})
     }
 }
 

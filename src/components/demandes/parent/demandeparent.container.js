@@ -28,7 +28,7 @@ import {
 import {createDemand, createDemandReset} from "../../../store/actions/demands.create.action";
 import {updateDemand} from "../../../store/actions/demands.update.action";
 import LoaderDelete from '../../loader/LoaderDelete';
-import {fetchDemandDetail} from '../../../store/actions/demands.detail.action';
+import {fetchDemandDetail, fetchDemandDetailReset} from '../../../store/actions/demands.detail.action';
 import {getData} from '../../../commons/preferences';
 import {updateDemandReset} from "../../../store/actions/demands.update.action";
 import styles from './demandeparent.style';
@@ -92,6 +92,7 @@ class DemandeParentContainer extends Component {
         demandDetailResponse,
         demandCreateResponse,
         demandUpdateResponse,
+        demandDetailError,
         demandCreateError,
         demandUpdateError,
     })
@@ -105,35 +106,41 @@ class DemandeParentContainer extends Component {
                     detailResponse: demandDetailResponse
                 }
             );
-            
+        
+        }
+        
+        if(demandDetailError){
+            this.props.dispatch(fetchDemandDetailReset())
         }
         
         if (demandCreateResponse) {
             if (demandCreateResponse.code == 200) {
                 this.props.navigation.goBack()
                 this.props.navigation.state.params.updateDemands()
-                this.props.dispatch(createDemandReset())
             } else {
                 alert("Erreur ajout ...")
             }
+            this.props.dispatch(createDemandReset())
         }
 
         if (demandUpdateResponse) {
             if (demandUpdateResponse.code == 200) {
                 this.props.navigation.goBack();
                 this.props.navigation.state.params.updateDemands()
-                this.props.dispatch(updateDemandReset())
             } else {
                 alert("Erreur modification ...")
             }
+            this.props.dispatch(updateDemandReset())
         }
 
         if (demandCreateError) {
             alert("Erreur ajout ...")
+            this.props.dispatch(createDemandReset())
         }
 
         if (demandUpdateError) {
             alert("Erreur modification ...")
+            this.props.dispatch(updateDemandReset())
         }
         
     }

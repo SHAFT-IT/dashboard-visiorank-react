@@ -1,7 +1,7 @@
-import { FETCH_DEMANDE_DETAIL, FETCH_DEMANDE_DETAIL_SUCCESS, FETCH_DEMANDE_DETAIL_FAILURE } from "../types/demandes.types";
+import { FETCH_DEMANDE_DETAIL, FETCH_DEMANDE_DETAIL_SUCCESS, FETCH_DEMANDE_DETAIL_FAILURE, FETCH_DEMANDE_DETAIL_RESET } from "../types/demandes.types";
 
 const initialState = {
-    demandDetailResponse: {},
+    demandDetailResponse: null,
     demandDetailLoading: false,
     demandDetailError: null
   };
@@ -27,8 +27,17 @@ export default function demandeDetailReducer(state = initialState, action) {
           ...state,
           demandDetailLoading: false,
           demandDetailError: action.payload.error,
-          demandDetailResponse: {}
+          demandDetailResponse: null
         };
+
+      case FETCH_DEMANDE_DETAIL_RESET :
+        return {
+          ...state,
+          demandDetailLoading: false,
+          demandDetailError: null,
+          demandDetailResponse: null
+        };
+
       default:
         return state;
     }
