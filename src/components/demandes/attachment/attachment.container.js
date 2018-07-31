@@ -134,11 +134,10 @@ class AttachmentContainer extends Component{
                     console.log('User tapped custom button: ', response.customButton);
                 }
                 else {
-                    /*this.setState({
-                        file: response
-                    });*/
+                    
                     this.addSelectedFile(response); 
-
+                    //essai
+                    //this.setState({file: response})
                 }
             });
       
@@ -172,26 +171,72 @@ class AttachmentContainer extends Component{
     getLocalIconMiddleByType = (type) => {
         
         let placeholder = 'file';
-        if(type.contains('image'))
-            placeholder = FILE_TYPE_IMAGE;
-        else if(type.contains('pdf'))
-            placeholder = FILE_TYPE_PDF;
-        else if(type.contains('audio'))
-            placeholder = FILE_TYPE_AUDIO;
-        else if(type.contains('video'))
-            placeholder = FILE_TYPE_VIDEO;
-        else if(type.contains('powerpoint'))
-            placeholder = FILE_TYPE_POWERPOINT;
-        else if(type.contains('word'))
-            placeholder = FILE_TYPE_WORD;
-        else if(type.contains('excel'))
-            placeholder = FILE_TYPE_EXCEL;
-        else if(type.contains('json'))
-            placeholder = FILE_TYPE_JSON;
-        else if(type.contains('html'))
-            placeholder = FILE_TYPE_HTML;
-
+        if(type != null){
+            if(type.contains('image'))
+                placeholder = FILE_TYPE_IMAGE;
+            else if(type.contains('pdf'))
+                placeholder = FILE_TYPE_PDF;
+            else if(type.contains('audio'))
+                placeholder = FILE_TYPE_AUDIO;
+            else if(type.contains('video'))
+                placeholder = FILE_TYPE_VIDEO;
+            else if(type.contains('powerpoint') || type.contains('presentationml'))
+                placeholder = FILE_TYPE_POWERPOINT;
+            else if(type.contains('word'))
+                placeholder = FILE_TYPE_WORD;
+            else if(type.contains('excel') || type.contains('spreadsheetml'))
+                placeholder = FILE_TYPE_EXCEL;
+            else if(type.contains('json'))
+                placeholder = FILE_TYPE_JSON;
+            else if(type.contains('html'))
+                placeholder = FILE_TYPE_HTML;
+        }
         return placeholder;
+    }
+
+    getFileWhenTypeNull = (fileobj) => {
+
+        uriSplitted = fileobj.uri.split('/');
+        mFileName = uriSplitted[uriSplitted.length - 1];
+        filenameSplitted = mFileName.split('.');
+        mExtension = filenameSplitted[filenameSplitted.length - 1];
+        let mtype = 'null';
+        switch (mExtension) {
+            case 'pdf':
+                mtype = 'application/pdf'
+                break;
+            case 'docx':
+                mtype = 'application/vnd.openxmlformats-officedocument.wordprocessingml'
+                break;
+            case 'doc':
+                mtype = 'application/msword'
+                break;
+            case 'xls':
+                mtype = 'application/vnd.ms-excel'
+                break;
+            case 'xlsx':
+                mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml'
+                break;
+            case 'ppt':
+                mtype = 'application/vnd.ms-powerpoint'
+                break;
+            case 'pptx':
+                mtype = 'application/vnd.openxmlformats-officedocument.presentationml'
+                break;
+            default:
+                break;
+        }
+        mfile = {
+            key: 'NEW', 
+            index: 0, 
+            fileName: mFileName, 
+            type: mtype, 
+            path: fileobj.path, 
+            uri: fileobj.uri, 
+            pj_icon: this.getLocalIconMiddleByType(mtype)
+        }
+        return mfile;
+
     }
 
     getUriByKey = (item) => {
@@ -225,7 +270,7 @@ class AttachmentContainer extends Component{
                 />
                 
                 <View style={styles.GridViewBlockStyleInside}>
-                    <Icon name={item.pj_icon} style={styles.iconmiddle}/> 
+                    <Icon name={this.getLocalIconMiddleByType(item.type)} style={styles.iconmiddle}/> 
                 </View>
 
                 <TouchableOpacity underlayColor='transparent' onPress={() => this.getGridViewAction(item)} style={{position: 'absolute', top:11, right:7, width:28, height: 28}}>
@@ -254,6 +299,7 @@ class AttachmentContainer extends Component{
 
     addSelectedFile = (file) => {
 
+        let fileToDisplay = {};
         let arrvalues = [];
         let incrementedIndex = this.state.addedIndex;
         this.state.AttachmentItems.map(attach => {
@@ -264,7 +310,13 @@ class AttachmentContainer extends Component{
             }
 
         })
-        arrvalues.push({key: 'NEW', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri, pj_icon: this.getLocalIconMiddleByType(file.type)});
+        if(file.type != null){
+            fileToDisplay = file;
+            arrvalues.push({key: 'NEW', index: incrementedIndex, fileName: file.fileName, type: file.type, path: file.path, uri: file.uri, pj_icon: this.getLocalIconMiddleByType(file.type)});
+        }else{
+            fileToDisplay = this.getFileWhenTypeNull(file);
+            arrvalues.push(this.getFileWhenTypeNull(file));
+        }
         arrvalues.push({key: 'ADD'});
         if(arrvalues.length %2 != 0)
             arrvalues.push({key: 'EMPTY'});
@@ -272,7 +324,7 @@ class AttachmentContainer extends Component{
         this.setState({
             AttachmentItems: arrvalues,
             addedIndex: incrementedIndex+1,
-            file: file
+            file: fileToDisplay
         });
 
         setTimeout(() => this.props.updateUi('uploads', this.filterNewFile()), 150);
@@ -313,7 +365,6 @@ class AttachmentContainer extends Component{
                     numColumns={2}
                 />
 
-   
             </View>
 
         );
@@ -322,7 +373,11 @@ class AttachmentContainer extends Component{
  
 }
 
-//<Text style={styles.GridViewInsideTextItemStyle}> {item.fileName} </Text>
+/*
+<View  style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
+    <Text> {JSON.stringify(this.state.file)} </Text>
+</View>
+*/
 
 const mapStateToProps = state => ({
     response: state.attachment.response,
