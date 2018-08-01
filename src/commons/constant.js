@@ -58,3 +58,4 @@ export const FILE_TYPE_WORD = 'file-word-o';
 export const FILE_TYPE_EXCEL = 'file-excel-o';
 export const FILE_TYPE_JSON = 'file-code-o';
 export const FILE_TYPE_HTML = 'file-code-o';
+export const FILE_TYPE_ARCHIVE = 'file-archive-o';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {View, Text, FlatList, StyleSheet, Alert, Platform, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE, FILE_TYPE_IMAGE, FILE_TYPE_PDF, FILE_TYPE_POWERPOINT, FILE_TYPE_WORD, FILE_TYPE_EXCEL, FILE_TYPE_JSON, FILE_TYPE_HTML, FILE_TYPE_VIDEO, FILE_TYPE_AUDIO } from '../../../commons/constant';
+import { NAVIGATION_TYPE_DEMAND_UPDATE, NAVIGATION_TYPE_DEMAND_CREATE, FILE_TYPE_IMAGE, FILE_TYPE_PDF, FILE_TYPE_POWERPOINT, FILE_TYPE_WORD, FILE_TYPE_EXCEL, FILE_TYPE_JSON, FILE_TYPE_HTML, FILE_TYPE_VIDEO, FILE_TYPE_AUDIO, FILE_TYPE_ARCHIVE } from '../../../commons/constant';
 import {connect} from "react-redux";
 import styles from './attachment.style';
 var FilePickerManager = require('NativeModules').FilePickerManager;
@@ -190,6 +190,8 @@ class AttachmentContainer extends Component{
                 placeholder = FILE_TYPE_JSON;
             else if(type.contains('html'))
                 placeholder = FILE_TYPE_HTML;
+            else if(type.contains('zip'))
+                placeholder = FILE_TYPE_ARCHIVE;
         }
         return placeholder;
     }
@@ -223,6 +225,9 @@ class AttachmentContainer extends Component{
             case 'pptx':
                 mtype = 'application/vnd.openxmlformats-officedocument.presentationml'
                 break;
+            case 'zip':
+                mtype = 'application/zip'
+                break;
             default:
                 break;
         }
@@ -244,6 +249,7 @@ class AttachmentContainer extends Component{
         let mSource = undefined;
         
         if(item && item.type){
+            alert(item.type);
             if(item.type.contains('image')){
                 let mUri = null;
                 if(item.key === 'NEW'){
