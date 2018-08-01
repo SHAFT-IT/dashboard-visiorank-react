@@ -19,5 +19,6 @@ export const URL_SITE_LIST = `${BASE_URL}/api/ws_get_sites/`;
 export const URL_USER_DELETE = `${BASE_URL}/api/ws_delete_user/`;
 export const URL_STATUS = `${BASE_URL}/api/ws_status_list`;
 export const URL_PRIORITE = `${BASE_URL}/api/ws_priorities_list`;
+export const URL_CRITERIA = `${BASE_URL}/api/ws_criteria_list`;
 export const URL_DEMANDE_UPDATE_PRIORITY = `${BASE_URL}/api/ws_update_priority/`;
 export const URL_ATTACHMENT_DELETE = `${BASE_URL}/api/ws_demandes/attachment_remove/`;

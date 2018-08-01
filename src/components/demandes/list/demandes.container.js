@@ -13,6 +13,8 @@ import {
 import Modal from "react-native-modal"
 import StatusList from '../../status/status.list.component'
 import PrioriteList from '../../priorite/priorite.list.component'
+import FilterComponent from "../filter/demand.filter.component";
+
 
 class Demandes extends React.Component {
 
@@ -25,6 +27,7 @@ class Demandes extends React.Component {
             items,
             demande: {},
             isModalVisible: false,
+            isFilterVisible: false,
             status: false,
             priority: false
         }
@@ -52,21 +55,28 @@ class Demandes extends React.Component {
         this.props.dispatch(fetchDemandes(token));
     }
 
+    showFilter = (visibility, state = {demands: []}) => {
+        this.setState({
+            isFilterVisible: visibility,
+            items: state.demands
+        });
+        if (!visibility) {
+
+        }
+    }
+
     showModal = (visibility, state = {status: false, priority: false, statusId: 0, priorityId: 0}) => {
-    
         const {currentDemande} = this.props
-        
         this.setState({
             isModalVisible: visibility,
             status: state.status,
             priority: state.priority,
         });
-
         if (!visibility) {
             if (state.status && state.statusId)
-                this.props.dispatch (changeStatusDemande(state.statusId, currentDemande.ticket_id))
+                this.props.dispatch(changeStatusDemande(state.statusId, currentDemande.ticket_id))
             if (state.priority && state.priorityId)
-                this.props.dispatch (changePriorityDemande(state.priorityId, currentDemande.ticket_id))
+                this.props.dispatch(changePriorityDemande(state.priorityId, currentDemande.ticket_id))
         }
     }
 
@@ -90,8 +100,13 @@ class Demandes extends React.Component {
         this.showModal(true, {status: true})
     }
 
+    onShowFilter = () => {
+        const {items} = this.state
+        this.showFilter(true, {demands: items})
+    }
+
     onUpdatePriority = () => {
-        this.showModal(true,{priority: true})
+        this.showModal(true, {priority: true})
     }
 
     /**
@@ -99,7 +114,7 @@ class Demandes extends React.Component {
      * @returns {*}
      */
     render() {
-        const {loading} = this.props
+        const {loading, items} = this.props
 
         if (loading) {
             return <Loader loading={loading}/>
@@ -117,12 +132,36 @@ class Demandes extends React.Component {
                           }/>
                 <Modal isVisible={this.state.isModalVisible} transparent={true}>
                     <TouchableOpacity onPress={() => this.showModal(false, {})} style={{flex: 1}}>
-                        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius:10}}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10
+                        }}>
                             {this.state.status && <StatusList showModal={this.showModal}/>}
                             {this.state.priority && <PrioriteList showModal={this.showModal}/>}
                         </View>
                     </TouchableOpacity>
                 </Modal>
+                <Modal isVisible={this.state.isFilterVisible} transparent={true}>
+                    <TouchableOpacity onPress={() => this.showFilter(false, {})} style={{flex: 1}}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10
+                        }}>
+                         <FilterComponent demands={items} showFilter={this.showFilter}/>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
+                <TouchableOpacity style={styles.filterStyle}
+                                  underlayColor='transparent'
+                                  onPress={this.onShowFilter}>
+                    <Icon name="search" style={styles.iconAdd}/>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.touchableStyle}
                                   underlayColor='transparent'
                                   onPress={this.onPressNewDemand}>

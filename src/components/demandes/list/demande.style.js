@@ -15,6 +15,16 @@ export default {
         width: 60,
         height: 60
     },
+    filterStyle: {
+        position: 'absolute',
+        bottom: 70,
+        right: 10,
+        opacity:0.5,
+        alignItems: "center",
+        justifyContent: "center",
+        width: 60,
+        height: 60
+    },
     icontop: {
         fontSize: 10
     },

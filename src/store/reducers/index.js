@@ -15,6 +15,7 @@ import priorite from './priorite.reducer'
 import demandCreate from './demands.create.reducer'
 import demandUpdate from './demands.update.reducer'
 import demandDetail from './demands.detail.reducer'
+import criteria from './demands.criteria.reducer'
 import menu from './menu.reducer'
 import attachment from './demands.attachment.reducer'
 
@@ -36,6 +37,6 @@ export default combineReducers({
     priorite,
     demandDetail,
     menu,
-    attachment
-
+    attachment,
+    criteria
 });
