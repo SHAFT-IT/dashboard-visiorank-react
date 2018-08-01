@@ -249,7 +249,7 @@ class AttachmentContainer extends Component{
         let mSource = undefined;
         
         if(item && item.type){
-            alert(item.type);
+            
             if(item.type.contains('image')){
                 let mUri = null;
                 if(item.key === 'NEW'){
