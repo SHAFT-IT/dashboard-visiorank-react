@@ -10,6 +10,7 @@ import AsyncImage from '../../../commons/asyncImage';
 import { GRIS_TEXT } from '../../../commons/colors';
 import { deleteAttachment, deleteAttachmentReset } from '../../../store/actions/demands.attachment.action';
 import Loader from '../../loader/Loader';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 class AttachmentContainer extends Component{ 
 
@@ -23,7 +24,8 @@ class AttachmentContainer extends Component{
         ],
         AttachmentItems: [],
         file: null,
-        addedIndex: 0
+        addedIndex: 0,
+        downloadProgress: false
       }
 
       this.selectedItem = {};
@@ -98,6 +100,41 @@ class AttachmentContainer extends Component{
         }
 
     }
+
+    //-----------------------DOWNLOAD FILE---------------------------
+
+    download = (item) => {
+        this.setState({downloadProgress: true});
+        var date      = new Date();
+        var url       = `http://${item.pj_url}`;
+        var ext       = this.extention(url);
+        ext = "."+ext[0];
+        const { config, fs } = RNFetchBlob
+        let PictureDir = fs.dirs.PictureDir
+        
+        let options = {
+          fileCache: true,
+          addAndroidDownloads : {
+            useDownloadManager : true,
+            notification : true,
+            path:  PictureDir + "/"+Math.floor(date.getTime() + date.getSeconds() / 2)+ext,
+            description : 'File'
+          }
+        }
+        config(options).fetch('GET', url).then((res) => {
+            this.setState({downloadProgress: false});
+            Alert.alert(
+                'Téléchargement terminé',
+                'Destination du fichier : ' + PictureDir + "/"+Math.floor(date.getTime() + date.getSeconds() / 2)+ext,
+            )
+        });
+    }
+    
+    extention = (filename) => {
+        return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : undefined;
+    }
+
+    //---------------------END DOWNLOAD FILE-------------------------
 
     filterNewFile = () => {
 
@@ -268,28 +305,33 @@ class AttachmentContainer extends Component{
     getGridViewItem = (item) => {
   
         let responseJsx = 
-            <View style={{height: 115, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center'}}>
-                  
-                <AsyncImage
-                    style={{
-                        borderRadius: 0,
-                        height: 90, 
-                        width: 110,
-                        
-                    }}
-                    source={this.getSourceByKeyAndType(item)}
-                    placeholderColor='transparent'
-                />
-                
-                <View style={styles.GridViewBlockStyleInside}>
-                    <Icon name={this.getLocalIconMiddleByType(item.type)} style={styles.iconmiddle}/> 
+
+            <TouchableOpacity underlayColor='transparent' onPress={() => this.download(item)} >
+
+                <View style={{height: 115, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center'}}>
+                    
+                    <AsyncImage
+                        style={{
+                            borderRadius: 0,
+                            height: 90, 
+                            width: 110,
+                            
+                        }}
+                        source={this.getSourceByKeyAndType(item)}
+                        placeholderColor='transparent'
+                    />
+                    
+                    <View style={styles.GridViewBlockStyleInside}>
+                        <Icon name={this.getLocalIconMiddleByType(item.type)} style={styles.iconmiddle}/> 
+                    </View>
+
+                    <TouchableOpacity underlayColor='transparent' onPress={() => this.getGridViewAction(item)} style={{position: 'absolute', top:11, right:7, width:28, height: 28}}>
+                        <Icon name="trash" style={styles.icondelete}/> 
+                    </TouchableOpacity>
+
                 </View>
-
-                <TouchableOpacity underlayColor='transparent' onPress={() => this.getGridViewAction(item)} style={{position: 'absolute', top:11, right:7, width:28, height: 28}}>
-                    <Icon name="trash" style={styles.icondelete}/> 
-                </TouchableOpacity>
-
-            </View>;
+                
+            </TouchableOpacity>;
         if(item && item.key){
             
             if(item.key === 'ADD'){
@@ -357,6 +399,10 @@ class AttachmentContainer extends Component{
 
                 {
                     error && (alert('Erreur lors du traitement !'))
+                }
+
+                {
+                    this.state.downloadProgress && (<Loader loading={this.state.downloadProgress}/>)
                 }
 
                 <FlatList
