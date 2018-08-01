@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, BackHandler, Text, TextInput,TouchableOpacity} from 'react-native';
+import {View, StyleSheet, BackHandler, Text, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux'
 import {fetchCriteria} from "../../../store/actions/demands.filter.action";
 import Loader from "../../loader/Loader";
+import {Dropdown} from 'react-native-material-dropdown';
 
 class FilterComponent extends Component {
 
@@ -10,7 +11,9 @@ class FilterComponent extends Component {
         super(props)
         this.state = {
             title: '',
-            filteredDemands: []
+            filteredDemands: [],
+            selectedPriority: -1,
+            selectedStatus: -1
         };
     }
 
@@ -19,12 +22,11 @@ class FilterComponent extends Component {
     }
 
     onFilterDemands = () => {
-        const d = this._filterByTitle()
+
     }
 
-    _filterByTitle = () => {
+    _filterByTitle = (demands) => {
         const {title} = this.state
-        const {demands} = this.props
         const regex = new RegExp(`${title.trim()}`, 'i');
         if (title === '') {
             return demands
@@ -33,8 +35,31 @@ class FilterComponent extends Component {
         }
     }
 
+    _filterByPriority = (demands) => {
+        const {selectedPriority} = this.state
+        return selectedPriority === -1 ? demands : demands.filter(demand => demand.priorite_id === selectedPriority)
+    }
+
+    _filterByStatus = (demands) => {
+        const {selectedStatus} = this.state
+        return selectedStatus === -1 ? demands : demands.filter(demand => demand.statut_id === selectedStatus)
+    }
+
+    _filterByType = (demands) => {
+        const {selectedStatus} = this.state
+        return demands.filter(demand => demand.type_id === selectedStatus)
+    }
+
+    onChangeTextPriority = (value) => {
+        this.setState({selectedPriority: value})
+    }
+
+    onChangeTextStatus = (value) => {
+        this.setState({selectedStatus: value})
+    }
+
     render() {
-        const {loadingOnFetchingCriteria} = this.props
+        const {loadingOnFetchingCriteria, criteria} = this.props
         if (loadingOnFetchingCriteria) {
             return (<Loader loading={loadingOnFetchingCriteria}/>)
         } else {
@@ -50,11 +75,28 @@ class FilterComponent extends Component {
                                        this.setState({title: value})
                                    }}
                         />
+                        <Dropdown
+                            label='Priorité de la demande'
+                            containerStyle={styles.drpStyle}
+                            data={criteria ? criteria.priorities.map(p => ({
+                                value: p.priorite_id,
+                                label: p.priorite_libelle
+                            })) : []}
+                            onChangeText={this.onChangeTextPriority}
+                        />
+                        <Dropdown
+                            containerStyle={styles.drpStyle}
+                            label='Statut de la demande'
+                            data={criteria ? criteria.status.map(s => ({
+                                value: s.statut_id,
+                                label: s.statut_libelle
+                            })) : []}
+                            onChangeText={this.onChangeTextStatus}
+                        />
                         <TouchableOpacity
                             style={styles.buttonFilter}
                             onPress={this.onFilterDemands}>
                             <Text style={styles.buttonTextSearch}>Rechercher</Text>
-
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -90,6 +132,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 15,
         borderColor: '#939393',
+    },
+    drpStyle: {
+
     },
     buttonFilter: {
         margin: 20,
