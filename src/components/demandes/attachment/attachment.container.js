@@ -239,15 +239,24 @@ class AttachmentContainer extends Component{
 
     }
 
-    getUriByKey = (item) => {
+    getSourceByKeyAndType = (item) => {
         
-        let mUri = 'default';
-        if(item.key === 'NEW'){
-            mUri = item.uri;
-        }else if(item.key === 'UPDATE'){
-            mUri = `http://${item.pj_url}`;
+        let mSource = undefined;
+        
+        if(item && item.type){
+            if(item.type.contains('image')){
+                let mUri = null;
+                if(item.key === 'NEW'){
+                    mUri = item.uri;
+                }else if(item.key === 'UPDATE'){
+                    mUri = `http://${item.pj_url}`;
+                }
+                mSource = {uri: mUri};
+            }else{
+                mSource = require('../../../assets/images/document.png');
+            }
         }
-        return mUri;
+        return mSource;
     }
 
     getGridViewItem = (item) => {
@@ -262,10 +271,7 @@ class AttachmentContainer extends Component{
                         width: 110,
                         
                     }}
-                    source={{
-                        uri: this.getUriByKey(item)
-                        
-                    }}
+                    source={this.getSourceByKeyAndType(item)}
                     placeholderColor='transparent'
                 />
                 
@@ -296,6 +302,7 @@ class AttachmentContainer extends Component{
         return responseJsx;
         
     }
+    
 
     addSelectedFile = (file) => {
 
