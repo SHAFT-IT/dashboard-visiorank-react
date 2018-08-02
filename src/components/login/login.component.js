@@ -22,8 +22,8 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: "contact@rauscher-67.fr",
-        password: "yu9XT24Jv", 
+        email: "",
+        password: "", 
         formvalidation: false
     };
   }
@@ -97,7 +97,7 @@ export default class Login extends React.Component {
                   returnKeyLabel = {"next"}
                   onSubmitEditing={() => { this.passwordTextInput.focus(); }}
                   blurOnSubmit={false}
-                  value="contact@rauscher-67.fr"
+                  value={this.state.email}
                   onChangeText={(email) => this.onChangeText('email', email)}
                   />
           
@@ -108,7 +108,7 @@ export default class Login extends React.Component {
                   placeholder="Mot de passe" 
                   style={styles.input} 
                   secureTextEntry 
-                  value="yu9XT24Jv"
+                  value={this.state.password}
                   onChangeText={(password) =>  this.onChangeText('password', password)}
                   
               />
