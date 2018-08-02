@@ -24,7 +24,7 @@ export default  {
     },
     iconright: {
         fontSize: 35,
-        color: 'grey',
+        color: 'green'
     },
     bigtitle: { 
         textAlign: 'center',

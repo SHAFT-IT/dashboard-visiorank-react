@@ -31,6 +31,8 @@ class HistoryItem extends React.Component {
                 return "Validé"
             case DEMANDE_STATUT_CLOS_KEY:
                 return "Clos"
+            case DEMANDE_STATUT_REFUSE_KEY:
+                return "Refusé"    
             default:
                 break
         }
@@ -127,7 +129,9 @@ class HistoryItem extends React.Component {
                         duration={400}
                     />
                 </View>
-                <View style={styles.containerItemDevider}/>
+                <View style={{marginBottom : 5,
+                    height: 1,
+                    backgroundColor: "white"}}/>
             </View>
         )
     }

@@ -295,9 +295,7 @@ class DemandCreateContainer extends Component {
                         <TouchableHighlight onPress={this.onUpdateStatus}
                                             style={[styles.bsubmit1, {backgroundColor: statusBgColor, marginTop: 20}]}>
                             <Text style={[styles.buttonText, {color: buttonTextColor}]}>
-                                Statut de la demande : {this.state.demand.status}
-                                <Icon name="chevron-down"
-                                      style={[styles.icontopStatus, {color: buttonTextColor}]}/>
+                                Statut de la demande : {this.state.demand.status}  <Icon name="chevron-down" style={[styles.icontopStatus, {color: buttonTextColor}]}/>
                             </Text>
                         </TouchableHighlight>
                     </View>

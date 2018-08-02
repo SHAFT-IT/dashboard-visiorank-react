@@ -21,22 +21,22 @@ const getIconName = (statusId) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
+        height: 30,
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10,
+        paddingLeft: 10,
         backgroundColor: "white"
     },
     iconLeft: {
         marginLeft: 8,
         marginRight: 8,
-        fontSize: 20,
+        fontSize: 16,
         color: '#444',
         width: 24
     },
     text: {
         color: '#444',
-        fontSize: 14
+        fontSize: 12
     }
 })
 

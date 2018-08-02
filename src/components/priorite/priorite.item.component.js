@@ -12,7 +12,7 @@ const getIconName = (priorityId) => {
 
 const styles = StyleSheet.create({
     container: {
-      height: 50,
+      height: 30,
       flexDirection: 'row',
       alignItems: 'center',
       padding: 10
@@ -20,13 +20,13 @@ const styles = StyleSheet.create({
     iconLeft: {
       marginLeft: 8,
       marginRight: 8,
-      fontSize: 20,
+      fontSize: 16,
       color: '#444',
       width: 24
     },
     text: {
       color: '#444',
-      fontSize: 14
+      fontSize: 12
     }
 })
 

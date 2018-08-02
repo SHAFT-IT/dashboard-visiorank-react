@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { bgColor } from '../../../commons/colors';
 import moment from 'moment';
 import 'moment/locale/fr'
-import { detailMessage } from '../../../store/actions/message.action';
 moment.locale('fr');
 
 const MessageItem = ({ item, showDetails }) => {
@@ -33,7 +32,7 @@ const MessageItem = ({ item, showDetails }) => {
         <Swipeout right={swipeBtns} autoClose='true' backgroundColor= 'transparent' sensitivity={1}>
             <TouchableHighlight underlayColor='#ffffff' onPress={() => showDetails(item, true)}>
                 <View style={styles.item}>
-                    <View style={{width: 50}}>
+                    <View style={{height:40, width: 40}}>
                         <Text style={[style.text, { backgroundColor: backgroundColor}]}>{lettre}</Text>
                     </View>    
                     <View style={{width: 270, marginLeft:5}}>
@@ -49,13 +48,11 @@ const MessageItem = ({ item, showDetails }) => {
 
 const style = {
     text: {
-        width: 40,
-        height: 40,
+        flex:1,
         borderRadius: 40 / 2,
         color:"#fbecc9",
         textAlign:'center',
-        fontSize: 30
-        /*, fontWeight:'bold'*/
+        fontSize: 28
     }
 }
 

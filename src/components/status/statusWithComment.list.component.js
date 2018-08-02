@@ -108,7 +108,10 @@ const mapStateToProps = state => ({
 
 const styles = StyleSheet.create({
     container: {
+        width: 300,
         height: 'auto',
+        borderRadius: 5,
+        paddingVertical: 5,
         borderRadius: 5,
         backgroundColor: '#fff'
     },
