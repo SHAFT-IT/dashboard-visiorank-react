@@ -359,7 +359,7 @@ class DemandCreateContainer extends Component {
                             />
                         )
                     }
-                    <Text style={styles.buttonGroupTitle}>Type de la demande:</Text>
+                    <Text style={styles.buttonGroupTitle}>Type de la demande :</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
                         selectedTextStyle={styles.selectedTextStyle}
@@ -369,7 +369,7 @@ class DemandCreateContainer extends Component {
                         buttons={buttonsType}
                         buttonStyle={styles.buttonGroupBackground}
                         containerStyle={{height: 35}}/>
-                    <Text style={styles.buttonGroupTitle}>Priorité de la demande:</Text>
+                    <Text style={styles.buttonGroupTitle}>Priorité de la demande :</Text>
                     <ButtonGroup
                         selectedButtonStyle={styles.selectedButtonStyle}
                         selectedTextStyle={styles.selectedTextStyle}

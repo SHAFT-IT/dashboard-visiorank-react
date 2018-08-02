@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {logout} from '../../../store/actions/logout.action';
 import {connect} from 'react-redux';
 import {getData} from '../../../commons/preferences';
+import AutoHeightImage from 'react-native-auto-height-image';
+import imageLogo from '../../../assets/images/logo_login.png' ;
 
 class DrawerContent extends Component {
 
@@ -88,12 +90,17 @@ class DrawerContent extends Component {
                         <Text style={styles.textItemInside}>Deconnexion</Text>
                     </TouchableOpacity>
                 </ScrollView>
-                <View style={styles.headercontainertwo}>
-                    <Text style={styles.headertextwhite}>Espace client :</Text>
-                    <Text style={styles.headertextorange}>02 22 06 99 03</Text>
-                </View>
-                <View style={styles.menutextcopyright}>
-                    <Text style={styles.menutextcopyright}>© 2018. Tous droits réservés. Créé par Visiorank</Text>
+                <View style={{alignItems:"center"}}>
+                    <View>
+                        <AutoHeightImage source={imageLogo} width={200} />
+                    </View>
+                    <View style={styles.headercontainertwo}>
+                        <Text style={styles.headertextgrey}>Espace client :</Text>
+                        <Text style={styles.headertextorange}>02 22 06 99 03</Text>
+                    </View>
+                    <View style={styles.menutextcopyright}>
+                        <Text style={styles.menutextcopyright}>© 2018. Tous droits réservés. Créé par Visiorank</Text>
+                    </View>
                 </View>
             </View>
         );

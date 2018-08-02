@@ -67,7 +67,7 @@ export default {
         borderRadius: 3,
         width: 100,
         padding: 5,
-        marginLeft: 30,
+        marginLeft: 80,
         backgroundColor: '#5bc0de',
         alignItems: "center",
         justifyContent: "center",

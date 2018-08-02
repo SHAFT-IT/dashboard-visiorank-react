@@ -40,7 +40,7 @@ export default {
     },
     headertextorange: {
       marginLeft: 5,
-      color: 'orange',
+      color: '#ec6609',
       textAlign: "left",
       textAlignVertical: "center",
       fontSize: 14,
@@ -48,6 +48,13 @@ export default {
     headertextwhite: {
       marginLeft: 25,
       color: 'white',
+      fontSize: 14,
+      textAlign: "left",
+      textAlignVertical: "center"
+    },
+    headertextgrey: {
+      marginLeft: 25,
+      color: 'grey',
       fontSize: 14,
       textAlign: "left",
       textAlignVertical: "center"

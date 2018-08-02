@@ -76,6 +76,7 @@ class HistoryItem extends React.Component {
                 statusBgColor = '#337ab7';
                 buttonTextColor = '#fff';
         }
+
         return (
             <View style={{
                 flex: 1,
@@ -91,7 +92,7 @@ class HistoryItem extends React.Component {
                         flexDirection: 'row',
                     }}>
                         <Text style={styles.headerText}>
-                            {moment(item.historique_date).format("DD/MM/YYYY")}
+                            {moment(item.historique_date).format('Do MMM YY')}
                         </Text>
                         <TouchableHighlight style={[styles.btnStatus, {backgroundColor: statusBgColor}]}>
                             <Text style={[styles.buttonText, {color: buttonTextColor}]}>
