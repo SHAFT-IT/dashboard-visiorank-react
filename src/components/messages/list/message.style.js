@@ -59,17 +59,16 @@ export default  {
     itemtextseen: {
         marginLeft: 0,
         marginRight: 20,
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'left',
-        color: 'black'
+        color: '#7d7b7b'
     },
     itemtextunseen: {
         marginLeft: 0,
         marginRight: 20,
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'left',
-        color: 'black',
-        fontWeight: 'bold'
+        color: '#7d7b7b'
     },
 
     errortext: {

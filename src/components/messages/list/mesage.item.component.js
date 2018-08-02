@@ -35,7 +35,7 @@ const MessageItem = ({ item, showDetails }) => {
                     <View style={{height:40, width: 40}}>
                         <Text style={[style.text, { backgroundColor: backgroundColor}]}>{lettre}</Text>
                     </View>    
-                    <View style={{width: 270, marginLeft:5}}>
+                    <View style={{width: 300, marginLeft:5}}>
                         <Text style={ styles.itemtextdate }>{date}</Text> 
                         <Text style={ styles.itemtext } numberOfLines={1}>{item.from}</Text> 
                         <Text style={ item.seen ? styles.itemtextseen : styles.itemtextunseen } numberOfLines={1}>{item.subject}</Text>
