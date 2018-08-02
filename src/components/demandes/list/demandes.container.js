@@ -58,11 +58,8 @@ class Demandes extends React.Component {
     showFilter = (visibility, state = {demands: []}) => {
         this.setState({
             isFilterVisible: visibility,
-            items: state.demands
+            dataSource: this.state.dataSource.cloneWithRows(state.demands),
         });
-        if (!visibility) {
-
-        }
     }
 
     showModal = (visibility, state = {status: false, priority: false, statusId: 0, priorityId: 0}) => {
@@ -153,7 +150,7 @@ class Demandes extends React.Component {
                             alignItems: 'center',
                             borderRadius: 10
                         }}>
-                         <FilterComponent demands={items} showFilter={this.showFilter}/>
+                            <FilterComponent demands={items} showFilter={this.showFilter}/>
                         </View>
                     </TouchableOpacity>
                 </Modal>

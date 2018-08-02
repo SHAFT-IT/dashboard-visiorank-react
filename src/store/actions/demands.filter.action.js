@@ -1,4 +1,9 @@
-import {CRITERIA_DEMAND, CRITERIA_DEMAND_FAILURE, CRITERIA_DEMAND_SUCCESS} from "../types/demandes.types";
+import {
+    CRITERIA_DEMAND,
+    CRITERIA_DEMAND_FAILURE,
+    CRITERIA_DEMAND_FILTER,
+    CRITERIA_DEMAND_SUCCESS,
+} from "../types/demandes.types";
 import {URL_CRITERIA} from "../../commons/urls";
 
 function criteriaDemandsBegin() {
@@ -29,4 +34,13 @@ export function fetchCriteria() {
             })
             .catch(error => dispatch(criteriaDemandsFailure(error)));
     };
+}
+
+export function onDemandsFiltered(demands) {
+    return dispatch => {
+        dispatch({
+            type: CRITERIA_DEMAND_FILTER,
+            payload: demands
+        })
+    }
 }
