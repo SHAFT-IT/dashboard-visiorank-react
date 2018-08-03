@@ -56,15 +56,17 @@ class Demandes extends React.Component {
         this.props.dispatch(fetchDemandes(token));
     }
 
-    showFilter = (visibility, state = {demands: []}) => {
+    showFilter = (visibility, state = {demands: []}, dismiss = false) => {
         this.setState({
             isFilterVisible: visibility,
         });
         if (!visibility) {
-            this.setState({
-                isFromFilter: true,
-                dataSource: this.state.dataSource.cloneWithRows(state.demands),
-            });
+            if (!dismiss) {
+                this.setState({
+                    isFromFilter: true,
+                    dataSource: this.state.dataSource.cloneWithRows(state.demands),
+                });
+            }
         }
     }
 
@@ -92,6 +94,7 @@ class Demandes extends React.Component {
     }
 
     onPressEditDemand = (demand) => {
+
         this.props.navigation.navigate('DemandCreate', {
             demand: {demand},
             pageType: NAVIGATION_TYPE_DEMAND_UPDATE,
@@ -106,7 +109,7 @@ class Demandes extends React.Component {
     onShowFilter = () => {
         const {isFromFilter} = this.state
         const {items} = this.props
-        if(isFromFilter) {
+        if (isFromFilter) {
             this.setState({
                 isFromFilter: false,
                 dataSource: this.state.dataSource.cloneWithRows(items),
@@ -159,7 +162,7 @@ class Demandes extends React.Component {
                     </TouchableOpacity>
                 </Modal>
                 <Modal isVisible={this.state.isFilterVisible} transparent={true}>
-                    <TouchableOpacity onPress={() => this.showFilter(false, {})} style={{flex: 1}}>
+                    <TouchableOpacity onPress={() => this.showFilter(false, {}, true)} style={{flex: 1}}>
                         <View style={{
                             flex: 1,
                             flexDirection: 'column',
