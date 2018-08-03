@@ -29,7 +29,8 @@ class Demandes extends React.Component {
             isModalVisible: false,
             isFilterVisible: false,
             status: false,
-            priority: false
+            priority: false,
+            isFromFilter: false
         }
     }
 
@@ -58,8 +59,13 @@ class Demandes extends React.Component {
     showFilter = (visibility, state = {demands: []}) => {
         this.setState({
             isFilterVisible: visibility,
-            dataSource: this.state.dataSource.cloneWithRows(state.demands),
         });
+        if (!visibility) {
+            this.setState({
+                isFromFilter: true,
+                dataSource: this.state.dataSource.cloneWithRows(state.demands),
+            });
+        }
     }
 
     showModal = (visibility, state = {status: false, priority: false, statusId: 0, priorityId: 0}) => {
@@ -98,8 +104,17 @@ class Demandes extends React.Component {
     }
 
     onShowFilter = () => {
-        const {items} = this.state
-        this.showFilter(true, {demands: items})
+        const {isFromFilter} = this.state
+        const {items} = this.props
+        if(isFromFilter) {
+            this.setState({
+                isFromFilter: false,
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                items
+            });
+        } else {
+            this.showFilter(true, {})
+        }
     }
 
     onUpdatePriority = () => {
@@ -112,6 +127,8 @@ class Demandes extends React.Component {
      */
     render() {
         const {loading, items} = this.props
+        const {isFromFilter} = this.state
+
 
         if (loading) {
             return <Loader loading={loading}/>
@@ -157,7 +174,7 @@ class Demandes extends React.Component {
                 <TouchableOpacity style={styles.filterStyle}
                                   underlayColor='transparent'
                                   onPress={this.onShowFilter}>
-                    <Icon name="search" style={styles.iconAdd}/>
+                    <Icon name={isFromFilter ? "search-minus" : "search-plus"} style={styles.iconFilter}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.touchableStyle}
                                   underlayColor='transparent'

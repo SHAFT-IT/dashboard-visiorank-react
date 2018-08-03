@@ -5,6 +5,10 @@ export default {
         fontSize: 55,
         color: 'grey',
     },
+    iconFilter: {
+        fontSize: 30,
+        color: 'green',
+    },
     touchableStyle: {
         position: 'absolute',
         bottom: 10,
@@ -16,14 +20,18 @@ export default {
         height: 60
     },
     filterStyle: {
+        borderWidth: 1,
+        borderColor:'transparent',
+        backgroundColor:'grey',
+        borderRadius:100,
         position: 'absolute',
         bottom: 70,
         right: 10,
         opacity:0.5,
         alignItems: "center",
         justifyContent: "center",
-        width: 60,
-        height: 60
+        width: 50,
+        height: 50
     },
     icontop: {
         fontSize: 10
