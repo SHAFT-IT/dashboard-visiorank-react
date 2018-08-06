@@ -35,24 +35,19 @@ export function logout() {
             })
               .then((res) => res.json())
               .then(json => {
-                dispatch(deleteUser())
+                //dispatch(deleteUser())
                 setData('user', null);
                 dispatch(fetchLogoutSuccess(json));
               })
               .catch((e) => {
                 dispatch(fetchLogoutFailure(e));
               });
-          }else{
-
-            dispatch(deleteUser())
-            setData('user', null);
-            dispatch(fetchLogoutSuccess(null));            
           }
 
         })
         .catch(error => {
             console.log('cannot get user preference');
-            dispatch(deleteUser())
+            //dispatch(deleteUser())
             setData('user', null);
         })
   };

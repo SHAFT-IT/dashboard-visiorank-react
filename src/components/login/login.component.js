@@ -52,17 +52,6 @@ export default class Login extends React.Component {
     this.setState({[name]: value})
   }
 
-  componentWillReceiveProps ({ response }) {
-        
-    if (response && response !== this.props.response) {  
-        
-        if(response.code == 1001){
-          AlertError(response.message)
-        }
-    }
-
-  }
-
   render ()  {   
 
     const { loading, response } = this.props;

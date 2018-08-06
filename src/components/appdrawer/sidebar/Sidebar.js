@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {getData} from '../../../commons/preferences';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../../assets/images/logo_login.png' ;
+import Loader from '../../loader/Loader';
 
 class DrawerContent extends Component {
 
@@ -20,9 +21,13 @@ class DrawerContent extends Component {
         }
     }
 
-    componentWillReceiveProps({selectedMenuIndex}) {
+    componentWillReceiveProps({selectedMenuIndex, logoutSuccess}) {
         if (this.state.activeIndex !== selectedMenuIndex) {
             this.setState({activeIndex: selectedMenuIndex})
+        }
+
+        if (logoutSuccess && logoutSuccess !== this.props.logoutSuccess) {
+            this.logoutRedirect();
         }
     }
 
@@ -32,6 +37,12 @@ class DrawerContent extends Component {
                 this.setState({user: user});
             })
             .catch(error => console.log("error"))
+    }
+
+    logoutRedirect = () => {
+
+        this.props.navigation.navigate('Authentification');
+
     }
 
     getBackgroundColor = (active) => {
@@ -49,8 +60,17 @@ class DrawerContent extends Component {
     }
 
     render() {
+        const { loadingLogout } = this.props;
+
         return (
             <View style={styles.container}>
+
+                { 
+                    loadingLogout && (
+                        <Loader loading={loadingLogout} />
+                    )
+                }
+
                 <ScrollView>
                     <TouchableOpacity style={[styles.containerItem, {backgroundColor: this.getBackgroundColor(1)}]}
                                       onPress={this.navigateToScreen('Home', 1)}>
@@ -117,7 +137,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
     token: state.login.item.mobile_token,
-    selectedMenuIndex: state.menu.selectedMenuIndex
-})
+    selectedMenuIndex: state.menu.selectedMenuIndex,
+    loadingLogout: state.logout.loading,
+    logoutSuccess: state.logout.logoutSuccess
+}) 
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent)

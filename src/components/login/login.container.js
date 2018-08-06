@@ -14,16 +14,29 @@ class LoginContainer extends Component {
         this.state = {isShowingText: true};
     }
 
+    componentWillReceiveProps ({ response }) {
+        if (response && response !== this.props.response) {
+
+            if(response.code == 200){
+                this.props.navigation.navigate('Home');
+
+            }else if(response.code == 1001){
+                AlertError(response.message)
+            }
+
+        }
+    } 
+    
     render() {  
-        const { login, logoutSuccess, loadingLogout, loading, response } = this.props;
+        const { login, loading, response } = this.props;
         
-        if (loadingLogout) {
+        /*if (loadingLogout) {
             return <Loader loading={true} />
         }
 
         if (response.user && response.user.mobile_token) {
             return <Drawer/>
-        }
+        }*/
 
         return <Login login={login} loading={loading} response={response}/>
     }
@@ -44,8 +57,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     loading: state.login.loading,
     response: state.login.item,
-    loadingLogout: state.logout.loading,
-    logoutSuccess: state.logout.logoutSuccess
 })
 
 LoginContainer.propTypes = {
