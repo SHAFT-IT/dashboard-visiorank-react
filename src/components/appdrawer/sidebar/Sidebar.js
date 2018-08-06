@@ -10,6 +10,7 @@ import {getData} from '../../../commons/preferences';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../../assets/images/logo_login.png' ;
 import Loader from '../../loader/Loader';
+import { onMenuChanged } from '../../../store/actions/menu.action';
 
 class DrawerContent extends Component {
 
@@ -22,6 +23,7 @@ class DrawerContent extends Component {
     }
 
     componentWillReceiveProps({selectedMenuIndex, logoutSuccess}) {
+        
         if (this.state.activeIndex !== selectedMenuIndex) {
             this.setState({activeIndex: selectedMenuIndex})
         }
@@ -50,7 +52,8 @@ class DrawerContent extends Component {
     }
 
     navigateToScreen = (route, activeIndex) => () => {
-        this.setState({activeIndex: activeIndex})
+        //this.setState({activeIndex: activeIndex})
+        this.props.changeMenu(activeIndex)
         const navigateAction = NavigationActions.navigate({
             routeName: route
         });
@@ -60,7 +63,7 @@ class DrawerContent extends Component {
     }
 
     render() {
-        const { loadingLogout } = this.props;
+        const { loadingLogout, selectedMenuIndex } = this.props;
 
         return (
             <View style={styles.container}>
@@ -132,7 +135,8 @@ DrawerContent.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    changeMenu: (index) => dispatch(onMenuChanged(index))
 })
 
 const mapStateToProps = state => ({
