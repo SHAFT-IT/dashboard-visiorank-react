@@ -2,7 +2,8 @@ export default {
 
   parent: {
     flexDirection: 'column',
-    flex: 1
+    flex: 1,
+    marginTop: 20
   },
 
   childtwo: {
