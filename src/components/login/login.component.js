@@ -10,8 +10,8 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: "",
-        password: "", 
+      email: 'contact@rauscher-67.fr',
+      password: 'yu9XT24Jv',
         formvalidation: false
     };
   }

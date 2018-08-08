@@ -3,6 +3,7 @@ package com.visiorank;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new SQLitePluginPackage(),   // register SQLite Plugin here
         new MainReactPackage(),
+            new WebViewBridgePackage(),
         new RNFetchBlobPackage(),
         new MapsPackage(),
         new MPAndroidChartPackage(),

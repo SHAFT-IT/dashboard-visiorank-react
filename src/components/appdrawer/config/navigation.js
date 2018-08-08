@@ -1,64 +1,61 @@
-import React from "react";
-import { Image } from "react-native";
-import {
-  createStackNavigator,
-  createDrawerNavigator,
-  createBottomTabNavigator,
-} from "react-navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { GRIS_TEXT } from "../../../commons/colors";
-import {
-  NAVIGATION_TYPE_MENU,
-  NAVIGATION_TYPE_BACK,
-} from "../../../commons/constant";
-import AppelsListContainer from "../../appel/appel.container";
-import AppheaderContainer from "../../appheader/appheader.container";
-import GeolocContainer from "../../campagne/geoloc/geoloc.container";
-import RepartitionContainer from "../../campagne/repartition/repartition.container";
-import VisitesContainer from "../../campagne/visites/visites.container";
-import DashboardContainer from "../../dashboard/dashboard.container";
-import DemandesContainer from "../../demandes/list/demandes.container";
-import DemandeParentContainer from "../../demandes/parent/demandeparent.container";
+import React from 'react';
+import { Image } from 'react-native';
+import { createBottomTabNavigator, createDrawerNavigator, createStackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { GRIS_TEXT } from '../../../commons/colors';
+import { NAVIGATION_TYPE_BACK, NAVIGATION_TYPE_MENU } from '../../../commons/constant';
+import AppelsListContainer from '../../appel/appel.container';
+import AppheaderContainer from '../../appheader/appheader.container';
+import GeolocContainer from '../../campagne/geoloc/geoloc.container';
+import RepartitionContainer from '../../campagne/repartition/repartition.container';
+import VisitesContainer from '../../campagne/visites/visites.container';
+import DashboardContainer from '../../dashboard/dashboard.container';
+import DemandesContainer from '../../demandes/list/demandes.container';
+import DemandeParentContainer from '../../demandes/parent/demandeparent.container';
 
-import MessageDetails from "../../messages/detail/message.item.component";
-import MessagesListContainer from "../../messages/list/message.container";
-import UserCreateContainer from "../../usermanager/usercreate/usercreate.container";
-import UserEditContainer from "../../usermanager/useredit/useredit.container";
-import UserListContainer from "../../usermanager/userlist/userlist.container";
-import DrawerContent from "../sidebar/Sidebar";
+import MessageDetails from '../../messages/detail/message.item.component';
+import MessagesListContainer from '../../messages/list/message.container';
+import UserCreateContainer from '../../usermanager/usercreate/usercreate.container';
+import UserEditContainer from '../../usermanager/useredit/useredit.container';
+import UserListContainer from '../../usermanager/userlist/userlist.container';
+import DrawerContent from '../sidebar/Sidebar';
 
 const TabsCampagne = createBottomTabNavigator(
   {
     Visite: {
       screen: VisitesContainer,
       navigationOptions: {
-        title: "",
-      },
+        title: ''
+      }
     },
     Maps: {
       screen: GeolocContainer,
       navigationOptions: {
-        title: "",
-      },
+        title: ''
+      }
     },
     Repartition: {
       screen: RepartitionContainer,
       navigationOptions: {
-        title: "",
-      },
-    },
+        title: ''
+      }
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === "Visite") {
-          iconName = `bar-chart${focused ? "" : ""}`;
-        } else if (routeName === "Maps") {
-          iconName = `map-marker${focused ? "" : ""}`;
-        } else if (routeName === "Repartition") {
-          iconName = `phone${focused ? "" : ""}`;
+        switch (routeName) {
+          case 'Visite':
+            iconName = `bar-chart${focused ? '' : ''}`;
+            break;
+          case 'Maps':
+            iconName = `map-marker${focused ? '' : ''}`;
+            break;
+          case 'Repartition':
+            iconName = `phone${focused ? '' : ''}`;
+            break;
         }
 
         // You can return any component that you like here! We usually use an
@@ -68,118 +65,118 @@ const TabsCampagne = createBottomTabNavigator(
             name={iconName}
             style={[
               { fontSize: 30 },
-              { color: focused ? "orange" : GRIS_TEXT },
+              { color: focused ? 'orange' : GRIS_TEXT }
             ]}
           />
         );
-      },
+      }
     }),
     tabBarOptions: {
-      activeTintColor: "orange",
+      activeTintColor: 'orange',
       inactiveTintColor: GRIS_TEXT,
       showLabel: false,
       style: {
-        backgroundColor: "#fff",
+        backgroundColor: '#fff'
       },
       indicatorStyle: {
-        backgroundColor: "#000",
-      },
+        backgroundColor: '#000'
+      }
     },
-    swipeEnabled: false,
+    swipeEnabled: false
   }
 );
 
 const UserStackNavigator = createStackNavigator(
   {
     UserList: {
-      screen: UserListContainer,
+      screen: UserListContainer
     },
     UserCreate: {
-      screen: UserCreateContainer,
-    },
+      screen: UserCreateContainer
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
+      header: null
+    })
   }
 );
 
 const DemandsStackNavigator = createStackNavigator(
   {
     Demands: {
-      screen: DemandesContainer,
+      screen: DemandesContainer
     },
     DemandCreate: {
-      screen: DemandeParentContainer,
-    },
+      screen: DemandeParentContainer
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
+      header: null
+    })
   }
 );
 
 const MessagesStackNavigator = createStackNavigator(
   {
     Messages: {
-      screen: MessagesListContainer,
+      screen: MessagesListContainer
     },
     MessageDetails: {
-      screen: MessageDetails,
-    },
+      screen: MessageDetails
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
+      header: null
+    })
   }
 );
 
 const DrawerNavigator = createDrawerNavigator(
   {
     Home: {
-      screen: DashboardContainer,
+      screen: DashboardContainer
     },
     User: {
-      screen: UserStackNavigator,
+      screen: UserStackNavigator
     },
     Message: {
-      screen: MessagesStackNavigator,
+      screen: MessagesStackNavigator
     },
     Demandes: {
-      screen: DemandsStackNavigator,
+      screen: DemandsStackNavigator
     },
     Appel: {
-      screen: AppelsListContainer,
+      screen: AppelsListContainer
     },
     Campagne: {
-      screen: TabsCampagne,
+      screen: TabsCampagne
     },
     UserEdit: {
-      screen: UserEditContainer,
-    },
+      screen: UserEditContainer
+    }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: 'Home',
     drawerWidth: 260,
-    drawerPosition: "right",
+    drawerPosition: 'right',
     contentOptions: {
-      activeBackgroundColor: "#080808",
-      inactiveBackgroundColor: "#00000000",
-      inactiveTintColor: "#ffffff",
-      activeTintColor: "#1eacff",
+      activeBackgroundColor: '#080808',
+      inactiveBackgroundColor: '#00000000',
+      inactiveTintColor: '#ffffff',
+      activeTintColor: '#1eacff'
     },
-    contentComponent: props => <DrawerContent {...props} />,
+    contentComponent: props => <DrawerContent {...props} />
   }
 );
 
 const MenuImage = ({ navigation }) => {
   if (!navigation.state.isDrawerOpen) {
-    return <Image source={require("../../../assets/images/menu-button.png")} />;
+    return <Image source={require('../../../assets/images/menu-button.png')}/>;
   } else {
-    return <Image source={require("../../../assets/images/left-arrow.png")} />;
+    return <Image source={require('../../../assets/images/left-arrow.png')}/>;
   }
 };
 
@@ -187,7 +184,7 @@ const StackNavigator = createStackNavigator(
   {
     //important: key and screen name (i.e. DrawerNavigator) should be same while using the drawer navigator inside stack navigator.
     DrawerNavigator: {
-      screen: DrawerNavigator,
+      screen: DrawerNavigator
     },
     MessagesContainer: {
       screen: MessagesListContainer,
@@ -197,9 +194,9 @@ const StackNavigator = createStackNavigator(
             navigation={navigation}
             type={NAVIGATION_TYPE_BACK}
           />
-        ),
-      }),
-    },
+        )
+      })
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -209,7 +206,7 @@ const StackNavigator = createStackNavigator(
           navigation={navigation}
           type={NAVIGATION_TYPE_MENU}
         />
-      ),
+      )
 
       //default header without title
       /*title: 'ReactNavigation',  // Title to appear in status bar
@@ -224,7 +221,7 @@ const StackNavigator = createStackNavigator(
             headerTitleStyle: {
               fontWeight: 'bold',
             },*/
-    }),
+    })
   }
 );
 
