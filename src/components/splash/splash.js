@@ -1,10 +1,8 @@
 import React from 'react'
 import {View, Text, StyleSheet } from 'react-native'
-import { getData } from '../../commons/preferences';
-import LoginContainer from '../login/app.container';
 import AutoHeightImage from 'react-native-auto-height-image';
 import imageLogo from '../../assets/images/logo_login.png';
-import Drawer from "../appdrawer/config/navigation";
+import HomeSwitchNavigator from "../home/home";
 import { connect } from 'react-redux';
 import { fetchLoginSuccess } from '../../store/actions/login.action';
 
@@ -14,52 +12,35 @@ class Splash extends React.Component{
       super(props);
       this.state = {
         loading: true,
-        user: null
       }
-      // this code might be called when there is no element avaliable in `document` yet (eg. initial render)
+      
     }
 
     componentDidMount() {
-      getData('user').then((value) => {
-        if (value) {
-          //this.props.dispatch(fetchLoginSuccess(value));
-          this.setState({user: value}); 
-        }
-        console.log(`Preference in splash: `, value);  
+      
         this.showAlertWithDelay();
-      });
-      // this code will be always called when component is mounted in browser DOM ('after render') 
       
     }
 
     showAlertWithDelay = () => {
-      setTimeout(() =>this.setState({loading: false}), 5000);
+      setTimeout(() => this.setState({loading: false}) , 5000);
     }
 
     render() {
-        const { loading } = this.state;
-        if (loading) {
-            return (
+      const { loading } = this.state;
+      if (loading) {
+        return (
             <View style={styles.containersplash}>
                 <AutoHeightImage
                   source={imageLogo}
                   width={200}
                 />
-            </View>);
-        } else {
-          if (this.state.user && this.state.user.mobile_token) {
-              return <Drawer />  
-          } else {
-            return <LoginContainer />  
-          }  
-        }
-        return null;
-
-        /*return (
-          <View>
-              <Text >Error calling ws! {loading ? 'loading' : 'loaded'}</Text>
-          </View>
-      );*/
+            </View>
+        );
+      }else{
+        return <HomeSwitchNavigator /> 
+      }
+        
     }
 
 }
