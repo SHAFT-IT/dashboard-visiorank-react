@@ -2,21 +2,29 @@ PODS:
   - Charts (3.0.3):
     - Charts/Core (= 3.0.3)
   - Charts/Core (3.0.3)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Charts (= 3.0.3)
+  - GoogleMaps
   - SwiftyJSON (= 3.1.4)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Charts
+    - GoogleMaps
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Charts: bcde37724c161958c1438dd4883971fcb2d50c06
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: d194f3ad0590412faf5ceab919dd9d86b492f2a4
+PODFILE CHECKSUM: 9ea321f8bb61bfc0480a69990db2533d770e915a
 
 COCOAPODS: 1.5.3

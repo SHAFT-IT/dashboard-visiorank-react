@@ -12,6 +12,10 @@
 
 @implementation AppDelegate
 
+// TODO: Remove
+// RCT_EXPORT_VIEW_PROPERTY(onSelect, RCTDirectEventBlock)
+// on AIRMapMarkerManager.m : line 47
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
