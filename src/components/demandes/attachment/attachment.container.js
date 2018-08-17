@@ -1,47 +1,39 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { Alert, FlatList, Platform, TouchableOpacity, View } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncImage from '../../../commons/asyncImage';
 import {
-  View,
-  FlatList,
-  Alert,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
-import RNFetchBlob from "react-native-fetch-blob";
-import { withNavigation } from "react-navigation";
-import { connect } from "react-redux";
-import Icon from "react-native-vector-icons/FontAwesome";
-import AsyncImage from "../../../commons/asyncImage";
-import {
-  NAVIGATION_TYPE_DEMAND_UPDATE,
-  NAVIGATION_TYPE_DEMAND_CREATE,
+  FILE_TYPE_ARCHIVE,
+  FILE_TYPE_AUDIO,
+  FILE_TYPE_EXCEL,
+  FILE_TYPE_HTML,
   FILE_TYPE_IMAGE,
+  FILE_TYPE_JSON,
   FILE_TYPE_PDF,
   FILE_TYPE_POWERPOINT,
-  FILE_TYPE_WORD,
-  FILE_TYPE_EXCEL,
-  FILE_TYPE_JSON,
-  FILE_TYPE_HTML,
   FILE_TYPE_VIDEO,
-  FILE_TYPE_AUDIO,
-  FILE_TYPE_ARCHIVE,
-} from "../../../commons/constant";
-import {
-  deleteAttachment,
-  deleteAttachmentReset,
-} from "../../../store/actions/demands.attachment.action";
-import Loader from "../../loader/Loader";
-import styles from "./attachment.style";
-var FilePickerManager = require("NativeModules").FilePickerManager;
+  FILE_TYPE_WORD,
+  NAVIGATION_TYPE_DEMAND_CREATE,
+  NAVIGATION_TYPE_DEMAND_UPDATE
+} from '../../../commons/constant';
+import { deleteAttachment, deleteAttachmentReset } from '../../../store/actions/demands.attachment.action';
+import Loader from '../../loader/Loader';
+import styles from './attachment.style';
+
+const FilePickerManager = require('NativeModules').FilePickerManager;
 
 class AttachmentContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      GridViewItems: [{ key: "One" }, { key: "Two" }],
+      GridViewItems: [{ key: 'One' }, { key: 'Two' }],
       AttachmentItems: [],
       file: null,
       addedIndex: 0,
-      downloadProgress: false,
+      downloadProgress: false
     };
 
     this.selectedItem = {};
@@ -58,10 +50,10 @@ class AttachmentContainer extends Component {
         detailResponse.ticket.attachments.length > 0
       ) {
         detailResponse.ticket.attachments.map(attach => {
-          urlSplitted = attach.pj_file.split("/");
+          let urlSplitted = attach.pj_file.split('/');
 
-          arrvalue = {
-            key: "UPDATE",
+          let arrvalue = {
+            key: 'UPDATE',
             pj_ticket: attach.pj_ticket,
             pj_url: attach.pj_file,
             pj_date: attach.pj_date,
@@ -71,35 +63,35 @@ class AttachmentContainer extends Component {
             fileName: urlSplitted[urlSplitted.length - 1],
             type: attach.pj_type,
             path: null,
-            uri: null,
+            uri: null
           };
           arrvalues.push(arrvalue);
         });
       }
 
-      arrvalues.push({ key: "ADD" });
-      if (arrvalues.length % 2 != 0) arrvalues.push({ key: "EMPTY" });
+      arrvalues.push({ key: 'ADD' });
+      if (arrvalues.length % 2 !== 0) arrvalues.push({ key: 'EMPTY' });
       this.setState({
-        AttachmentItems: arrvalues,
+        AttachmentItems: arrvalues
       });
     } else if (pageType === NAVIGATION_TYPE_DEMAND_CREATE) {
       this.setState({
-        AttachmentItems: [{ key: "ADD" }, { key: "EMPTY" }],
+        AttachmentItems: [{ key: 'ADD' }, { key: 'EMPTY' }]
       });
     }
   }
 
   componentWillReceiveProps({ response }) {
     if (response && response !== this.props.response) {
-      if (response.code == 200) {
+      if (response.code === 200) {
         let newlist = this.state.AttachmentItems.filter(
           x => x.fileName !== this.selectedItem.fileName
         );
-        if (newlist.length % 2 != 0) newlist.push({ key: "EMPTY" });
+        if (newlist.length % 2 !== 0) newlist.push({ key: 'EMPTY' });
 
         setTimeout(() => this.setState({ AttachmentItems: newlist }), 400);
       } else {
-        alert("Erreur lors du traitement !");
+        alert('Erreur lors du traitement !');
       }
 
       this.props.dispatch(deleteAttachmentReset());
@@ -110,10 +102,10 @@ class AttachmentContainer extends Component {
 
   download = item => {
     this.setState({ downloadProgress: true });
-    var date = new Date();
-    var url = `http://${item.pj_url}`;
-    var ext = this.extention(url);
-    ext = "." + ext[0];
+    let date = new Date();
+    let url = `http://${item.pj_url}`;
+    let ext = this.extention(url);
+    ext = '.' + ext[0];
     const { config, fs } = RNFetchBlob;
     let PictureDir = fs.dirs.PictureDir;
 
@@ -124,23 +116,23 @@ class AttachmentContainer extends Component {
         notification: true,
         path:
           PictureDir +
-          "/" +
+          '/' +
           Math.floor(date.getTime() + date.getSeconds() / 2) +
           ext,
-        description: "File",
-      },
+        description: 'File'
+      }
     };
     config(options)
-      .fetch("GET", url)
+      .fetch('GET', url)
       .then(res => {
         this.setState({ downloadProgress: false });
         Alert.alert(
-          "Téléchargement terminé",
-          "Destination du fichier : " +
-            PictureDir +
-            "/" +
-            Math.floor(date.getTime() + date.getSeconds() / 2) +
-            ext
+          'Téléchargement terminé',
+          'Destination du fichier : ' +
+          PictureDir +
+          '/' +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          ext
         );
       });
   };
@@ -155,7 +147,7 @@ class AttachmentContainer extends Component {
     let arrvalues = [];
     this.state.AttachmentItems.map(attach => {
       if (attach.key) {
-        if (attach.key === "NEW") {
+        if (attach.key === 'NEW') {
           arrvalues.push(attach);
         }
       }
@@ -164,44 +156,44 @@ class AttachmentContainer extends Component {
   };
 
   selectFileTapped = () => {
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       const options = {
-        title: "File Picker",
-        chooseFileButtonTitle: "Choose File...",
+        title: 'File Picker',
+        chooseFileButtonTitle: 'Choose File...'
       };
 
       FilePickerManager.showFilePicker(options, response => {
-        console.log("Response = ", response);
+        console.log('Response = ', response);
 
         if (response.didCancel) {
-          console.log("User cancelled photo picker");
+          console.log('User cancelled photo picker');
         } else if (response.error) {
-          console.log("ImagePickerManager Error: ", response.error);
+          console.log('ImagePickerManager Error: ', response.error);
         } else if (response.customButton) {
-          console.log("User tapped custom button: ", response.customButton);
+          console.log('User tapped custom button: ', response.customButton);
         } else {
           this.addSelectedFile(response);
           //essai
           //this.setState({file: response})
         }
       });
-    } else if (Platform.OS === "ios") {
+    } else if (Platform.OS === 'ios') {
       //for ios
     }
   };
 
   getGridViewAction = item => {
     if (item && item.key) {
-      if (item.key === "ADD") {
+      if (item.key === 'ADD') {
         this.selectFileTapped();
-      } else if (item.key === "NEW") {
+      } else if (item.key === 'NEW') {
         let newlist = this.state.AttachmentItems.filter(
           x => x.fileName !== item.fileName
         );
-        if (newlist.length % 2 != 0) newlist.push({ key: "EMPTY" });
+        if (newlist.length % 2 !== 0) newlist.push({ key: 'EMPTY' });
         setTimeout(() => this.setState({ AttachmentItems: newlist }), 400);
-      } else if (item.key === "UPDATE") {
-        console.log("filename in remove =>", item.fileName);
+      } else if (item.key === 'UPDATE') {
+        console.log('filename in remove =>', item.fileName);
         this.selectedItem = item;
         this.props.dispatch(deleteAttachment(item.fileName));
       }
@@ -211,85 +203,84 @@ class AttachmentContainer extends Component {
   };
 
   getLocalIconMiddleByType = type => {
-    let placeholder = "file";
+    let placeholder = 'file';
     if (type != null) {
-      if (type.contains("image")) placeholder = FILE_TYPE_IMAGE;
-      else if (type.contains("pdf")) placeholder = FILE_TYPE_PDF;
-      else if (type.contains("audio")) placeholder = FILE_TYPE_AUDIO;
-      else if (type.contains("video")) placeholder = FILE_TYPE_VIDEO;
-      else if (type.contains("powerpoint") || type.contains("presentationml"))
+      if (type.contains('image')) placeholder = FILE_TYPE_IMAGE;
+      else if (type.contains('pdf')) placeholder = FILE_TYPE_PDF;
+      else if (type.contains('audio')) placeholder = FILE_TYPE_AUDIO;
+      else if (type.contains('video')) placeholder = FILE_TYPE_VIDEO;
+      else if (type.contains('powerpoint') || type.contains('presentationml'))
         placeholder = FILE_TYPE_POWERPOINT;
-      else if (type.contains("word")) placeholder = FILE_TYPE_WORD;
-      else if (type.contains("excel") || type.contains("spreadsheetml"))
+      else if (type.contains('word')) placeholder = FILE_TYPE_WORD;
+      else if (type.contains('excel') || type.contains('spreadsheetml'))
         placeholder = FILE_TYPE_EXCEL;
-      else if (type.contains("json")) placeholder = FILE_TYPE_JSON;
-      else if (type.contains("html")) placeholder = FILE_TYPE_HTML;
-      else if (type.contains("zip")) placeholder = FILE_TYPE_ARCHIVE;
+      else if (type.contains('json')) placeholder = FILE_TYPE_JSON;
+      else if (type.contains('html')) placeholder = FILE_TYPE_HTML;
+      else if (type.contains('zip')) placeholder = FILE_TYPE_ARCHIVE;
     }
     return placeholder;
   };
 
   getFileWhenTypeNull = fileobj => {
-    uriSplitted = fileobj.uri.split("/");
-    mFileName = uriSplitted[uriSplitted.length - 1];
-    filenameSplitted = mFileName.split(".");
-    mExtension = filenameSplitted[filenameSplitted.length - 1];
-    let mtype = "null";
+    let uriSplitted = fileobj.uri.split('/');
+    let mFileName = uriSplitted[uriSplitted.length - 1];
+    let filenameSplitted = mFileName.split('.');
+    let mExtension = filenameSplitted[filenameSplitted.length - 1];
+    let mtype = 'null';
     switch (mExtension) {
-      case "pdf":
-        mtype = "application/pdf";
+      case 'pdf':
+        mtype = 'application/pdf';
         break;
-      case "docx":
+      case 'docx':
         mtype =
-          "application/vnd.openxmlformats-officedocument.wordprocessingml";
+          'application/vnd.openxmlformats-officedocument.wordprocessingml';
         break;
-      case "doc":
-        mtype = "application/msword";
+      case 'doc':
+        mtype = 'application/msword';
         break;
-      case "xls":
-        mtype = "application/vnd.ms-excel";
+      case 'xls':
+        mtype = 'application/vnd.ms-excel';
         break;
-      case "xlsx":
-        mtype = "application/vnd.openxmlformats-officedocument.spreadsheetml";
+      case 'xlsx':
+        mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml';
         break;
-      case "ppt":
-        mtype = "application/vnd.ms-powerpoint";
+      case 'ppt':
+        mtype = 'application/vnd.ms-powerpoint';
         break;
-      case "pptx":
-        mtype = "application/vnd.openxmlformats-officedocument.presentationml";
+      case 'pptx':
+        mtype = 'application/vnd.openxmlformats-officedocument.presentationml';
         break;
-      case "zip":
-        mtype = "application/zip";
+      case 'zip':
+        mtype = 'application/zip';
         break;
       default:
         break;
     }
-    mfile = {
-      key: "NEW",
+    return {
+      key: 'NEW',
       index: 0,
       fileName: mFileName,
       type: mtype,
       path: fileobj.path,
       uri: fileobj.uri,
-      pj_icon: this.getLocalIconMiddleByType(mtype),
+      pj_icon: this.getLocalIconMiddleByType(mtype)
     };
-    return mfile;
   };
 
   getSourceByKeyAndType = item => {
     let mSource = undefined;
 
     if (item && item.type) {
-      if (item.type.contains("image")) {
+      if (item.type.contains('image')) {
         let mUri = null;
-        if (item.key === "NEW") {
+        if (item.key === 'NEW') {
           mUri = item.uri;
-        } else if (item.key === "UPDATE") {
+        } else if (item.key === 'UPDATE') {
           mUri = `http://${item.pj_url}`;
         }
         mSource = { uri: mUri };
       } else {
-        mSource = require("../../../assets/images/document.png");
+        mSource = require('../../../assets/images/document.png');
       }
     }
     return mSource;
@@ -304,16 +295,16 @@ class AttachmentContainer extends Component {
         <View
           style={{
             height: 115,
-            backgroundColor: "transparent",
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: 'transparent',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
           <AsyncImage
             style={{
               borderRadius: 0,
               height: 90,
-              width: 110,
+              width: 110
             }}
             source={this.getSourceByKeyAndType(item)}
             placeholderColor="transparent"
@@ -330,32 +321,32 @@ class AttachmentContainer extends Component {
             underlayColor="transparent"
             onPress={() => this.getGridViewAction(item)}
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 11,
               right: 7,
               width: 28,
-              height: 28,
+              height: 28
             }}
           >
-            <Icon name="trash" style={styles.icondelete} />
+            <Icon name="trash" style={styles.icondelete}/>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
     if (item && item.key) {
-      if (item.key === "ADD") {
+      if (item.key === 'ADD') {
         responseJsx = (
           <TouchableOpacity
             underlayColor="transparent"
             onPress={() => this.getGridViewAction(item)}
             style={styles.GridViewBlockStyle}
           >
-            <Icon name="plus" style={styles.iconadd} />
+            <Icon name="plus" style={styles.iconadd}/>
           </TouchableOpacity>
         );
-      } else if (item.key === "EMPTY") {
+      } else if (item.key === 'EMPTY') {
         responseJsx = (
-          <View style={{ flex: 1, backgroundColor: "transparent" }} />
+          <View style={{ flex: 1, backgroundColor: 'transparent' }}/>
         );
       }
     }
@@ -369,7 +360,7 @@ class AttachmentContainer extends Component {
     let incrementedIndex = this.state.addedIndex;
     this.state.AttachmentItems.map(attach => {
       if (attach.key) {
-        if (attach.key !== "ADD" && attach.key !== "EMPTY") {
+        if (attach.key !== 'ADD' && attach.key !== 'EMPTY') {
           arrvalues.push(attach);
         }
       }
@@ -377,40 +368,40 @@ class AttachmentContainer extends Component {
     if (file.type != null) {
       fileToDisplay = file;
       arrvalues.push({
-        key: "NEW",
+        key: 'NEW',
         index: incrementedIndex,
         fileName: file.fileName,
         type: file.type,
         path: file.path,
         uri: file.uri,
-        pj_icon: this.getLocalIconMiddleByType(file.type),
+        pj_icon: this.getLocalIconMiddleByType(file.type)
       });
     } else {
       fileToDisplay = this.getFileWhenTypeNull(file);
       arrvalues.push(this.getFileWhenTypeNull(file));
     }
-    arrvalues.push({ key: "ADD" });
-    if (arrvalues.length % 2 != 0) arrvalues.push({ key: "EMPTY" });
+    arrvalues.push({ key: 'ADD' });
+    if (arrvalues.length % 2 != 0) arrvalues.push({ key: 'EMPTY' });
 
     this.setState({
       AttachmentItems: arrvalues,
       addedIndex: incrementedIndex + 1,
-      file: fileToDisplay,
+      file: fileToDisplay
     });
 
-    setTimeout(() => this.props.updateUi("uploads", this.filterNewFile()), 150);
+    setTimeout(() => this.props.updateUi('uploads', this.filterNewFile()), 150);
   };
 
   render() {
     const { error, loading } = this.props;
     return (
       <View style={styles.MainContainer}>
-        {loading && <Loader loading={loading} />}
+        {loading && <Loader loading={loading}/>}
 
-        {error && alert("Erreur lors du traitement !")}
+        {error && alert('Erreur lors du traitement !')}
 
         {this.state.downloadProgress && (
-          <Loader loading={this.state.downloadProgress} />
+          <Loader loading={this.state.downloadProgress}/>
         )}
 
         <FlatList
@@ -434,7 +425,7 @@ class AttachmentContainer extends Component {
 const mapStateToProps = state => ({
   response: state.attachment.response,
   loading: state.attachment.loading,
-  error: state.attachment.error,
+  error: state.attachment.error
 });
 
 export default withNavigation(connect(mapStateToProps)(AttachmentContainer));
