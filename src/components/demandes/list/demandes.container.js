@@ -11,10 +11,9 @@ import {
     NAVIGATION_TYPE_DEMAND_CREATE, NAVIGATION_TYPE_DEMAND_UPDATE,
 } from "../../../commons/constant";
 import Modal from "react-native-modal"
-import StatusList from '../../status/status.list.component'
-import PrioriteList from '../../priorite/priorite.list.component'
+import StatusList from '../status/status.list.component'
+import PrioriteList from '../priorite/priorite.list.component'
 import FilterComponent from "../filter/demand.filter.component";
-
 
 class Demandes extends React.Component {
 
