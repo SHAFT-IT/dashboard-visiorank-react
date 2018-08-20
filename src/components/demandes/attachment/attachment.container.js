@@ -204,19 +204,19 @@ class AttachmentContainer extends Component {
 
   getLocalIconMiddleByType = type => {
     let placeholder = 'file';
-    if (type != null) {
-      if (type.contains('image')) placeholder = FILE_TYPE_IMAGE;
-      else if (type.contains('pdf')) placeholder = FILE_TYPE_PDF;
-      else if (type.contains('audio')) placeholder = FILE_TYPE_AUDIO;
-      else if (type.contains('video')) placeholder = FILE_TYPE_VIDEO;
-      else if (type.contains('powerpoint') || type.contains('presentationml'))
+    if (type) {
+      if (type.indexOf('image') > -1) placeholder = FILE_TYPE_IMAGE;
+      else if (type.indexOf('pdf') > -1) placeholder = FILE_TYPE_PDF;
+      else if (type.indexOf('audio') > -1) placeholder = FILE_TYPE_AUDIO;
+      else if (type.indexOf('video') > -1) placeholder = FILE_TYPE_VIDEO;
+      else if (type.indexOf('powerpoint') > -1 || type.indexOf('presentationml') > -1)
         placeholder = FILE_TYPE_POWERPOINT;
-      else if (type.contains('word')) placeholder = FILE_TYPE_WORD;
-      else if (type.contains('excel') || type.contains('spreadsheetml'))
+      else if (type.indexOf('word') > -1) placeholder = FILE_TYPE_WORD;
+      else if (type.indexOf('excel') > -1 || type.indexOf('spreadsheetml') > -1)
         placeholder = FILE_TYPE_EXCEL;
-      else if (type.contains('json')) placeholder = FILE_TYPE_JSON;
-      else if (type.contains('html')) placeholder = FILE_TYPE_HTML;
-      else if (type.contains('zip')) placeholder = FILE_TYPE_ARCHIVE;
+      else if (type.indexOf('json') > -1) placeholder = FILE_TYPE_JSON;
+      else if (type.indexOf('html') > -1) placeholder = FILE_TYPE_HTML;
+      else if (type.indexOf('zip') > -1) placeholder = FILE_TYPE_ARCHIVE;
     }
     return placeholder;
   };
@@ -269,9 +269,8 @@ class AttachmentContainer extends Component {
 
   getSourceByKeyAndType = item => {
     let mSource = undefined;
-
     if (item && item.type) {
-      if (item.type.contains('image')) {
+      if (item.type.indexOf('image') > -1) {
         let mUri = null;
         if (item.key === 'NEW') {
           mUri = item.uri;
