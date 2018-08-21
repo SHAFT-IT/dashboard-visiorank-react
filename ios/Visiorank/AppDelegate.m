@@ -10,8 +10,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
-@import GoogleMaps;
-
 @implementation AppDelegate
 
 // TODO: Remove
@@ -24,8 +22,6 @@
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
-  [GMSServices provideAPIKey:@"AIzaSyBRyguKFQwG9Y5Xkd-VQgkaJEATNgj49HI"];
-  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Visiorank"
                                                initialProperties:nil
